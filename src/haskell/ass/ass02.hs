@@ -21,12 +21,20 @@ longestDashSeq c = worker c 0 0 -- primo valore = sequenza massima, secondo valo
       | otherwise = worker c (currSeq + 1) (currSeq + 1)
     worker (Comp Dot c) maxSeq currSeq = worker c maxSeq 0  --azzero la sequenza
 
+
+test1 = longestDashSeq (Single Dot) --Nothing
+test2 = longestDashSeq (Single Dash) --Just 1
+test3 = longestDashSeq (Comp Dash (Comp Dot (Comp Dash (Comp Dash (Single Dot))))) --Just 2
+
 -- 2) Implementare la funzione che data una lista di interi l, determina - se esiste - il valore massimo utilizzando esclusivamente funzioni high-order di mapping o folding.
 
 findMax :: [Int] -> Maybe Int
 findMax [] = Nothing
 --tramite una foldr scorro la lista passando inizialmente la testa come valore massimo
 findMax (x:xs) = Just (foldr (\val m -> if (val >= m) then val else m) x xs)
+
+test4 = findMax [] --Nothing
+test5 = findMax [1,2,4,3,0] --Just 4
 
 --3) Sono dati i tipi
 
@@ -87,6 +95,12 @@ queryAmountsFromCity (DBase buyers trans) v = (join trans . filter(\(Buyer _ c) 
         member _ [] = False
         member v (Buyer bID _:xs) | v == bID = True
         member v (_:xs) = member v xs
+
+test6 = querySortedTransList db 2011 -- [ Trans "alice" 2011 300, Trans "maria" 2011 400, Trans "stefano" 2011 700]
+test7 = queryBuyerCities db --[ "Milano", "Roma", "Cesena"]
+test8 = queryExistBuyerFrom db "Ancona" --False
+test9 = queryExistBuyerFrom db "Cesena" --True
+test10 = queryAmountsFromCity db "Cesena" --4010
 
 --4)
 
@@ -208,3 +222,5 @@ instance Viewable TObj where
 
   renderAll _ [] = return ()
   renderAll wp (x:xs) = render wp x >> renderAll wp xs
+
+test11 = renderAll viewport objs

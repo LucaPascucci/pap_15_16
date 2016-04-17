@@ -4,7 +4,7 @@ isSorted :: [Int] -> Bool
 isSorted [] = True
 isSorted (x:xs)
   | null xs = True --Coda vuota quindi è rimasto un solo elemento
-  | x <= head xs = (isSorted xs) --
+  | x <= head xs = (isSorted xs)
   | otherwise = False
 
 --2) Implementare la funzione che data una lista di stringhe l e una stringa s, determina tutte le posizioni (occorrenze) in cui s compare in l. La prima posizione ha indice zero.
