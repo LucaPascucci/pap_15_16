@@ -21,7 +21,6 @@ longestDashSeq c = worker c 0 0 -- primo valore = sequenza massima, secondo valo
       | otherwise = worker c (currSeq + 1) (currSeq + 1)
     worker (Comp Dot c) maxSeq currSeq = worker c maxSeq 0  --azzero la sequenza
 
-
 test1 = longestDashSeq (Single Dot) --Nothing
 test2 = longestDashSeq (Single Dash) --Just 1
 test3 = longestDashSeq (Comp Dash (Comp Dot (Comp Dash (Comp Dash (Single Dot))))) --Just 2
