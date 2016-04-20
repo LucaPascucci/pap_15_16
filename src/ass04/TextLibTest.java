@@ -6,7 +6,7 @@ public class TextLibTest {
 
     private static final int MAX_X = 75;
     private static final int MAX_Y = 25;
-    private static final String[] WORDS = {"Mare","Sole","Luna","Nuvole","Vento"};
+    private static final String[] WORDS = {"Mare","Sole","Luna","Nuvole","Vento","Sabbia","Prato","Albero"};
 
 	public static void main(String[] args) throws Exception {
 

@@ -31,7 +31,7 @@ public class WordAgent extends Thread {
         this.max_Y = max_y;
         //genero la posizione della parola
         this.pos_X = this.randomBetweenTwoNumbers(2,this.max_X - this.word.length());
-        this.pos_Y = this.randomBetweenTwoNumbers(2,this.max_Y - 2);
+        this.pos_Y = this.randomBetweenTwoNumbers(2,this.max_Y - 1);
         this.step_X = Math.random() < 0.5? 1 : -1;
         this.step_Y = Math.random() < 0.5? 1 : -1;
         this.cleaner = this.word.replaceAll(".", " ");
@@ -64,20 +64,20 @@ public class WordAgent extends Thread {
 
     //controllo per il rimbalzo su ogni lato della console
     private void applyConstraints(){
-        if ((this.pos_X + this.word.length()) > this.max_X - 3){
-            this.pos_X = (this.max_X - 3) - this.word.length();
+        if (this.pos_X + word.length() == this.max_X){
             this.step_X = -this.step_X;
-        } else if (this.pos_X < 3){
-            this.pos_X = 3;
+        }
+        if (this.pos_X == 2){
             this.step_X = -this.step_X;
-        } else if (this.pos_Y > this.max_Y - 3){
-            this.pos_Y = this.max_Y - 3;
+        }
+        if (this.pos_Y == this.max_Y - 2){
             this.step_Y = -this.step_Y;
-        } else if (this.pos_Y < 3){
-            this.pos_Y = 3;
+        }
+        if (this.pos_Y == 2){
             this.step_Y = -this.step_Y;
         }
     }
+
 
     //genera un valore random compreso tra i due valori
     private int randomBetweenTwoNumbers(int min, int max){
