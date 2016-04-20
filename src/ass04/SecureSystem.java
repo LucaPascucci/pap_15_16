@@ -26,8 +26,7 @@ public class SecureSystem {
 		for (int i = 0; i < passwordSize; i++){
 			passw.append((char) (32 + rand.nextInt(96)));
 		}
-		//this.password = passw.toString();
-		this.password = "yyyyy";
+		this.password = passw.toString();
 
 		System.out.println("Password generated: " + this.password);
 	}
