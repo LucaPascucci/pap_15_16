@@ -1,6 +1,6 @@
 package lab05.lost_updates;
 
-public class UnsafeCounter {
+public class UnsafeCounter implements Counter{  //non è Thread-safe
 
 	private int cont;
 	
@@ -9,10 +9,10 @@ public class UnsafeCounter {
 	}
 	
 	public void inc(){
-		cont++;
+		this.cont++;
 	}
 	
 	public int getValue(){
-		return cont;
+		return this.cont;
 	}
 }

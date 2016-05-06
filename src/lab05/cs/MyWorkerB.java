@@ -12,24 +12,24 @@ public class MyWorkerB extends Worker {
 	public void run(){
 		while (true){
 		  synchronized(lock){
-			  action1();	
-			  action2();
+			  this.action1();
+			  this.action2();
 		  }
-		  action3();
+		  this.action3();
 		}
 	}
 	
 	protected void action1(){
-		println("ccc");
-		wasteRandomTime(0,1000);	
+		println("b1");
+		this.wasteRandomTime(0,1000);
 	}
 	
 	protected void action2(){
-		println("ddd");
-		wasteRandomTime(100,200);	
+		println("b2");
+		this.wasteRandomTime(100,200);
 	}
 	protected void action3(){
-		println("eee");
-		wasteRandomTime(1000,2000);	
+		println("b3");
+		this.wasteRandomTime(1000,2000);
 	}
 }

@@ -19,23 +19,23 @@ public class MyWorkerA extends Worker {
 			  action2();	
 			  action3();	
 			  mutex.release();
-		  } catch (InterruptedException ex){
+		  } catch (InterruptedException ex){ //capita quando un thread è in attesa su acquire e un'altro thread chiama interrupt su questo thread che si sblocca e genera InterruptedException
 			  break;
 		  }
 		}
 	}
 	
 	protected void action1(){
-		println("aa");
+		println("a1");
 		wasteRandomTime(100,500);	
 	}
 	
 	protected void action2(){
-		println("bb");
+		println("a2");
 		wasteRandomTime(300,700);	
 	}
 	protected void action3(){
-		println("cc");
+		println("a3");
 		wasteRandomTime(300,700);	
 	}
 }

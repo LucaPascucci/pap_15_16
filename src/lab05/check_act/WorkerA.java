@@ -6,14 +6,14 @@ public class WorkerA extends Thread{
 	private int ntimes;
 	
 	public WorkerA(Counter c, int ntimes){
-		counter = c;
+		this.counter = c;
 		this.ntimes = ntimes;
 	}
 	
 	public void run(){
-		for (int i = 0; i < ntimes; i++){
-			if (counter.getValue() > 0){
-				counter.dec();
+		for (int i = 0; i < this.ntimes; i++){
+			if (this.counter.getValue() > 0){
+				this.counter.dec();
 			}
 		}
 	}

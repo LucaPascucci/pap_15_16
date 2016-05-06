@@ -9,18 +9,19 @@ public class Counter {
 		this.cont = this.min = min;
 		this.max = max;
 	}
-	
+
+	//con synchronized operazioni eseguite in sezione critica in mutua esclusione ed atomicamente (come se fossero un unica operazione non divisibile)
 	public synchronized void inc(){
-		cont++;
-		assert(cont <= max);
+		this.cont++;
+		assert(this.cont <= this.max);
 	}
 
 	public synchronized void dec(){
-		cont--;
-		assert(cont >= min);
+		this.cont--;
+		assert(this.cont >= this.min);
 	}
 	
 	public synchronized int getValue(){
-		return cont;
+		return this.cont;
 	}
 }

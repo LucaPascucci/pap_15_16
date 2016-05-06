@@ -11,26 +11,26 @@ public class MyWorkerA extends Worker {
 	
 	public void run(){
 		while (true){
-		  action1();	
-		  synchronized(lock){
-			  action2();	
-			  action3();	
+		  this.action1();
+		  synchronized(lock){ //tutto ciò che è sync non verrà interrotta da altre parti di codice in sync
+			  this.action2();
+			  this.action3();
 		  }
 		}
 	}
 	
 	protected void action1(){
-		println("aa");
-		wasteRandomTime(100,500);	
+		this.println("a1");
+		this.wasteRandomTime(100,500);
 	}
 	
 	protected void action2(){
-		println("bb");
-		wasteRandomTime(300,700);	
+		this.println("a2");
+		this.wasteRandomTime(300,700);
 	}
 	protected void action3(){
-		println("cc");
-		wasteRandomTime(300,700);	
+		this.println("a3");
+		this.wasteRandomTime(300,700);
 	}
 }
 

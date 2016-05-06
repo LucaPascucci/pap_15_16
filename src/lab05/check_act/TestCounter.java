@@ -9,7 +9,7 @@ package lab05.check_act;
 public class TestCounter {
 
 	public static void main(String[] args) throws Exception {
-		int ntimes = 1000000000;
+		int ntimes = 100000000;
 		Counter c = new Counter(0,1);
 		WorkerA w1 = new WorkerA(c,ntimes);
 		WorkerB w2 = new WorkerB(c,ntimes);
@@ -20,6 +20,6 @@ public class TestCounter {
 		w1.join();
 		w2.join();
 		w3.join();
-		System.out.println("Counter final value: "+c.getValue());
+		System.out.println("Counter final value: " + c.getValue());
 	}
 }
