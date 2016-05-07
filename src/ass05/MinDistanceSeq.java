@@ -36,9 +36,10 @@ public class MinDistanceSeq {
         System.out.println("Created points in millis: " + (System.currentTimeMillis() - startTime) + " - list size: "  + points.size() + '\n');
 
         //Definizione del baricentro
-        P2d centroid = new P2d(total.getX() / n_points,total.getY() / n_points);
+        P2d centroid = new P2d(total.getX() / n_points, total.getY() / n_points);
         System.out.println("Centroid Pos: x = " + centroid.getX() + " y = " + centroid.getY() + '\n');
 
+        //ricerca del punto più vicino al baricentro
         startTime = System.currentTimeMillis();
         Optional<P2d> result = points.stream().min(comparing(p -> P2d.distance(p,centroid)));
         if (result.isPresent()){

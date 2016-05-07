@@ -62,11 +62,11 @@ public class MinDistanceMultiThread {
 
         System.out.println("\nCreated points in millis: " + (System.currentTimeMillis() - startTime) + " -> list size: "  + points.size() + '\n');
 
-        //Definizione baricentro
+        //Definizione del baricentro
         P2d centroid = new P2d(total.getX()/ (double) n_points, total.getY()/ (double) n_points);
         System.out.println("Centroid Pos: x = " + centroid.getX() + " y = " + centroid.getY() + '\n');
 
-        //ricerca del punto più vicino multi-thread
+        //ricerca del punto più vicino al baricentro multi-thread
         List<Worker> workers = new ArrayList<>();
 
         startTime = System.currentTimeMillis();
