@@ -18,7 +18,7 @@ public class P2d {
     }
 
     public P2d sum(V2d v){
-        return new P2d(this.x+v.getX(),this.y+v.getY());
+        return new P2d(this.x + v.getX(),this.y + v.getY());
     }
 
     public static double distance(P2d p0, P2d p1){
