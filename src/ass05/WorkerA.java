@@ -26,6 +26,8 @@ public class WorkerA extends Worker {
         System.out.println("Avviato worker: " + this.id);
         try {
             while (true){
+                this.wasteTime(3000);
+
                 this.counter.inc();
                 this.ev_2.release();
                 this.ev_3.release();

@@ -24,8 +24,10 @@ public class WorkerD extends Worker {
         System.out.println("Avviato worker: " + this.id);
         try {
             while (true){
+                this.wasteTime(3000);
+
                 this.ev_4_5.acquire(2);
-                this.println("Worker " + this.id + " -> Counter " + this.counter.getId() + " Value = " + this.counter.getValue());
+                this.println("Worker " + this.id + " -> Counter " + this.counter.getId() + " Value = " + this.counter.getValue() + '\n');
                 this.ev_1.release();
             }
         } catch (InterruptedException e) {

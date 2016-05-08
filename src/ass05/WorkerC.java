@@ -28,6 +28,8 @@ public class WorkerC extends Worker {
         System.out.println("Avviato worker: " + this.id);
         try {
             while (true){
+                this.wasteTime(3000);
+
                 this.ev_2_3.acquire();
                 this.println("Worker " + this.id + " -> Counter " + this.counter.getId() + " Value = " + this.counter.getValue());
 
