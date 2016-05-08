@@ -19,7 +19,7 @@ public class Workflow {
         Semaphore ev_3_5 = new Semaphore(0);
         Semaphore ev_4_5_6 = new Semaphore(0);
         Semaphore ev_6_1 = new Semaphore(0);
-        Semaphore mutex_4_5 = new Semaphore(1);
+        Semaphore mutex_4_5 = new Semaphore(1); //inzializzato ad uno per gestire la mutua esclusione
 
         WorkerA worker1 = new WorkerA(1,c1,ev_1_2,ev_1_3,ev_6_1);
         WorkerB worker2 = new WorkerB(2,c2,ev_1_2,ev_2_4);

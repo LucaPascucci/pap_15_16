@@ -25,34 +25,34 @@ public class MinDistanceMultiThread {
         }
 
         int step = n_points / N_CORES;
-        P2d total = new P2d(0.0,0.0);
+        P2d centroid = new P2d(0.0,0.0);
 
         List<P2d> points = new ArrayList<>();
-        List<Thread> points_creation_worker = new ArrayList<>();
+        List<Thread> creators = new ArrayList<>();
 
         //creazione dei punti attraverso multi-thread
         long startTime = System.currentTimeMillis();
         IntStream.range(0,N_CORES).forEach(i -> {
-            Thread worker = new Thread(() -> {
+            Thread creator = new Thread(() -> {
                 int start = step * i;
                 int stop = start + step;
                 if (i == N_CORES - 1){
                     stop = n_points;
                 }
-                System.out.println("Worker " + (i + 1) + ": start: " + start + " - stop: " + stop);
+                System.out.println("Creator " + (i + 1) + ": start: " + start + " - stop: " + stop);
                 IntStream.range(start, stop).forEach(j -> {
                     P2d curr = new P2d();
-                    total.sum(curr); //il metodo sum -> synchronized
+                    centroid.sum(curr); //il metodo sum -> synchronized
                     syncAddPoint(points,curr);
                 });
 
             });
-            points_creation_worker.add(worker);
-            worker.start();
+            creators.add(creator);
+            creator.start();
         });
 
         //Join sui creatori dei punti
-        points_creation_worker.stream().forEach(w -> {
+        creators.stream().forEach(w -> {
             try {
                 w.join();
             } catch (InterruptedException e) {
@@ -60,14 +60,15 @@ public class MinDistanceMultiThread {
             }
         });
 
-        System.out.println("\nCreated points in millis: " + (System.currentTimeMillis() - startTime) + " -> list size: "  + points.size() + '\n');
+        System.out.println("\nCreated " + points.size() + " points in millis: " + (System.currentTimeMillis() - startTime) + '\n');
 
         //Definizione del baricentro
-        P2d centroid = new P2d(total.getX()/ (double) n_points, total.getY()/ (double) n_points);
+        centroid.setX(centroid.getX() / (double) n_points);
+        centroid.setY(centroid.getY() / (double) n_points);
         System.out.println("Centroid Pos: x = " + centroid.getX() + " y = " + centroid.getY() + '\n');
 
         //ricerca del punto più vicino al baricentro multi-thread
-        List<Worker> workers = new ArrayList<>();
+        List<Researcher> researchers = new ArrayList<>();
 
         startTime = System.currentTimeMillis();
         IntStream.range(0, N_CORES).forEach(i -> {
@@ -76,15 +77,15 @@ public class MinDistanceMultiThread {
             if (i == N_CORES - 1){
                 stop = n_points;
             }
-            Worker worker = new Worker((i + 1), start, stop, points, centroid);
-            workers.add(worker);
-            worker.start();
+            Researcher researcher = new Researcher((i + 1), start, stop, points, centroid);
+            researchers.add(researcher);
+            researcher.start();
         });
 
         //Join sulla ricerca multi-thread
-        workers.stream().forEach(worker -> {
+        researchers.stream().forEach(r -> {
             try {
-                worker.join();
+                r.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -96,12 +97,12 @@ public class MinDistanceMultiThread {
         System.out.println("\nExecution time: " + (System.currentTimeMillis() - startTotalTime) + " millis");
     }
 
-
+    //Per rendere Thread-safe l'add in una lista
     private static synchronized void syncAddPoint (List<P2d> list, P2d elem){
         list.add(elem);
     }
 
-    private static class Worker extends Thread {
+    private static class Researcher extends Thread {
 
         private int id;
         private int start;
@@ -109,7 +110,7 @@ public class MinDistanceMultiThread {
         private List<P2d> points;
         private P2d centroid;
 
-        public Worker (int id, int start, int stop, List<P2d> points, P2d centroid) {
+        public Researcher (int id, int start, int stop, List<P2d> points, P2d centroid) {
             this.id = id;
             this.start = start;
             this.stop = stop;
@@ -120,7 +121,7 @@ public class MinDistanceMultiThread {
         @Override
         public void run() {
             super.run();
-            System.out.println("Worker " + this.id + ": start: " + this.start + " - stop: " + this.stop);
+            System.out.println("Researcher " + this.id + ": start: " + this.start + " - stop: " + this.stop);
             IntStream.range(start,stop).forEach(i -> {
                 P2d curr_point = this.points.get(i);
                 double curr_distance = P2d.distance(this.centroid,curr_point);

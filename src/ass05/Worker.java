@@ -11,9 +11,9 @@ public abstract class Worker extends Thread{
     protected UnsafeCounter counter;
 
     public Worker(int id, UnsafeCounter counter){
+
         this.id = id;
         this.counter = counter;
-
     }
 
     protected void wasteTime(long ms){

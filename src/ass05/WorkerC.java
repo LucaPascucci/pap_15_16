@@ -7,6 +7,8 @@ import java.util.concurrent.Semaphore;
  */
 public class WorkerC extends Worker {
 
+    //Rappresenta la struttura del Worker 4 e 5
+
     private Semaphore ev_2_3;
     private Semaphore ev_6;
     private Semaphore mutex;

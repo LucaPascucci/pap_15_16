@@ -20,23 +20,24 @@ public class MinDistanceSeq {
         if (args.length == 1) {
             n_points = Integer.parseInt(args[0]);
         }else {
-            n_points = 10000000;
+            n_points = 1000000;
         }
 
-        P2d total = new P2d(0.0,0.0);
+        P2d centroid = new P2d(0.0,0.0);
 
         //creazione punti
         List<P2d> points = new ArrayList<>();
         long startTime = System.currentTimeMillis();
         IntStream.range(0,n_points).forEach(i -> {
             P2d curr = new P2d();
-            total.sum(curr);  //il metodo sum -> synchronized
+            centroid.sum(curr);
             points.add(curr);
         });
-        System.out.println("Created points in millis: " + (System.currentTimeMillis() - startTime) + " - list size: "  + points.size() + '\n');
+        System.out.println("Created " + points.size() + " points in millis: " + (System.currentTimeMillis() - startTime) + '\n');
 
         //Definizione del baricentro
-        P2d centroid = new P2d(total.getX() / n_points, total.getY() / n_points);
+        centroid.setX(centroid.getX() / (double) n_points);
+        centroid.setY(centroid.getY() / (double) n_points);
         System.out.println("Centroid Pos: x = " + centroid.getX() + " y = " + centroid.getY() + '\n');
 
         //ricerca del punto più vicino al baricentro

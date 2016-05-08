@@ -36,6 +36,14 @@ public class P2d {
         return this.y;
     }
 
+    public void setX(double x){
+        this.x = x;
+    }
+
+    public void setY(double y){
+        this.y = y;
+    }
+
     public static double distance(P2d p0, P2d p1){
         return new V2d(p0,p1).module();
     }
