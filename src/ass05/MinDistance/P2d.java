@@ -47,4 +47,9 @@ public class P2d {
     public static double distance(P2d p0, P2d p1){
         return new V2d(p0,p1).module();
     }
+
+    @Override
+    public String toString() {
+        return "X = " + this.x + " Y = " + this.y;
+    }
 }

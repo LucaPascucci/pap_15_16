@@ -24,6 +24,15 @@ public class MultiThread {
             n_points = 10000000;
         }
 
+        //TODO ripartire indici in maniera equa (senza che l'ultimo thread prenda più)
+        int[] steps = new int[N_CORES +1];
+        int mod = n_points % N_CORES;
+        steps[0] = 0;
+        for(int i = 1;i < steps.length ;i++){
+            steps[i] = mod-- > 0 ? 1 + steps[i-1]:steps[i-1];
+            //System.out.println(steps[i]);
+        }
+
         int step = n_points / N_CORES;
         P2d centroid = new P2d(0.0,0.0);
 
@@ -67,7 +76,7 @@ public class MultiThread {
         //Definizione del baricentro
         centroid.setX(centroid.getX() / (double) n_points);
         centroid.setY(centroid.getY() / (double) n_points);
-        System.out.println("Centroid Pos: x = " + centroid.getX() + " y = " + centroid.getY() + '\n');
+        System.out.println("Centroid Pos: " + centroid.toString() + '\n');
 
         //ricerca del punto più vicino al baricentro multi-thread
         List<Researcher> researchers = new ArrayList<>();
@@ -82,6 +91,7 @@ public class MultiThread {
             Researcher researcher = new Researcher((i + 1), start, stop, points, centroid);
             researchers.add(researcher);
             researcher.start();
+
         });
 
         //Join sulla ricerca multi-thread
@@ -93,7 +103,7 @@ public class MultiThread {
             }
         });
 
-        System.out.println("\nFound closer Point: x = " + CLOSER_POINT.getX() + " y = " + CLOSER_POINT.getY() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
+        System.out.println("\nFound closer Point: " + CLOSER_POINT.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
         System.out.println("Distance from centroid = " + MIN_DISTANCE);
 
         System.out.println("\nExecution time: " + (System.currentTimeMillis() - startTotalTime) + " millis");
@@ -121,31 +131,22 @@ public class MultiThread {
             System.out.println("Researcher " + this.id + ": start: " + this.start + " - stop: " + this.stop);
             double local_min_distance = Double.MAX_VALUE;
             P2d local_closer_point = new P2d(0.0,0.0);
-            for (; start < stop ; start++){
-                P2d curr_point = this.points.get(start);
+            for (; this.start < this.stop ; start++){
+                P2d curr_point = this.points.get(this.start);
                 double curr_distance = P2d.distance(this.centroid,curr_point);
                 if (local_min_distance > curr_distance){
                     local_min_distance = curr_distance;
                     local_closer_point = curr_point;
                 }
             }
-            this.sync_check(local_min_distance,local_closer_point);
-
-            /*IntStream.range(start,stop).forEach(i -> {
-                P2d curr_point = this.points.get(i);
-                double curr_distance = P2d.distance(this.centroid,curr_point);
-                this.sync_check(curr_distance,curr_point);
-            });*/
+            this.syncMin(local_min_distance,local_closer_point);
         }
 
-        private synchronized void sync_check(double curr_distance, P2d curr_point){
+        private synchronized void syncMin(double curr_distance, P2d curr_point){
             if (MIN_DISTANCE > curr_distance){
                 CLOSER_POINT = curr_point;
                 MIN_DISTANCE = curr_distance;
             }
         }
     }
-
-    //TODO ripartire indici in maniera equa (senza che l'ultimo thread prenda più
-    //TODO togliere campi statici??
 }

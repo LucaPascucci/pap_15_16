@@ -3,7 +3,6 @@ package ass05.MinDistance;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 import static java.util.Comparator.comparing;
 
@@ -28,24 +27,24 @@ public class Sequential {
         //creazione punti
         List<P2d> points = new ArrayList<>();
         long startTime = System.currentTimeMillis();
-        IntStream.range(0,n_points).forEach(i -> {
+        for (int i = 0; i < n_points; i++){
             P2d curr = new P2d();
             centroid.sum(curr);
             points.add(curr);
-        });
-        System.out.println("Created " + points.size() + " points in millis: " + (System.currentTimeMillis() - startTime) + '\n');
+        }
+        System.out.println("Created FOR " + points.size() + " points in millis: " + (System.currentTimeMillis() - startTime) + '\n');
 
         //Definizione del baricentro
         centroid.setX(centroid.getX() / (double) n_points);
         centroid.setY(centroid.getY() / (double) n_points);
-        System.out.println("Centroid Pos: x = " + centroid.getX() + " y = " + centroid.getY() + '\n');
+        System.out.println("Centroid Pos: " + centroid.toString() + '\n');
 
         //ricerca del punto più vicino al baricentro
         startTime = System.currentTimeMillis();
         Optional<P2d> result = points.stream().min(comparing(p -> P2d.distance(p,centroid)));
         if (result.isPresent()){
             P2d closer_point = result.get();
-            System.out.println("Found closer Point: x = " + closer_point.getX() + " y = " + closer_point.getY() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
+            System.out.println("Found closer Point: " + closer_point.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
             System.out.println("Distance from centroid = " + P2d.distance(closer_point,centroid));
         }else{
             System.out.println("Didn't found any point!");
