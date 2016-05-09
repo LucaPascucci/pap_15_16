@@ -1,4 +1,4 @@
-package ass05;
+package ass05.MinDistance;
 
 import java.util.Random;
 
@@ -23,7 +23,7 @@ public class P2d {
         this.y = y;
     }
 
-    public synchronized void sum (P2d p){
+    public void sum (P2d p){
         this.x += p.getX();
         this.y += p.getY();
     }

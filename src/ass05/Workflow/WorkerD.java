@@ -1,4 +1,4 @@
-package ass05;
+package ass05.Workflow;
 
 import java.util.concurrent.Semaphore;
 

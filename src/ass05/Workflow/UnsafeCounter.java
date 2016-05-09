@@ -1,4 +1,4 @@
-package ass05;
+package ass05.Workflow;
 
 /**
  * Created by Luca on 07/05/16.

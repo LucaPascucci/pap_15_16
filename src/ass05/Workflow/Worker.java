@@ -1,6 +1,4 @@
-package ass05;
-
-import java.util.concurrent.Semaphore;
+package ass05.Workflow;
 
 /**
  * Created by Luca on 07/05/16.

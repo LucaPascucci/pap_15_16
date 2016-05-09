@@ -1,4 +1,4 @@
-package ass05;
+package ass05.MinDistance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 /**
  * Created by Luca on 06/05/16.
  */
-public class MinDistanceMultiThread {
+public class MultiThread {
 
     private static final int N_CORES = Runtime.getRuntime().availableProcessors();
     private static double MIN_DISTANCE = Double.MAX_VALUE;
@@ -42,8 +42,10 @@ public class MinDistanceMultiThread {
                 System.out.println("Creator " + (i + 1) + ": start: " + start + " - stop: " + stop);
                 IntStream.range(start, stop).forEach(j -> {
                     P2d curr = new P2d();
-                    centroid.sum(curr); //il metodo sum -> synchronized
-                    syncAddPoint(points,curr);
+                    synchronized (points){
+                        centroid.sum(curr);
+                        points.add(curr);
+                    }
                 });
 
             });
@@ -97,11 +99,6 @@ public class MinDistanceMultiThread {
         System.out.println("\nExecution time: " + (System.currentTimeMillis() - startTotalTime) + " millis");
     }
 
-    //Per rendere Thread-safe l'add in una lista
-    private static synchronized void syncAddPoint (List<P2d> list, P2d elem){
-        list.add(elem);
-    }
-
     private static class Researcher extends Thread {
 
         private int id;
@@ -122,11 +119,23 @@ public class MinDistanceMultiThread {
         public void run() {
             super.run();
             System.out.println("Researcher " + this.id + ": start: " + this.start + " - stop: " + this.stop);
-            IntStream.range(start,stop).forEach(i -> {
+            double local_min_distance = Double.MAX_VALUE;
+            P2d local_closer_point = new P2d(0.0,0.0);
+            for (; start < stop ; start++){
+                P2d curr_point = this.points.get(start);
+                double curr_distance = P2d.distance(this.centroid,curr_point);
+                if (local_min_distance > curr_distance){
+                    local_min_distance = curr_distance;
+                    local_closer_point = curr_point;
+                }
+            }
+            this.sync_check(local_min_distance,local_closer_point);
+
+            /*IntStream.range(start,stop).forEach(i -> {
                 P2d curr_point = this.points.get(i);
                 double curr_distance = P2d.distance(this.centroid,curr_point);
                 this.sync_check(curr_distance,curr_point);
-            });
+            });*/
         }
 
         private synchronized void sync_check(double curr_distance, P2d curr_point){
@@ -136,4 +145,7 @@ public class MinDistanceMultiThread {
             }
         }
     }
+
+    //TODO ripartire indici in maniera equa (senza che l'ultimo thread prenda più
+    //TODO togliere campi statici??
 }

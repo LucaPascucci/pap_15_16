@@ -1,4 +1,4 @@
-package ass05;
+package ass05.MinDistance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import static java.util.Comparator.comparing;
 /**
  * Created by Luca on 07/05/16.
  */
-public class MinDistanceSeq {
+public class Sequential {
 
     public static void main(String args[]){
 
@@ -20,7 +20,7 @@ public class MinDistanceSeq {
         if (args.length == 1) {
             n_points = Integer.parseInt(args[0]);
         }else {
-            n_points = 1000000;
+            n_points = 10000000;
         }
 
         P2d centroid = new P2d(0.0,0.0);

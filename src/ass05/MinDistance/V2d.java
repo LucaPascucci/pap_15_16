@@ -1,4 +1,4 @@
-package ass05;
+package ass05.MinDistance;
 
 /**
  * Created by Luca on 06/05/16.
