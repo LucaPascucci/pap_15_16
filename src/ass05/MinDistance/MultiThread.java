@@ -21,21 +21,20 @@ public class MultiThread {
         if (args.length == 1) {
             n_points = Integer.parseInt(args[0]);
         }else {
-            n_points = 10000000;
-        }
-
-        //TODO ripartire indici in maniera equa (senza che l'ultimo thread prenda più)
-        int[] steps = new int[N_CORES +1];
-        int mod = n_points % N_CORES;
-        steps[0] = 0;
-        for(int i = 1;i < steps.length ;i++){
-            steps[i] = mod-- > 0 ? 1 + steps[i-1]:steps[i-1];
-            //System.out.println(steps[i]);
+            n_points = 50000000;
         }
 
         int step = n_points / N_CORES;
-        P2d centroid = new P2d(0.0,0.0);
+        int mod = n_points % N_CORES; //Prelevo il resto (punti da sparire equalmente tra i thread che possono essere tra 0 a 7)
 
+        //genero un array che contiene gli offset (possibili valori +0, .... ,+7) da aggiungere ad ogni thread
+        int[] offsetValues = new int[N_CORES + 1];
+        offsetValues[0] = 0; //il primo offest è sempre 0 dato che il primo thread partirà sempre dal primo elemento
+        for(int i = 1;i < offsetValues.length ;i++){
+            offsetValues[i] = mod-- > 0 ? 1 + offsetValues[i-1]:offsetValues[i-1];
+        }
+
+        P2d centroid = new P2d(0.0,0.0);
         List<P2d> points = new ArrayList<>();
         List<Thread> creators = new ArrayList<>();
 
@@ -43,19 +42,16 @@ public class MultiThread {
         long startTime = System.currentTimeMillis();
         IntStream.range(0,N_CORES).forEach(i -> {
             Thread creator = new Thread(() -> {
-                int start = step * i;
-                int stop = start + step;
-                if (i == N_CORES - 1){
-                    stop = n_points;
-                }
+                int start = step * i + offsetValues[i];
+                int stop = step * (i + 1) + offsetValues[i+1];
                 System.out.println("Creator " + (i + 1) + ": start: " + start + " - stop: " + stop);
-                IntStream.range(start, stop).forEach(j -> {
+                for (; start < stop; start++){
                     P2d curr = new P2d();
                     synchronized (points){
                         centroid.sum(curr);
                         points.add(curr);
                     }
-                });
+                }
 
             });
             creators.add(creator);
@@ -78,20 +74,32 @@ public class MultiThread {
         centroid.setY(centroid.getY() / (double) n_points);
         System.out.println("Centroid Pos: " + centroid.toString() + '\n');
 
-        //ricerca del punto più vicino al baricentro multi-thread
+        //Ricerca sequenziale
+        MIN_DISTANCE = Double.MAX_VALUE;
+        startTime = System.currentTimeMillis();
+        points.stream().forEach(p -> {
+            double currDistance = P2d.distance(centroid, p);
+            if (currDistance < MIN_DISTANCE) {
+                CLOSER_POINT = p;
+                MIN_DISTANCE = currDistance;
+            }
+        });
+
+        System.out.println("Found closer Point (foreach): " + CLOSER_POINT.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
+        System.out.println("Distance from centroid = " + MIN_DISTANCE + '\n');
+
+        //ricerca multi-thread
         List<Researcher> researchers = new ArrayList<>();
 
         startTime = System.currentTimeMillis();
         IntStream.range(0, N_CORES).forEach(i -> {
-            int start = step * i;
-            int stop = start + step;
-            if (i == N_CORES - 1){
-                stop = n_points;
-            }
+
+            int start = step * i + offsetValues[i];
+            int stop = step * (i + 1) + offsetValues[i+1];
+
             Researcher researcher = new Researcher((i + 1), start, stop, points, centroid);
             researchers.add(researcher);
             researcher.start();
-
         });
 
         //Join sulla ricerca multi-thread
@@ -103,7 +111,7 @@ public class MultiThread {
             }
         });
 
-        System.out.println("\nFound closer Point: " + CLOSER_POINT.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
+        System.out.println("\nFound closer Point (MultiThread): " + CLOSER_POINT.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
         System.out.println("Distance from centroid = " + MIN_DISTANCE);
 
         System.out.println("\nExecution time: " + (System.currentTimeMillis() - startTotalTime) + " millis");
@@ -129,10 +137,10 @@ public class MultiThread {
         public void run() {
             super.run();
             System.out.println("Researcher " + this.id + ": start: " + this.start + " - stop: " + this.stop);
-            double local_min_distance = Double.MAX_VALUE;
-            P2d local_closer_point = new P2d(0.0,0.0);
-            for (; this.start < this.stop ; start++){
-                P2d curr_point = this.points.get(this.start);
+            double local_min_distance = P2d.distance(this.centroid,this.points.get(this.start));
+            P2d local_closer_point = this.points.get(this.start);
+            for (int i = (this.start + 1); i < this.stop ; i++){
+                P2d curr_point = this.points.get(i);
                 double curr_distance = P2d.distance(this.centroid,curr_point);
                 if (local_min_distance > curr_distance){
                     local_min_distance = curr_distance;

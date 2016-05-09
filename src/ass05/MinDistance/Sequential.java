@@ -3,6 +3,8 @@ package ass05.MinDistance;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 
 import static java.util.Comparator.comparing;
 
@@ -10,6 +12,9 @@ import static java.util.Comparator.comparing;
  * Created by Luca on 07/05/16.
  */
 public class Sequential {
+
+    private static double distanceMin = Double.MAX_VALUE;
+    private static P2d pointMin;
 
     public static void main(String args[]){
 
@@ -32,7 +37,7 @@ public class Sequential {
             centroid.sum(curr);
             points.add(curr);
         }
-        System.out.println("Created FOR " + points.size() + " points in millis: " + (System.currentTimeMillis() - startTime) + '\n');
+        System.out.println("Created " + points.size() + " points in millis: " + (System.currentTimeMillis() - startTime) + '\n');
 
         //Definizione del baricentro
         centroid.setX(centroid.getX() / (double) n_points);
@@ -41,10 +46,32 @@ public class Sequential {
 
         //ricerca del punto più vicino al baricentro
         startTime = System.currentTimeMillis();
+        points.stream().forEach(i -> {
+            double currentDistance = P2d.distance(centroid, i);
+            if (currentDistance < distanceMin) {
+                pointMin = i;
+                distanceMin = currentDistance;
+            }
+        });
+
+        System.out.println("Found closer Point (foreach): " + pointMin.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
+        System.out.println("Distance from centroid = " + distanceMin);
+
+        startTime = System.currentTimeMillis();
         Optional<P2d> result = points.stream().min(comparing(p -> P2d.distance(p,centroid)));
         if (result.isPresent()){
             P2d closer_point = result.get();
-            System.out.println("Found closer Point: " + closer_point.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
+            System.out.println("Found closer Point (min + Comparator): " + closer_point.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
+            System.out.println("Distance from centroid = " + P2d.distance(closer_point,centroid));
+        }else{
+            System.out.println("Didn't found any point!");
+        }
+
+        startTime = System.currentTimeMillis();
+        Optional<P2d> result2 = points.stream().reduce((p1, p2)-> P2d.distance(p1,centroid) < P2d.distance(p2,centroid) ? p1 : p2 );
+        if (result2.isPresent()){
+            P2d closer_point = result2.get();
+            System.out.println("Found closer Point (reduce): " + closer_point.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
             System.out.println("Distance from centroid = " + P2d.distance(closer_point,centroid));
         }else{
             System.out.println("Didn't found any point!");
