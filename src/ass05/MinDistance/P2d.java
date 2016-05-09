@@ -48,7 +48,6 @@ public class P2d {
         return new V2d(p0,p1).module();
     }
 
-
     @Override
     public String toString() {
         return "X = " + this.x + " Y = " + this.y;
