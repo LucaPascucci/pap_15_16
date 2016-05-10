@@ -22,12 +22,12 @@ public class Sequential {
         if (args.length == 1) {
             n_points = Integer.parseInt(args[0]);
         }else {
-            n_points = 30000000;
+            n_points = 10000000;
         }
 
         P2d centroid = new P2d(0.0,0.0);
 
-        //creazione punti
+        //Creazione punti
         List<P2d> points = new ArrayList<>();
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < n_points; i++){
@@ -42,6 +42,7 @@ public class Sequential {
         centroid.setY(centroid.getY() / (double) n_points);
         System.out.println("Centroid Pos: " + centroid.toString() + '\n');
 
+        //Ricerca For
         startTime = System.currentTimeMillis();
         for (P2d p : points) {
             double currDistance = P2d.distance(centroid, p);
@@ -50,9 +51,10 @@ public class Sequential {
                 MIN_DISTANCE = currDistance;
             }
         }
-        System.out.println("Found closer Point (classic foreach): " + CLOSER_POINT.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
+        System.out.println("Found closer Point (for): " + CLOSER_POINT.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
         System.out.println("Distance from centroid = " + MIN_DISTANCE);
 
+        //Ricerca Stream ForEach
         MIN_DISTANCE = Double.MAX_VALUE;
         startTime = System.currentTimeMillis();
         points.stream().forEach(p -> {
@@ -63,9 +65,10 @@ public class Sequential {
             }
         });
 
-        System.out.println("Found closer Point (functional foreach): " + CLOSER_POINT.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
+        System.out.println("Found closer Point (foreach): " + CLOSER_POINT.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
         System.out.println("Distance from centroid = " + MIN_DISTANCE);
 
+        //Ricerca Stream Min - Comparator
         startTime = System.currentTimeMillis();
         Optional<P2d> result = points.stream().min(comparing(p -> P2d.distance(p,centroid)));
         if (result.isPresent()){
@@ -76,6 +79,7 @@ public class Sequential {
             System.out.println("Didn't found any point!");
         }
 
+        //Ricerca Stream Reduce
         startTime = System.currentTimeMillis();
         Optional<P2d> result2 = points.stream().reduce((p1, p2)-> P2d.distance(p1,centroid) < P2d.distance(p2,centroid) ? p1 : p2 );
         if (result2.isPresent()){
