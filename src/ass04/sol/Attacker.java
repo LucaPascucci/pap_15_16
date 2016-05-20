@@ -25,7 +25,7 @@ public class Attacker extends Thread {
 		for (long v = this.from; v < this.to; v++){
 			char[] pass = this.pgen.getPass(v);
 			String pwd = new String(pass);
-			// log("trying "+ PassGen.toStringVal(pass) + " - "+ pwd);
+			//log("trying "+ PassGen.toStringVal(pass) + " - "+ pwd);
 			boolean ok = this.sys.login(pwd);
 			if (ok){
 				log("FOUND: "+pwd);

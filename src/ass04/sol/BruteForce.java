@@ -3,7 +3,7 @@ import ass04.SecureSystem;
 
 public class BruteForce {
 	public static void main(String[] args) {		
-		int nDigits = 3; // Integer.parseInt(args[0]);
+		int nDigits = 4; // Integer.parseInt(args[0]);
 		SecureSystem sys = new SecureSystem(nDigits);		
 		PassGen pgen = new PassGen(nDigits);
 		

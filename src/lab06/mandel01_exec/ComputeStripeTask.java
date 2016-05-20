@@ -1,7 +1,5 @@
 package lab06.mandel01_exec;
 
-import java.util.concurrent.CountDownLatch;
-
 public class ComputeStripeTask implements Runnable {
 
 	private MandelbrotSet result;
@@ -24,16 +22,16 @@ public class ComputeStripeTask implements Runnable {
 		try {
 			log("start working ");
 			int nSteps = 4;
-			int dx = (x1 - x0) / nSteps;       
+			int dx = (this.x1 - this.x0) / nSteps;
 			//boolean stopped = false;
 			for (int i = 0; i < nSteps; i++){
-				if (stopFlag.isSet()){
+				if (this.stopFlag.isSet()){
 					break;
 				}
-				result.computeSlice(x0, x0 + dx, c0, diam);
-				x0 += dx;
+				this.result.computeSlice(x0, x0 + dx, c0, diam);
+				this.x0 += dx;
 			}
-			if (stopFlag.isSet()){
+			if (this.stopFlag.isSet()){
 				log("task completed");
 			} else {
 				log("task interrupted");

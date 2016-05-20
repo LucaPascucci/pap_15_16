@@ -1,7 +1,5 @@
 package lab06.mandel00_wrong;
 
-import java.util.*;
-
 /**
  * Class representing the set to be computed - this is part of the model.
  * 

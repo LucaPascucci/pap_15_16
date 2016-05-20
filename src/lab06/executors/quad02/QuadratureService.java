@@ -27,6 +27,7 @@ public class QuadratureService extends Thread {
 			}
 		}				
 
+		//utilizzo i metodi dell'executor per aspettare i task
 		executor.shutdown();
 		executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);		
 		double res = result.getResult();

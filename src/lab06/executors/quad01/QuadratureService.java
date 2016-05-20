@@ -26,7 +26,7 @@ public class QuadratureService extends Thread {
 				e.printStackTrace();
 			}
 		}				
-		double res = result.getResult();
+		double res = result.getResult(); //si sospende finchè tutti i task non hanno completato il lavoro
 		return res;
 	}
 	

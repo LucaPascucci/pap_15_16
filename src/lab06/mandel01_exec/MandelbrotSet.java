@@ -1,8 +1,5 @@
 package lab06.mandel01_exec;
 
-import java.util.*;
-
-
 /**
  * Class representing the set to be computed.
  * 

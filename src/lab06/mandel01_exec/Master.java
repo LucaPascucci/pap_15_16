@@ -26,29 +26,29 @@ public class Master extends Thread {
 	
 	public void run(){
 		try {
-			view.changeState("Processing...");
+			this.view.changeState("Processing...");
 			long t0 = System.currentTimeMillis();
-			int nThreads = Runtime.getRuntime().availableProcessors()+1;
+			int nThreads = Runtime.getRuntime().availableProcessors() + 1;
 			ExecutorService executor = Executors.newFixedThreadPool(nThreads);
 			
-			int nTasks = 20;
-			int w = set.getSizeX();
+			int nTasks = 100;
+			int w = this.set.getSizeX();
 	       	int x0 = 0;
 	    	int dx = w / nTasks;       
 	    	
 	    	for (int i = 0; i < nTasks-1; i++){
-				executor.execute(new ComputeStripeTask(x0, x0+dx, c0, diam, set, stopFlag));
+				executor.execute(new ComputeStripeTask(x0, x0+dx, this.c0, diam, set, stopFlag));
 	    		x0 += dx;
 	    	}
 	    	executor.execute(new ComputeStripeTask(x0, w, c0, diam, set, stopFlag));
     		
 	    	executor.shutdown();
 	    	executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
-	    	view.setUpdated(set);
+	    	this.view.setUpdated(set);
 	    	
-	    	if (!stopFlag.isSet()){
+	    	if (!this.stopFlag.isSet()){
 	    		long t1 = System.currentTimeMillis();
-	    		view.changeState("completed - time elapsed: "+(t1-t0));
+	    		this.view.changeState("completed - time elapsed: "+(t1-t0));
 	    	} else {
 	    		view.changeState("interrupted");
 	    	}

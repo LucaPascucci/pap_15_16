@@ -1,6 +1,7 @@
 package lab06.executors.quad01;
 
 
+//ogni task non deve essere collegato ad un'altro
 public class ComputeAreaTask implements Runnable {
 
 	private QuadratureResult result;
@@ -23,7 +24,7 @@ public class ComputeAreaTask implements Runnable {
 					sum += step * mf.eval(x);
 					x += step;
 				}
-				result.add(sum);
+				result.add(sum); //ogni task l'add sul monitor
 				log("Added result " + a + " " + b + " " + sum);
 	}
 

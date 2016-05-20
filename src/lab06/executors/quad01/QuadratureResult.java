@@ -1,6 +1,6 @@
 package lab06.executors.quad01;
 
-public class QuadratureResult {
+public class QuadratureResult {  //Monitor
 	
 	private double sum; 
 	private int nTotalResultsToWait;

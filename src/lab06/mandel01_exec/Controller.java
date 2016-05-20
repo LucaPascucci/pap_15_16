@@ -10,7 +10,7 @@ public class Controller implements InputListener {
 
 	private MandelbrotView view;
 	private MandelbrotSet set;
-	private Flag 	stopFlag;
+	private Flag stopFlag;
 	
 	public Controller(MandelbrotSet set, MandelbrotView view){
 		this.set = set;
@@ -18,12 +18,12 @@ public class Controller implements InputListener {
 	}
 	
 	public void started(Complex c0, double diam){
-		stopFlag = new Flag();
-		new Master(c0,diam,set,view,stopFlag).start();
+		this.stopFlag = new Flag();
+		new Master(c0, diam, this.set, this.view, this.stopFlag).start();
 	}
 
 	public void stopped() {
-		stopFlag.set();
+		this.stopFlag.set();
 	}
 
 }

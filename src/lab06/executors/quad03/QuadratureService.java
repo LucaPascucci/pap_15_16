@@ -18,12 +18,12 @@ public class QuadratureService extends Thread {
 
 		double x0 = a;
 		double step = (b-a)/numTasks;		
-	    Set<Future<Double>> resultSet = new HashSet<Future<Double>>();
-		for (int i=0; i<numTasks; i++) {
+	    Set<Future<Double>> resultSet = new HashSet<>();
+		for (int i = 0; i < numTasks; i++) {
 			try {
 				Future<Double> res = executor.submit(new ComputeAreaTask(x0, x0 + step, mf));
 				resultSet.add(res);
-				log("submitted task "+x0+" "+(x0+step));
+				log("submitted task " + x0 + " " + (x0 + step));
 				x0 += step;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -42,7 +42,6 @@ public class QuadratureService extends Thread {
 	    executor.shutdown();
 		return sum;
 	}
-	
 	
 	private void log(String msg){
 		System.out.println("[SERVICE] "+msg);

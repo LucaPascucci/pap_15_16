@@ -11,10 +11,12 @@ public class TestCounterSafe {
         SafeCounter c = new SafeCounter(0);
         Worker w1 = new Worker(c, ntimes);
         Worker w2 = new Worker(c, ntimes);
+        long startTime = System.currentTimeMillis();
         w1.start();
         w2.start();
         w1.join();
         w2.join();
-        System.out.println("Counter final value: " + c.getValue());
+        long elapsed = System.currentTimeMillis() - startTime;
+        System.out.println("Counter final value: " + c.getValue() + " in " + elapsed + " ms");
     }
 }

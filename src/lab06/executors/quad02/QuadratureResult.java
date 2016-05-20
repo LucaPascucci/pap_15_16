@@ -1,6 +1,6 @@
 package lab06.executors.quad02;
 
-public class QuadratureResult {
+public class QuadratureResult { //non è un monitor
 	
 	private double sum; 
 	
