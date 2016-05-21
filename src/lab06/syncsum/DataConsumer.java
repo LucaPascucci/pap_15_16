@@ -1,9 +1,4 @@
-package ass06.syncsum;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.*;
-import static java.util.stream.Collectors.toList;
+package lab06.syncsum;
 
 public class DataConsumer extends Thread {
 

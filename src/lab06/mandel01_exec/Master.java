@@ -37,7 +37,7 @@ public class Master extends Thread {
 	    	int dx = w / nTasks;       
 	    	
 	    	for (int i = 0; i < nTasks-1; i++){
-				executor.execute(new ComputeStripeTask(x0, x0+dx, this.c0, diam, set, stopFlag));
+				executor.execute(new ComputeStripeTask(x0, x0 + dx, this.c0, diam, set, stopFlag));
 	    		x0 += dx;
 	    	}
 	    	executor.execute(new ComputeStripeTask(x0, w, c0, diam, set, stopFlag));

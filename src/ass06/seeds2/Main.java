@@ -1,8 +1,8 @@
-package ass06.seeds;
+package ass06.seeds2;
 
-import ass06.seeds.controller.Controller;
-import ass06.seeds.model.SeedsSet;
-import ass06.seeds.view.MainView;
+import ass06.seeds2.controller.Controller;
+import ass06.seeds2.model.SeedsSet;
+import ass06.seeds2.view.MainView;
 
 import java.awt.*;
 
@@ -16,15 +16,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int viewWidth = 800;
-        int viewHeight = 765;
-        int worldColumns = 75;
-        int worldRows= 65;
-
-        SeedsSet seedsSet = new SeedsSet();
-        MainView view = new MainView(viewWidth,viewHeight,worldRows,worldColumns);
+        SeedsSet seedsSet = new SeedsSet(DEFAULT_WORLD_SIZE);
+        MainView view = new MainView(DEFAULT_WINDOW_SIZE,DEFAULT_WORLD_SIZE);
         Controller controller = new Controller(view, seedsSet);
-
         view.setListener(controller);
         view.setVisible(true);
 

@@ -1,4 +1,4 @@
-package ass06.syncsum;
+package lab06.syncsum;
 
 public interface SyncAdder {
 

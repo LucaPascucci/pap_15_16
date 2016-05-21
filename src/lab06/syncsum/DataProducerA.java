@@ -1,9 +1,6 @@
-package ass06.syncsum;
+package lab06.syncsum;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.*;
-import static java.util.stream.Collectors.toList;
 
 public class DataProducerA extends Thread {
 
