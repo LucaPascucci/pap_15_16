@@ -8,6 +8,6 @@ public class AgentC extends BaseAgent {
 	
 	public void run(){
 		Msg notification = read("event-x");
-		log("Observed an event: "+notification.getContent());
+		log("Observed an event: " + notification.getContent());
 	}
 }

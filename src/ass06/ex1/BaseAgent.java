@@ -14,34 +14,36 @@ public class BaseAgent extends Thread {
 	
 	protected void log(String msg){
 		synchronized(System.out){
-			System.out.println("["+name+"] "+msg);
+			System.out.println("["+this.name+"] "+msg);
 		}
 	}
 	
 	protected void post(String tag, Msg content){
-		bb.post(tag,content);
+		this.bb.post(tag,content);
 	}
 	
 	protected Msg take(String tag){
-		return bb.take(tag);
+		return this.bb.take(tag);
 	}
 	
 	protected Msg read(String tag){
-		return bb.read(tag);
+		return this.bb.read(tag);
 	}
 
 	protected Optional<Msg> takeIfPresent(String tag){
-		return bb.takeIfPresent(tag);
+		return this.bb.takeIfPresent(tag);
 	}
 	
 	protected Optional<Msg> readIfPresent(String tag){
-		return bb.readIfPresent(tag);
+		return this.bb.readIfPresent(tag);
 	}
 	
 	protected void waitFor(long ms){
 		try {
 			Thread.sleep(ms);
-		} catch (Exception ex){}
+		} catch (Exception ex){
+			ex.printStackTrace();
+		}
 	}
 
 }

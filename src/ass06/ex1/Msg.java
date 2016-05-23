@@ -9,6 +9,6 @@ public class Msg {
 	}
 	
 	public String getContent(){
-		return msg;
+		return this.msg;
 	}
 }

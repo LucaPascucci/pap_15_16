@@ -9,12 +9,12 @@ public class DataProducerB extends Thread {
 	
 	public DataProducerB(SyncAdder adder){
 		this.adder = adder;
-		data = IntStream.rangeClosed(1,10).map((value) -> value + 1);
+		this.data = IntStream.rangeClosed(1,10).map((value) -> value + 1);
 	}
 	
 	public void run(){
-		data.forEach((value) -> {
-			adder.setDataB(value);
+		this.data.forEach((value) -> {
+			this.adder.setDataB(value);
 		});
 	}
 	

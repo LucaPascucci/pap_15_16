@@ -19,7 +19,7 @@ public class AgentB2 extends BaseAgent {
 			nTimes++;
 		}
 		if (req.isPresent()){
-			log("found: "+req.get().getContent());
+			log("found: " + req.get().getContent());
 		}
 	}
 }

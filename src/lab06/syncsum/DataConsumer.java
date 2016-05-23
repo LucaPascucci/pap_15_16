@@ -10,7 +10,7 @@ public class DataConsumer extends Thread {
 	
 	public void run(){
 		while (true){
-			int value = adder.getSum();
+			int value = this.adder.getSum();
 			System.out.println(value);
 		}
 	}

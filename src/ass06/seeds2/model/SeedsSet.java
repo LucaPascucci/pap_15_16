@@ -54,11 +54,11 @@ public class SeedsSet {
 
     public void removeSeed(int r, int c){
         int size = this.seeds.size();
-        System.out.println("Size: " + this.seeds.size());
         for (int i = 0; i < this.seeds.size(); i++){
             Seed curr = this.seeds.get(i);
             if (curr.getRow() == r && curr.getCol() == c){
                 this.seeds.remove(i);
+                break;
             }
         }
         System.out.println("Size: " + size + " -> " + this.seeds.size());

@@ -21,7 +21,7 @@ public class Main {
         int worldColumns = 75;
         int worldRows= 65;
 
-        SeedsSet seedsSet = new SeedsSet();
+        SeedsSet seedsSet = new SeedsSet(DEFAULT_WORLD_SIZE);
         MainView view = new MainView(viewWidth,viewHeight,worldRows,worldColumns);
         Controller controller = new Controller(view, seedsSet);
 

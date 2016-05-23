@@ -5,7 +5,7 @@ package lab06.syncsum;
 
 public class SyncSum {
 	public static void main(String[] args) {
-		SyncAdder adder = null; // TO BE IMPLEMENTED
+		SyncAdder adder = new SyncAdderMonitor();
 
 		new DataProducerA(adder).start();
 		new DataProducerB(adder).start();
