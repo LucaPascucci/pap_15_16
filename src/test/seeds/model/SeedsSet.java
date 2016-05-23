@@ -1,4 +1,4 @@
-package ass06.seeds.model;
+package test.seeds.model;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -64,7 +64,7 @@ public class SeedsSet {
 
         //se il numero di vicini vivi è due allora il punto è rimane vivo oppure nascerà
         if (countNeighbors == 2){
-            return new Point(i - 1, j -1); //TODO capire perchè inidici diminuiti
+            return new Point(i - 1, j -1);
         }
 
         return null;

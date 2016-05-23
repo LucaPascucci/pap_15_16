@@ -1,8 +1,8 @@
-package ass06.seeds.controller;
+package test.seeds.controller;
 
-import ass06.seeds.Service.MasterService;
-import ass06.seeds.model.SeedsSet;
-import ass06.seeds.view.MainView;
+import test.seeds.Service.MasterService;
+import test.seeds.model.SeedsSet;
+import test.seeds.view.MainView;
 
 import java.awt.Point;
 import java.util.ArrayList;

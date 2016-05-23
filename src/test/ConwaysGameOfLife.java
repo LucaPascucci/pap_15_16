@@ -221,7 +221,6 @@ public class ConwaysGameOfLife extends JFrame implements ActionListener {
             }
         }
 
-        //TODO per disegnare sul pannello (mondo)
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);

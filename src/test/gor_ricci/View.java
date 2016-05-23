@@ -24,7 +24,7 @@ public class View extends JFrame implements ActionListener {
 		super("Game of Life");
 		this.grid = grid;
 		listeners = new ArrayList<InputListener>();
-		setSize(w,h);
+		this.setSize(w,h);
 
 		startButton = new JButton("start");
 		stopButton = new JButton("stop");
@@ -52,11 +52,11 @@ public class View extends JFrame implements ActionListener {
 		cp.add(BorderLayout.NORTH,controlPanel);
 		cp.add(BorderLayout.CENTER,gridPanel);
 		cp.add(BorderLayout.SOUTH, infoPanel);
-		setContentPane(cp);		
+		this.setContentPane(cp);
 
 		startButton.addActionListener(this);
 		stopButton.addActionListener(this);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	public void update(int numAliveCells, long stateTime){

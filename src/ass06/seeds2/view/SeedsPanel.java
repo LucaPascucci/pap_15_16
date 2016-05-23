@@ -8,6 +8,8 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Luca on 20/05/16.
@@ -65,7 +67,12 @@ public class SeedsPanel extends JPanel{
         this.repaint();
     }
 
-    public class CellPanel extends JPanel {
+    public void updatePanel(List<Point> seeds){
+        this.clearPanel();
+        seeds.stream().forEach(s -> cellsPanel[(int)s.getX()][(int)s.getY()].setCell(true));
+    }
+
+    private class CellPanel extends JPanel {
 
         private Color defaultBackground = getBackground();
 
@@ -122,7 +129,7 @@ public class SeedsPanel extends JPanel{
             return new Dimension(10, 10);
         }
 
-        public  void setCell(boolean value){
+        public void setCell(boolean value){
             if(!value){
                 setBackground(this.defaultBackground);
             }else{

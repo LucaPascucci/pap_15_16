@@ -1,4 +1,4 @@
-package ass06.seeds.controller;
+package test.seeds.controller;
 
 /**
  * Created by Luca on 21/05/16.

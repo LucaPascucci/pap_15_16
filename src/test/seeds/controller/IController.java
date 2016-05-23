@@ -1,4 +1,4 @@
-package ass06.seeds.controller;
+package test.seeds.controller;
 
 import java.awt.*;
 import java.util.ArrayList;

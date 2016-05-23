@@ -1,8 +1,8 @@
-package ass06.seeds.Service;
+package test.seeds.Service;
 
-import ass06.seeds.controller.Flag;
-import ass06.seeds.model.SeedsSet;
-import ass06.seeds.view.MainView;
+import test.seeds.controller.Flag;
+import test.seeds.model.SeedsSet;
+import test.seeds.view.MainView;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,7 +28,6 @@ public class MasterService extends Thread{
 
         if (this.seedsSet.getPoints().isEmpty()){
             this.flag.setValue(false);
-            //TODO informare che non ci sono punti vivi nel mondo
         }
 
         int era = 0;
@@ -42,12 +41,8 @@ public class MasterService extends Thread{
                 //this.view.setUpdated(result);
 
                 era++;
-                //TODO cambiare testo della view con il numero di era
-
-                //TODO aggiornare il numero di celle vive
 
                 if (!this.flag.getValue()){
-                    //TODO informare che si è fermata l'esecuzione
                 }
             }
         }catch (InterruptedException ex){

@@ -2,6 +2,7 @@ package ass06.seeds2.controller;
 
 
 import ass06.seeds2.model.SeedsSet;
+import ass06.seeds2.service.QuadratureService;
 import ass06.seeds2.view.MainView;
 
 /**
@@ -20,13 +21,14 @@ public class Controller implements IController {
     }
 
     @Override
-    public void started() {this.flag.setValue(true);
+    public void started() {
+        this.flag.setValue(true);
+        new QuadratureService(this.view, this.seedsSet, this.flag).start();
     }
 
     @Override
     public void stopped() {
         this.flag.setValue(false);
-
     }
 
     @Override
@@ -42,6 +44,7 @@ public class Controller implements IController {
         } else {
             this.seedsSet.removeSeed(r,c);
         }
+        this.view.setAliveSeeds(this.seedsSet.getSeeds().size());
 
     }
 }

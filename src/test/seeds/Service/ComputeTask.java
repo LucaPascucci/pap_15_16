@@ -1,7 +1,7 @@
-package ass06.seeds.Service;
+package test.seeds.Service;
 
 
-import ass06.seeds.model.SeedsSet;
+import test.seeds.model.SeedsSet;
 
 import java.awt.Point;
 import java.util.concurrent.Callable;

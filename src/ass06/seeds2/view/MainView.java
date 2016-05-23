@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  * Created by Luca on 20/05/16.
@@ -16,8 +17,10 @@ public class MainView extends JFrame implements ActionListener{
     private JButton startButton = new JButton("Start");
     private JButton stopButton = new JButton("Stop");
     private JButton resetButton = new JButton("Reset");
-    private JLabel era = new JLabel("564");
-    private JLabel alivePSeeds = new JLabel("564");
+    private JTextField aliveSeedsTF = new JTextField(5);
+    private JTextField eraTF = new JTextField(5);
+    private JTextField eraTimeTF = new JTextField(5);
+
 
     private Controller controller;
 
@@ -41,11 +44,20 @@ public class MainView extends JFrame implements ActionListener{
         controlPanel.add(this.stopButton);
         controlPanel.add(this.resetButton);
 
+        this.eraTF.setText("0");
+        this.eraTF.setEditable(false);
+        this.aliveSeedsTF.setText("0");
+        this.aliveSeedsTF.setEditable(false);
+        this.eraTimeTF.setText("0");
+        this.eraTimeTF.setEditable(false);
+
         JPanel infoPanel = new JPanel();
-        infoPanel.add(new JLabel("Iteration:"));
-        infoPanel.add(this.era);
+        infoPanel.add(new JLabel("Era:"));
+        infoPanel.add(this.eraTF);
         infoPanel.add(new JLabel("Alive Points:"));
-        infoPanel.add(this.alivePSeeds);
+        infoPanel.add(this.aliveSeedsTF);
+        infoPanel.add(new JLabel("Computation era Time:"));
+        infoPanel.add(this.eraTimeTF);
 
         this.seedsPanel = new SeedsPanel(worldSize);
 
@@ -79,8 +91,32 @@ public class MainView extends JFrame implements ActionListener{
 
         if (e.getSource().equals(resetButton)){
             System.out.println("Reset");
+            this.eraTF.setText("0");
+            this.eraTimeTF.setText("0");
+            this.aliveSeedsTF.setText("0");
             this.seedsPanel.clearPanel();
             this.controller.reset();
         }
+    }
+
+    public void setAliveSeeds(int aliveSeeds){
+        this.aliveSeedsTF.setText("" + aliveSeeds);
+    }
+
+    public void updateInfo(int era, int aliveSeeds, long time){
+        this.setAliveSeeds(aliveSeeds);
+        this.eraTF.setText("" + era);
+        this.eraTimeTF.setText("" + time);
+    }
+
+    public void emptyWorldMessage(){
+        this.stopButton.setEnabled(false);
+        this.resetButton.setEnabled(true);
+        this.startButton.setEnabled(true);
+        JOptionPane.showMessageDialog(this,"The world is empty.\nPlease add some seeds.");
+    }
+
+    public void updateAliveSeeds(List<Point> newSeeds){
+        this.seedsPanel.updatePanel(newSeeds);
     }
 }

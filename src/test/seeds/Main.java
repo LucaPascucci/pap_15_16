@@ -1,8 +1,8 @@
-package ass06.seeds;
+package test.seeds;
 
-import ass06.seeds.controller.Controller;
-import ass06.seeds.model.SeedsSet;
-import ass06.seeds.view.MainView;
+import test.seeds.controller.Controller;
+import test.seeds.model.SeedsSet;
+import test.seeds.view.MainView;
 
 import java.awt.*;
 
