@@ -9,17 +9,17 @@ public class AgentB2 extends BaseAgent {
 	}
 	
 	public void run(){
-		log("going to check for a request");
+		log("Going to check for a request");
 		Optional<Msg> req = readIfPresent("request");
 		int nTimes = 0;
 		while (!req.isPresent() && nTimes < 10){
-			log("not found.");
+			log("Not found.");
 			waitFor(100);			
 			req = readIfPresent("request");
 			nTimes++;
 		}
 		if (req.isPresent()){
-			log("found: " + req.get().getContent());
+			log("Found: " + req.get().getContent());
 		}
 	}
 }

@@ -14,7 +14,7 @@ public class BaseAgent extends Thread {
 	
 	protected void log(String msg){
 		synchronized(System.out){
-			System.out.println("["+this.name+"] "+msg);
+			System.out.println("[" + this.name + "] " + msg);
 		}
 	}
 	
