@@ -1,4 +1,4 @@
-package test.gor_ricci;
+package test.gof_ricci;
 
 /**
  * Assignment 06 - Game of Life with Executors

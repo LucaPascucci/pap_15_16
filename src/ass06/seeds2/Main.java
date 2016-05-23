@@ -22,5 +22,8 @@ public class Main {
         view.setListener(controller);
         view.setVisible(true);
 
+
+        //TODO java.util.ConcurrentModificationException
+
     }
 }

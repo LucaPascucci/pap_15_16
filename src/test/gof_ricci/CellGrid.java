@@ -1,4 +1,4 @@
-package test.gor_ricci;
+package test.gof_ricci;
 
 import java.util.Random;
 

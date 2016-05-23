@@ -19,12 +19,8 @@ public class SeedsSet {
         this.emptyWorld();
     }
 
-    public int getSizeX(){
-        return this.worldSize.width;
-    }
-
-    public int getSizeY(){
-        return this.worldSize.height;
+    public Dimension getWorldSize(){
+        return this.worldSize;
     }
 
     public List<Point> getSeeds(){
@@ -56,7 +52,7 @@ public class SeedsSet {
     }
 
     public void addSeed(int r, int c){
-        this.seeds.add(new Point(r,c));
+        this.seeds.add(new Point(c,r));
         //System.out.println("Aggiunto -> R: " + r + " C: " + c + " Size: " + this.seeds.size());
     }
 
@@ -64,7 +60,7 @@ public class SeedsSet {
         int size = this.seeds.size();
         for (int i = 0; i < this.seeds.size(); i++){
             Point curr = this.seeds.get(i);
-            if (curr.getX() == r && curr.getY() == c){
+            if (curr.getX() == c && curr.getY() == r){
                 this.seeds.remove(i);
                 break;
             }

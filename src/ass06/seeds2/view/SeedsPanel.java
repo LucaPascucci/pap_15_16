@@ -69,7 +69,7 @@ public class SeedsPanel extends JPanel{
 
     public void updatePanel(List<Point> seeds){
         this.clearPanel();
-        seeds.stream().forEach(s -> cellsPanel[(int)s.getX()][(int)s.getY()].setCell(true));
+        seeds.stream().forEach(s -> cellsPanel[(int)s.getY()][(int)s.getX()].setCell(true));
     }
 
     private class CellPanel extends JPanel {
