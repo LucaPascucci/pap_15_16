@@ -1,4 +1,4 @@
-package ass06.seeds.controller;
+package ass06.gof.controller;
 
 
 /**

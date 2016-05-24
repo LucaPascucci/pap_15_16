@@ -1,4 +1,4 @@
-package ass06.seeds.service;
+package ass06.gof.service;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,16 +19,18 @@ public class Master extends Thread {
     private ExecutorService executor = Executors.newFixedThreadPool(CORES);
     private boolean[][] worldSituation;
     private Dimension worldSize;
+    private boolean rules;
 
-    public Master(List<Point> seeds, Dimension worldSize){
+    public Master(List<Point> seeds, Dimension worldSize, boolean rules){
         this.seeds = seeds;
         this.worldSize = worldSize;
-        this.worldSituation = new boolean[this.worldSize.height][this.worldSize.width];;
+        this.worldSituation = new boolean[this.worldSize.height][this.worldSize.width];
+        this.rules = rules;
     }
 
     public List<Point> computeEra(){
 
-        List<Future<List<Point>>> prova = new ArrayList<>();
+        List<Future<List<Point>>> futureResults = new ArrayList<>();
 
         this.seeds.stream().forEach(s -> this.worldSituation[(int)s.getY()][(int)s.getX()] = true);
 
@@ -36,14 +38,14 @@ public class Master extends Thread {
         int step = this.worldSize.height / TASKS;
 
         for (int i = 0; i < TASKS -1; i++){
-            prova.add(this.executor.submit(new ComputeTask(this.worldSituation,start,start + step, this.worldSize)));
+            futureResults.add(this.executor.submit(new ComputeTask(this.worldSituation,start,start + step, this.worldSize,this.rules)));
             start += step;
         }
-        prova.add(this.executor.submit(new ComputeTask(this.worldSituation,start,this.worldSize.height, this.worldSize)));
+        futureResults.add(this.executor.submit(new ComputeTask(this.worldSituation,start,this.worldSize.height, this.worldSize,this.rules)));
 
 
         ArrayList<Point> result = new ArrayList<>();
-        for (Future<List<Point>> future : prova) {
+        for (Future<List<Point>> future : futureResults) {
             try {
                 if (future.get() != null)
                     result.addAll(future.get());

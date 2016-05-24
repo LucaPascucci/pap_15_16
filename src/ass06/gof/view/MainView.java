@@ -1,6 +1,6 @@
-package ass06.seeds.view;
+package ass06.gof.view;
 
-import ass06.seeds.controller.Controller;
+import ass06.gof.controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,9 +14,10 @@ import java.util.List;
 public class MainView extends JFrame implements ActionListener{
 
     private SeedsPanel seedsPanel;
-    private JButton startButton = new JButton("Start");
-    private JButton stopButton = new JButton("Stop");
-    private JButton resetButton = new JButton("Reset");
+    private JButton startBtn = new JButton("Start");
+    private JButton stopBtn = new JButton("Stop");
+    private JButton resetBtn = new JButton("Reset");
+    private JButton rulesBtn = new JButton("Ricci");
     private JTextField aliveSeedsTF = new JTextField(5);
     private JTextField eraTF = new JTextField(5);
     private JTextField eraTimeTF = new JTextField(5);
@@ -31,18 +32,20 @@ public class MainView extends JFrame implements ActionListener{
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        this.startButton.addActionListener(this);
-        this.stopButton.addActionListener(this);
-        this.resetButton.addActionListener(this);
-        this.stopButton.setEnabled(false);
+        this.startBtn.addActionListener(this);
+        this.stopBtn.addActionListener(this);
+        this.resetBtn.addActionListener(this);
+        this.stopBtn.setEnabled(false);
+        this.rulesBtn.addActionListener(this);
 
         LayoutManager layout = new BorderLayout();
         this.setLayout(layout);
 
         JPanel controlPanel = new JPanel();
-        controlPanel.add(this.startButton);
-        controlPanel.add(this.stopButton);
-        controlPanel.add(this.resetButton);
+        controlPanel.add(this.startBtn);
+        controlPanel.add(this.stopBtn);
+        controlPanel.add(this.resetBtn);
+        controlPanel.add(this.rulesBtn);
 
         this.eraTF.setText("0");
         this.eraTF.setEditable(false);
@@ -73,29 +76,35 @@ public class MainView extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(startButton)){
-            System.out.println("Start");
-            this.stopButton.setEnabled(true);
-            this.resetButton.setEnabled(false);
-            this.startButton.setEnabled(false);
+        if (e.getSource().equals(this.startBtn)){
+            this.stopBtn.setEnabled(true);
+            this.resetBtn.setEnabled(false);
+            this.startBtn.setEnabled(false);
             this.controller.started();
         }
 
-        if (e.getSource().equals(stopButton)){
-            System.out.println("Stop");
-            this.stopButton.setEnabled(false);
-            this.resetButton.setEnabled(true);
-            this.startButton.setEnabled(true);
+        if (e.getSource().equals(this.stopBtn)){
+            this.stopBtn.setEnabled(false);
+            this.resetBtn.setEnabled(true);
+            this.startBtn.setEnabled(true);
             this.controller.stopped();
         }
 
-        if (e.getSource().equals(resetButton)){
-            System.out.println("Reset");
+        if (e.getSource().equals(this.resetBtn)){
             this.eraTF.setText("0");
             this.eraTimeTF.setText("0");
             this.aliveSeedsTF.setText("0");
             this.seedsPanel.clearPanel();
             this.controller.reset();
+        }
+
+        if (e.getSource().equals(this.rulesBtn)){
+            if (e.getActionCommand().equals("Ricci")){
+                this.rulesBtn.setText("Conway");
+            }else{
+                this.rulesBtn.setText("Ricci");
+            }
+            this.controller.changeRules();
         }
     }
 
@@ -110,9 +119,9 @@ public class MainView extends JFrame implements ActionListener{
     }
 
     public void emptyWorldMessage(){
-        this.stopButton.setEnabled(false);
-        this.resetButton.setEnabled(true);
-        this.startButton.setEnabled(true);
+        this.stopBtn.setEnabled(false);
+        this.resetBtn.setEnabled(true);
+        this.startBtn.setEnabled(true);
         JOptionPane.showMessageDialog(this,"The world is empty.\nPlease add some seeds.");
     }
 

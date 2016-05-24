@@ -1,9 +1,9 @@
-package ass06.seeds.controller;
+package ass06.gof.controller;
 
 
-import ass06.seeds.model.SeedsSet;
-import ass06.seeds.service.QuadratureService;
-import ass06.seeds.view.MainView;
+import ass06.gof.model.SeedsSet;
+import ass06.gof.service.QuadratureService;
+import ass06.gof.view.MainView;
 
 /**
  * Created by Luca on 20/05/16.
@@ -46,5 +46,9 @@ public class Controller implements IController {
         }
         this.view.setAliveSeeds(this.seedsSet.getSeeds().size());
 
+    }
+
+    public void changeRules(){
+        this.seedsSet.changeRules();
     }
 }

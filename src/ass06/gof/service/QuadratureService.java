@@ -1,8 +1,8 @@
-package ass06.seeds.service;
+package ass06.gof.service;
 
-import ass06.seeds.controller.Flag;
-import ass06.seeds.model.SeedsSet;
-import ass06.seeds.view.MainView;
+import ass06.gof.controller.Flag;
+import ass06.gof.model.SeedsSet;
+import ass06.gof.view.MainView;
 
 import java.awt.Point;
 import java.util.List;
@@ -39,11 +39,11 @@ public class QuadratureService extends Thread{
                 this.seeds.incEra();
 
                 long startTime = System.nanoTime();
-                Master master = new Master(this.seeds.getSeeds(), this.seeds.getWorldSize());
+                Master master = new Master(this.seeds.getSeeds(), this.seeds.getWorldSize(),this.seeds.getRules());
                 List<Point> result = master.computeEra();
                 this.seeds.setNewSeeds(result);
                 this.view.updateAliveSeeds(result);
-                this.view.updateInfo(this.seeds.getEra(),this.seeds.getSeeds().size(),System.nanoTime() - startTime);
+                this.view.updateInfo(this.seeds.getEra(),this.seeds.getSeeds().size(),(System.nanoTime() - startTime)/1000);
 
                 Thread.sleep(SLEEP);
             }

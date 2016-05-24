@@ -1,4 +1,4 @@
-package ass06.seeds.model;
+package ass06.gof.model;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,12 +12,17 @@ public class SeedsSet {
     private Dimension worldSize;
     private List<Point> seeds;
     private int era;
+    private boolean rules;
 
     public SeedsSet(Dimension worldSize){
         this.worldSize = worldSize;
         this.seeds = new ArrayList<>();
-        //this.seeds = new ArrayList<>(this.worldSize.height * this.worldSize.width);
         this.emptyWorld();
+        this.rules = false;
+    }
+
+    public boolean getRules(){
+        return this.rules;
     }
 
     public Dimension getWorldSize(){
@@ -56,6 +61,10 @@ public class SeedsSet {
 
     public void incEra(){
         this.era++;
+    }
+
+    public void changeRules(){
+        this.rules = !this.rules;
     }
 
     public void setNewSeeds(List<Point> newSeeds){

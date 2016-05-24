@@ -1,6 +1,6 @@
-package ass06.seeds.view;
+package ass06.gof.view;
 
-import ass06.seeds.controller.Controller;
+import ass06.gof.controller.Controller;
 
 import javax.swing.*;
 import javax.swing.border.Border;
