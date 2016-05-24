@@ -43,7 +43,7 @@ public class Master extends Thread {
 			tasks.add(new ComputeStateTask(grid,x0,0,grid.getWidth()-x0,grid.getHeight()));
 
 			/* set up the executor */
-			ExecutorService exec = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()+1);;
+			ExecutorService exec = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()+1);
 			
 			while (!stopFlag.isSet()){
 				long current = System.currentTimeMillis();				

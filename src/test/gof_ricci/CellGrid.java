@@ -12,7 +12,7 @@ public class CellGrid {
 		this.w = w;
 		this.h = h;
 		cells = new boolean[h][w];
-		next = new boolean[h][w]; 
+		next = new boolean[h][w];
 	}
 	
 	public void swap(){
@@ -32,8 +32,7 @@ public class CellGrid {
 	public boolean isAlive(int x, int y){
 		return cells[y][x];
 	}
-	
-	
+
 	public boolean computeNextCellState(int x, int y){
 		int nAlives = 0;
 		int xPrev = x == 0 ? w - 1 : x - 1;
@@ -64,8 +63,14 @@ public class CellGrid {
 		if (cells[yNext][xNext]){
 			nAlives++;
 		}
-		
-		if (cells[y][x]){
+
+		if (nAlives == 2){
+			next[y][x] = true;
+		}else{
+			next[y][x] = false;
+		}
+
+		/*if (cells[y][x]){
 			if (nAlives <= 1 || nAlives >= 4){
 				next[y][x] = false;
 			} else {
@@ -77,7 +82,7 @@ public class CellGrid {
 			} else {
 				next[y][x] = false;
 			}
-		}		
+		}*/
 		return next[y][x];
 	}
 	

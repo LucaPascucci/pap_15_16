@@ -15,7 +15,8 @@ public class SeedsSet {
 
     public SeedsSet(Dimension worldSize){
         this.worldSize = worldSize;
-        this.seeds = new ArrayList<>(this.worldSize.height * this.worldSize.width);
+        this.seeds = new ArrayList<>();
+        //this.seeds = new ArrayList<>(this.worldSize.height * this.worldSize.width);
         this.emptyWorld();
     }
 
@@ -29,21 +30,6 @@ public class SeedsSet {
 
     public int getEra(){
         return this.era;
-    }
-
-    //funzione che deduce la sorte di un determinato punto
-    public void computePoint(int r, int c){
-
-        //conto il numero di vicini vivi
-        int countNeighbors = 0;
-
-        //TODO controllare i vicini magari anche collegando il mondo (sfera)
-
-        if (countNeighbors == 2){
-            //this.world[r][c].setWillAlive(true);
-        }else{
-            //this.world[r][c].setWillAlive(false);
-        }
     }
 
     public void emptyWorld(){

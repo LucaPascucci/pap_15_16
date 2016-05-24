@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class QuadratureService extends Thread{
 
-    private static final long SLEEP = 50;
+    private static final long SLEEP = 100;
 
     private MainView view;
     private SeedsSet seeds;
@@ -38,12 +38,12 @@ public class QuadratureService extends Thread{
             while (this.flag.getValue()){
                 this.seeds.incEra();
 
-                long startTime = System.currentTimeMillis();
+                long startTime = System.nanoTime();
                 Master master = new Master(this.seeds.getSeeds(), this.seeds.getWorldSize());
                 List<Point> result = master.computeEra();
                 this.seeds.setNewSeeds(result);
                 this.view.updateAliveSeeds(result);
-                this.view.updateInfo(this.seeds.getEra(),this.seeds.getSeeds().size(),System.currentTimeMillis() - startTime);
+                this.view.updateInfo(this.seeds.getEra(),this.seeds.getSeeds().size(),System.nanoTime() - startTime);
 
                 Thread.sleep(SLEEP);
             }
