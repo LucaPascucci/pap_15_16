@@ -1,8 +1,8 @@
-package ass06.seeds2.service;
+package ass06.seeds.service;
 
-import ass06.seeds2.controller.Flag;
-import ass06.seeds2.model.SeedsSet;
-import ass06.seeds2.view.MainView;
+import ass06.seeds.controller.Flag;
+import ass06.seeds.model.SeedsSet;
+import ass06.seeds.view.MainView;
 
 import java.awt.Point;
 import java.util.List;

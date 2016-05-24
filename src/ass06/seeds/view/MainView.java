@@ -1,6 +1,6 @@
-package ass06.seeds2.view;
+package ass06.seeds.view;
 
-import ass06.seeds2.controller.Controller;
+import ass06.seeds.controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;

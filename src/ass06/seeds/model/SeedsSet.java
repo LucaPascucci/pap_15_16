@@ -1,4 +1,4 @@
-package ass06.seeds2.model;
+package ass06.seeds.model;
 
 import java.awt.*;
 import java.util.ArrayList;

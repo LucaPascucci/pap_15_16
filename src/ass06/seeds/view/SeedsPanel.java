@@ -1,6 +1,6 @@
-package ass06.seeds2.view;
+package ass06.seeds.view;
 
-import ass06.seeds2.controller.Controller;
+import ass06.seeds.controller.Controller;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -8,7 +8,6 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.*;
 import java.util.List;
 
 /**

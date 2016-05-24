@@ -1,9 +1,9 @@
-package ass06.seeds2.controller;
+package ass06.seeds.controller;
 
 
-import ass06.seeds2.model.SeedsSet;
-import ass06.seeds2.service.QuadratureService;
-import ass06.seeds2.view.MainView;
+import ass06.seeds.model.SeedsSet;
+import ass06.seeds.service.QuadratureService;
+import ass06.seeds.view.MainView;
 
 /**
  * Created by Luca on 20/05/16.

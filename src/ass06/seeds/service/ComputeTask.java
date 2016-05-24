@@ -1,4 +1,4 @@
-package ass06.seeds2.service;
+package ass06.seeds.service;
 
 import java.awt.*;
 import java.util.concurrent.Callable;

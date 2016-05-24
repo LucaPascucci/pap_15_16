@@ -6,7 +6,7 @@ public class TestBB {
 
 	public static void main(String[] args) {
 
-		Blackboard bb = new BlackboardMonitor();
+		Blackboard bb = new BlackboardImpl();
 		
 		new AgentA("a1",bb).start();
 		new AgentB1("b1a",bb).start();

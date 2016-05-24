@@ -6,11 +6,11 @@ import java.util.*;
 /**
  * Created by Luca on 23/05/16.
  */
-public class BlackboardMonitor  implements Blackboard{
+public class BlackboardImpl implements Blackboard{
 
     private Map<String,LinkedList<Msg>> blackboardContent;
 
-    public BlackboardMonitor(){
+    public BlackboardImpl(){
         this.blackboardContent = new HashMap<>();
     }
 
@@ -22,18 +22,21 @@ public class BlackboardMonitor  implements Blackboard{
         }
         tag_msgs.addLast(msg);
         this.blackboardContent.put(tag,tag_msgs);
-        notifyAll(); //notifico l'inserimento di un nuovo messaggio
+        notifyAll(); //notifico a tutti i thread l'inserimento di un nuovo messaggio
     }
 
     @Override
     public synchronized Msg take(String tag) {
+
+        //controllo se la lavagna contiene almeno un messaggio corrispondente al tag
         while (!this.blackboardContent.containsKey(tag)){
             try {
-                wait();
+                wait(); //nel caso non contenga il tag metto il thread in wait
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        //rimuovo il primo messaggio in lista
         Msg msg = this.blackboardContent.get(tag).removeFirst();
         this.cleanContent(tag);
         return msg;
@@ -41,6 +44,7 @@ public class BlackboardMonitor  implements Blackboard{
 
     @Override
     public synchronized Optional<Msg> takeIfPresent(String tag) {
+        //controllo se la lavagna contiene almeno un messaggio corrispondente al tag
         if (this.blackboardContent.containsKey(tag)){
             Msg msg = this.blackboardContent.get(tag).removeFirst();
             this.cleanContent(tag);
