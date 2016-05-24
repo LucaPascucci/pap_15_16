@@ -25,6 +25,7 @@ public class ComputeTask implements Callable<List<Point>> {
         this.neighbours = new boolean[3][3];
     }
 
+    //Scorre le righe assegnate e per ogni punto crea la matrice di punti vicini
     @Override
     public List<Point> call() throws Exception {
         List<Point> points = new ArrayList<>();
@@ -58,6 +59,7 @@ public class ComputeTask implements Callable<List<Point>> {
         return points;
     }
 
+    //metodo che conta i vicini di un punto ed in base al set di resgole decreta se il punto vivrà o morirà
     private boolean computePoint(){
 
         //conto il numero di vicini vivi

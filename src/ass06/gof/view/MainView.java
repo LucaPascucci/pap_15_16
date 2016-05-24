@@ -59,7 +59,7 @@ public class MainView extends JFrame implements ActionListener{
         infoPanel.add(this.eraTF);
         infoPanel.add(new JLabel("Alive Points:"));
         infoPanel.add(this.aliveSeedsTF);
-        infoPanel.add(new JLabel("Computation era Time:"));
+        infoPanel.add(new JLabel("Computation Era Time:"));
         infoPanel.add(this.eraTimeTF);
 
         this.seedsPanel = new SeedsPanel(worldSize);
@@ -122,7 +122,7 @@ public class MainView extends JFrame implements ActionListener{
         this.stopBtn.setEnabled(false);
         this.resetBtn.setEnabled(true);
         this.startBtn.setEnabled(true);
-        JOptionPane.showMessageDialog(this,"The world is empty.\nPlease add some seeds.");
+        JOptionPane.showMessageDialog(this,"Empty world.\nPlease add some seeds.");
     }
 
     public void updateAliveSeeds(List<Point> newSeeds){

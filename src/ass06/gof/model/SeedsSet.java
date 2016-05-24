@@ -44,11 +44,9 @@ public class SeedsSet {
 
     public void addSeed(int r, int c){
         this.seeds.add(new Point(c,r));
-        //System.out.println("Aggiunto -> R: " + r + " C: " + c + " Size: " + this.seeds.size());
     }
 
     public void removeSeed(int r, int c){
-        int size = this.seeds.size();
         for (int i = 0; i < this.seeds.size(); i++){
             Point curr = this.seeds.get(i);
             if (curr.getX() == c && curr.getY() == r){
@@ -56,7 +54,6 @@ public class SeedsSet {
                 break;
             }
         }
-        //System.out.println("Size: " + size + " -> " + this.seeds.size());
     }
 
     public void incEra(){

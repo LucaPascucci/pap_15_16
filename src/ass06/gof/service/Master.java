@@ -3,6 +3,7 @@ package ass06.gof.service;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -13,7 +14,7 @@ import java.util.concurrent.Future;
 public class Master extends Thread {
 
     private static final int CORES = Runtime.getRuntime().availableProcessors() + 1;
-    private static final int TASKS = 30;
+    private static final int TASKS = 40;
 
     private List<Point> seeds;
     private ExecutorService executor = Executors.newFixedThreadPool(CORES);
@@ -28,7 +29,8 @@ public class Master extends Thread {
         this.rules = rules;
     }
 
-    public List<Point> computeEra(){
+    //suddivido il mondo per righe, assegnato ad ogni task che ritornerà una lista parziale di punti
+    public List<Point> computeEra() throws ExecutionException, InterruptedException {
 
         List<Future<List<Point>>> futureResults = new ArrayList<>();
 
@@ -46,14 +48,11 @@ public class Master extends Thread {
 
         ArrayList<Point> result = new ArrayList<>();
         for (Future<List<Point>> future : futureResults) {
-            try {
-                if (future.get() != null)
-                    result.addAll(future.get());
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            if (future.get() != null)
+                result.addAll(future.get());
         }
 
+        //Una volta prelevate tutte le liste di punti eseguo shutdown dell'executor e ritorno la nuova era di punti
         this.executor.shutdown();
         return result;
     }

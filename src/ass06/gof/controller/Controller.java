@@ -48,6 +48,7 @@ public class Controller implements IController {
 
     }
 
+    @Override
     public void changeRules(){
         this.seedsSet.changeRules();
     }
