@@ -1,6 +1,7 @@
 package ass06.gof.service;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -44,7 +45,6 @@ public class Master extends Thread {
             start += step;
         }
         futureResults.add(this.executor.submit(new ComputeTask(this.worldSituation,start,this.worldSize.height, this.worldSize,this.rules)));
-
 
         ArrayList<Point> result = new ArrayList<>();
         for (Future<List<Point>> future : futureResults) {

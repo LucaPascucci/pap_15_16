@@ -4,7 +4,7 @@ import ass06.gof.controller.Controller;
 import ass06.gof.model.SeedsSet;
 import ass06.gof.view.MainView;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * Created by Luca on 20/05/16.
@@ -22,8 +22,6 @@ public class Main {
         view.setListener(controller);
         view.setVisible(true);
 
-
         //TODO java.util.ConcurrentModificationException
-
     }
 }
