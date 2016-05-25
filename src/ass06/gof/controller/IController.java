@@ -15,8 +15,8 @@ public interface IController {
     //Ripristina il mondo allo stato iniziale(vuoto)
     void reset();
 
-    //Aggiunge o rimuove i seed scelti dall'utente
-    void manageSeed(int r, int c, boolean value);
+    //Aggiunge o rimuove i seed scelti dall'utente solo se il ciclo della vita è fermo
+    boolean manageSeed(int r, int c, boolean value);
 
     //Cambio delle regole del ciclo della vita
     void changeRules();

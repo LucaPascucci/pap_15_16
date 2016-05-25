@@ -25,7 +25,6 @@ public class MainView extends JFrame implements ActionListener{
     private JTextField eraTF = new JTextField(5);
     private JTextField eraTimeTF = new JTextField(5);
 
-
     private Controller controller;
 
     public MainView(Dimension windowSize, Dimension worldSize){

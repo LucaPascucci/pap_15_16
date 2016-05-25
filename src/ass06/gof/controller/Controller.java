@@ -37,14 +37,19 @@ public class Controller implements IController {
     }
 
     @Override
-    public void manageSeed(int r, int c, boolean value){
+    public boolean manageSeed(int r, int c, boolean value){
 
-        if (value){
-            this.seedsSet.addSeed(r,c);
-        } else {
-            this.seedsSet.removeSeed(r,c);
+        if (!this.flag.getValue()) {
+            if (value) {
+                this.seedsSet.addSeed(r, c);
+            } else {
+                this.seedsSet.removeSeed(r, c);
+            }
+            this.view.setAliveSeeds(this.seedsSet.getSeeds().size());
+            return true;
+        }else{
+            return false;
         }
-        this.view.setAliveSeeds(this.seedsSet.getSeeds().size());
 
     }
 

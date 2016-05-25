@@ -28,6 +28,7 @@ public class SeedsPanel extends JPanel{
         this.cellsPanel = new CellPanel[worldSize.height][worldSize.width];
 
         this.setLayout(new GridBagLayout());
+        setEnabled(false);
 
         GridBagConstraints gbc = new GridBagConstraints();
         for (int row = 0; row < worldSize.height; row++) {
@@ -89,13 +90,15 @@ public class SeedsPanel extends JPanel{
                     drawing = true;
                     if (SwingUtilities.isRightMouseButton(e)){
                         if (getBackground().equals(Color.BLUE)) {
-                            setBackground(defaultBackground);
-                            controller.manageSeed(row, col, false);
+                            if (controller.manageSeed(row, col, false)){
+                                setBackground(defaultBackground);
+                            }
                         }
                     }else{
                         if (!getBackground().equals(Color.BLUE)) {
-                            setBackground(Color.BLUE);
-                            controller.manageSeed(row, col, true);
+                            if (controller.manageSeed(row, col, true)){
+                                setBackground(Color.BLUE);
+                            }
                         }
                     }
 
@@ -107,13 +110,15 @@ public class SeedsPanel extends JPanel{
                     if (drawing) {
                         if (SwingUtilities.isRightMouseButton(e)){
                             if (getBackground().equals(Color.BLUE)) {
-                                setBackground(defaultBackground);
-                                controller.manageSeed(row, col, false);
+                                if (controller.manageSeed(row, col, false)){
+                                    setBackground(defaultBackground);
+                                }
                             }
                         }else{
                             if (!getBackground().equals(Color.BLUE)) {
-                                setBackground(Color.BLUE);
-                                controller.manageSeed(row, col, true);
+                                if (controller.manageSeed(row, col, true)){
+                                    setBackground(Color.BLUE);
+                                }
                             }
                         }
                     }

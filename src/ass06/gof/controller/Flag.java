@@ -10,7 +10,7 @@ public class Flag {
     private boolean value;
 
     public Flag(){
-        this.value = true;
+        this.value = false;
     }
 
     public synchronized void setValue(boolean value){
