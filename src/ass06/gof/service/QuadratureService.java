@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class QuadratureService extends Thread{
 
-    private static final long SLEEP = 150;
+    private static final long SLEEP = 100;
 
     private MainView view;
     private SeedsSet seeds;

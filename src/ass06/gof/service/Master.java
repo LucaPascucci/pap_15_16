@@ -4,10 +4,7 @@ import java.awt.Point;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /**
  * Created by Luca on 23/05/16.
@@ -52,8 +49,8 @@ public class Master extends Thread {
                 result.addAll(future.get());
         }
 
-        //Una volta prelevate tutte le liste di punti eseguo shutdown dell'executor e ritorno la nuova era di punti
-        this.executor.shutdown();
+        this.executor.shutdown(); //blocca la possibilità di aggiungere nuovi task ed avvia la terminazione del ExecutorService
+        this.executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS); // aspetto che tutti i task siano stati completati
         return result;
     }
 }
