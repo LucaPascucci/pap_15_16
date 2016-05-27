@@ -21,6 +21,7 @@ public class SeedsPanel extends JPanel{
 
     private CellPanel [][] cellsPanel;
     private boolean drawing = false;
+    private boolean deleteSeed;
     private Controller controller;
 
     public SeedsPanel(Dimension worldSize) {
@@ -88,37 +89,31 @@ public class SeedsPanel extends JPanel{
                 public void mousePressed(MouseEvent e) {
                     super.mousePressed(e);
                     drawing = true;
-                    if (SwingUtilities.isRightMouseButton(e)){
-                        if (getBackground().equals(Color.BLUE)) {
-                            if (controller.manageSeed(row, col, false)){
-                                setBackground(defaultBackground);
-                            }
+                    deleteSeed = SwingUtilities.isRightMouseButton(e);
+
+                    if (getBackground().equals(defaultBackground) && !deleteSeed){
+                        if (controller.manageSeed(row, col, !deleteSeed)){
+                            setBackground(Color.RED);
                         }
-                    }else{
-                        if (!getBackground().equals(Color.BLUE)) {
-                            if (controller.manageSeed(row, col, true)){
-                                setBackground(Color.BLUE);
-                            }
+                    }else if (!getBackground().equals(defaultBackground) && deleteSeed){
+                        if (controller.manageSeed(row, col, !deleteSeed)){
+                            setBackground(defaultBackground);
                         }
                     }
-
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     super.mouseEntered(e);
+                    deleteSeed = SwingUtilities.isRightMouseButton(e);
                     if (drawing) {
-                        if (SwingUtilities.isRightMouseButton(e)){
-                            if (getBackground().equals(Color.BLUE)) {
-                                if (controller.manageSeed(row, col, false)){
-                                    setBackground(defaultBackground);
-                                }
+                        if (getBackground().equals(defaultBackground) && !deleteSeed){
+                            if (controller.manageSeed(row, col, !deleteSeed)){
+                                setBackground(Color.RED);
                             }
-                        }else{
-                            if (!getBackground().equals(Color.BLUE)) {
-                                if (controller.manageSeed(row, col, true)){
-                                    setBackground(Color.BLUE);
-                                }
+                        }else if (!getBackground().equals(defaultBackground) && deleteSeed){
+                            if (controller.manageSeed(row, col, !deleteSeed)){
+                                setBackground(defaultBackground);
                             }
                         }
                     }
@@ -141,7 +136,7 @@ public class SeedsPanel extends JPanel{
             if(!value){
                 setBackground(this.defaultBackground);
             }else{
-                setBackground(Color.BLUE);
+                setBackground(Color.RED);
             }
         }
     }

@@ -53,7 +53,6 @@ public class ComputeTask implements Callable<List<Point>> {
                 if (computePoint()){
                     points.add(new Point(c,r));
                 }
-
             }
         }
 

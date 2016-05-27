@@ -21,7 +21,5 @@ public class Main {
         Controller controller = new Controller(view, seedsSet);
         view.setListener(controller);
         view.setVisible(true);
-
-        //TODO java.util.ConcurrentModificationException
     }
 }

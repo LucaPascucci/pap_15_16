@@ -21,7 +21,7 @@ public class MultiThread {
         if (args.length == 1) {
             n_points = Integer.parseInt(args[0]);
         }else {
-            n_points = 1000000;
+            n_points = 10000000;
         }
 
         int step = n_points / N_CORES;

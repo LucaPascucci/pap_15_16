@@ -4,6 +4,7 @@ import ass06.gof.controller.Flag;
 import ass06.gof.model.SeedsSet;
 import ass06.gof.view.MainView;
 
+import javax.swing.*;
 import java.awt.Point;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -25,7 +26,7 @@ public class QuadratureService extends Thread{
         this.flag = flag;
     }
 
-    //avvia il Master che si occupa a sua volta di creare i task
+    //Avvia il Master ed aggiorna model e view una volta ottenuto la nuova era
     @Override
     public void run() {
         super.run();
@@ -39,14 +40,14 @@ public class QuadratureService extends Thread{
 
             while (this.flag.getValue()){
                 this.seeds.incEra();
-
                 long startTime = System.nanoTime();
                 Master master = new Master(this.seeds.getSeeds(), this.seeds.getWorldSize(),this.seeds.getRules());
                 List<Point> result = master.computeEra();
-                //aggiorno il modello e la view
-                this.seeds.setNewSeeds(result);
+
+                //aggiorno view e model
+                this.view.updateInfo(this.seeds.getEra(),result.size(),(System.nanoTime() - startTime)/1000);
                 this.view.updateAliveSeeds(result);
-                this.view.updateInfo(this.seeds.getEra(),this.seeds.getSeeds().size(),(System.nanoTime() - startTime)/1000);
+                this.seeds.setNewSeeds(result);
 
                 Thread.sleep(SLEEP);
             }

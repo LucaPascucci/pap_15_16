@@ -110,24 +110,34 @@ public class MainView extends JFrame implements ActionListener{
         }
     }
 
+    //Utilizzo invokeLater per essere certo che l'operazione venga eseguita dal Event Dispatch Thread
+    //Anche nel caso vengano chiamati da thread separati
     public void setAliveSeeds(int aliveSeeds){
-        this.aliveSeedsTF.setText("" + aliveSeeds);
+        SwingUtilities.invokeLater(() ->
+                this.aliveSeedsTF.setText("" + aliveSeeds)
+        );
     }
 
     public void updateInfo(int era, int aliveSeeds, long time){
-        this.setAliveSeeds(aliveSeeds);
-        this.eraTF.setText("" + era);
-        this.eraTimeTF.setText("" + time);
+        SwingUtilities.invokeLater(() -> {
+            this.setAliveSeeds(aliveSeeds);
+            this.eraTF.setText("" + era);
+            this.eraTimeTF.setText("" + time);
+        });
     }
 
     public void emptyWorldMessage(){
-        this.stopBtn.setEnabled(false);
-        this.resetBtn.setEnabled(true);
-        this.startBtn.setEnabled(true);
-        JOptionPane.showMessageDialog(this,"Empty world.\nPlease add some seeds.");
+        SwingUtilities.invokeLater(() -> {
+            this.stopBtn.setEnabled(false);
+            this.resetBtn.setEnabled(true);
+            this.startBtn.setEnabled(true);
+            JOptionPane.showMessageDialog(this, "Empty world.\nPlease add some seeds.");
+        });
     }
 
     public void updateAliveSeeds(List<Point> newSeeds){
-        this.seedsPanel.updatePanel(newSeeds);
+        SwingUtilities.invokeLater(() ->
+                this.seedsPanel.updatePanel(newSeeds)
+        );
     }
 }

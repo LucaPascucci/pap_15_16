@@ -37,10 +37,10 @@ public class Controller implements IController {
     }
 
     @Override
-    public boolean manageSeed(int r, int c, boolean value){
+    public boolean manageSeed(int r, int c, boolean create){
 
         if (!this.flag.getValue()) {
-            if (value) {
+            if (create) {
                 this.seedsSet.addSeed(r, c);
             } else {
                 this.seedsSet.removeSeed(r, c);
@@ -50,7 +50,6 @@ public class Controller implements IController {
         }else{
             return false;
         }
-
     }
 
     @Override
