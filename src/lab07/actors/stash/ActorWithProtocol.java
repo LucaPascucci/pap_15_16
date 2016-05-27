@@ -13,10 +13,10 @@ public class ActorWithProtocol extends UntypedActorWithStash {
 				} else if (m.equals("close")) {
 					System.out.println("closing...");
 					getContext().unbecome();
-				}				
+				}
 			});
 		} else {
-			System.out.println("stashing "+msg);
+			System.out.println("stashing " + msg);
 			stash();
 		}
 	}

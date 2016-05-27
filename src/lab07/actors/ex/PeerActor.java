@@ -18,7 +18,7 @@ public class PeerActor extends UntypedActor {
 		  Random rand = new Random(System.nanoTime());
 		  myValue = Math.abs(rand.nextInt());
 		  max = myValue;
-		  log("booted - value: "+myValue);
+		  log("booted - value: " + myValue);
 
 	  }
 	
@@ -45,7 +45,7 @@ public class PeerActor extends UntypedActor {
 			  
 			  if (nValuesReceived == nPeers){
 				  if (max == myValue){
-					System.out.println("Elected ("+this.getSelf()+" - value: "+myValue+")");
+					System.out.println("Elected ("+this.getSelf()+" - value: " + this.myValue + ")");
 				  } 
 				  bootActor.tell(new DoneMsg(),getSelf());
 				  getContext().stop(getSelf());
@@ -54,7 +54,7 @@ public class PeerActor extends UntypedActor {
 	  }
 
 	  private void log(String msg){
- 		  System.out.println("[PeerActor-"+getSelf()+"] "+msg);
+ 		  System.out.println("[PeerActor-" + getSelf() + "] " + msg);
 	  }
 	  
 }

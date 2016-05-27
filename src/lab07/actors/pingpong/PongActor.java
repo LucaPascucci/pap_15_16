@@ -7,15 +7,15 @@ public class PongActor extends UntypedActor {
 	private long count;
 	
 	  public void preStart() {
-		  count = 0;
+		  this.count = 0;
 	  }
 	
 	  @Override
 	  public void onReceive(Object msg) {
-		  count++;
+		  this.count++;
 		  PingMsg mess = (PingMsg) msg;
-		  System.out.println("PING received: "+mess.getValue());
-		  getSender().tell(new PongMsg(count), getSelf());
+		  System.out.println("PING received: " + mess.getValue());
+		  getSender().tell(new PongMsg(this.count), getSelf());
 	  }
 
 }

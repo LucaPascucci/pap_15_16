@@ -16,7 +16,7 @@ public class PingActor extends UntypedActor {
 	  public void onReceive(Object msg) {
 		  count++;
 		  PongMsg mess = (PongMsg) msg;
-		  System.out.println("PONG received: "+mess.getValue());
+		  System.out.println("PONG received: " + mess.getValue());
 		  getSender().tell(new PingMsg(count), getSelf());
 	  }
 	
