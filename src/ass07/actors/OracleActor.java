@@ -40,6 +40,13 @@ public class OracleActor extends UntypedActor {
 
     }
 
+    /**
+     * Crea Props per l'attore OracleActor.
+     * @param players numero di giocatori
+     * @param max range massimo del numero random da indovinare
+     * @param min range minimo del numero random da indovinare
+     * @return Props per la crezione di questo attore
+     */
     public static Props props(final int players, final int max, final int min) {
         return Props.create(new Creator<OracleActor>() {
             private static final long serialVersionUID = 1L;
@@ -51,6 +58,7 @@ public class OracleActor extends UntypedActor {
         });
     }
 
+
     public void preStart() {
 
         System.out.println("Number: " + this.magicNumber);
@@ -61,7 +69,7 @@ public class OracleActor extends UntypedActor {
             this.playersList.add(player);
         }
 
-        //avvio la ricerca del numero da parte dei giocatori
+        //avvio il turno per la ricerca del numero da parte dei giocatori
         for (ActorRef player : this.playersList){
             player.tell(new StartTurnMsg(),getSelf());
         }
@@ -74,7 +82,6 @@ public class OracleActor extends UntypedActor {
 
             this.turnAttempts++;
             if (!this.winner) {
-
                 int attemptNumber = ((AttemptMsg) message).getNumber();
                 System.out.println(getSender().toString() + " number: " + attemptNumber);
                 int value = Integer.compare(this.magicNumber, attemptNumber);

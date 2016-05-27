@@ -25,6 +25,12 @@ public class PlayerActor extends UntypedActor{
         this.lastNumber = this.nextNumber();
     }
 
+    /**
+     * Crea Props per l'attore PlayerActor.
+     * @param max range massimo del numero random da indovinare
+     * @param min range minimo del numero random da indovinare
+     * @return Props per la crezione di questo attore
+     */
     public static Props props(final int max, final int min) {
         return Props.create(new Creator<PlayerActor>() {
             private static final long serialVersionUID = 1L;
@@ -47,11 +53,11 @@ public class PlayerActor extends UntypedActor{
             }else{
                 this.min = this.lastNumber;
             }
+            //genero il prossimo numero con i confini aggiornati
             this.lastNumber = this.nextNumber();
 
         } else if (message instanceof StartTurnMsg){
-            //Avvio del gioco
-            //tutti i player hanno tentato ma nessuno ha ancora vinto
+            //Invia all'oracolo il tentativo di indovinare il numero
             this.getSender().tell(new AttemptMsg(this.lastNumber),getSelf());
 
         } else if (message instanceof EndGameMsg){
