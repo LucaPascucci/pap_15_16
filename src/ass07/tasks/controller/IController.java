@@ -13,6 +13,7 @@ public interface IController {
     //Ferma il gioco
     void stopped();
 
+    //Resetta tutti i valori del gioco
     void reset();
 
 }

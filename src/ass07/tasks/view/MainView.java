@@ -91,8 +91,9 @@ public class MainView extends JFrame implements ActionListener{
             this.turnTimeTF.setText("");
             this.magicNumberTF.setText("");
             this.textArea.setText("");
-            this.controller.reset();
             this.startBtn.setEnabled(true);
+            this.controller.reset();
+
         }
     }
 
@@ -118,8 +119,9 @@ public class MainView extends JFrame implements ActionListener{
                     }
                 }
                 this.stopBtn.setEnabled(false);
-                this.resetBtn.setEnabled(true);
                 this.startBtn.setEnabled(false);
+                this.resetBtn.setEnabled(true);
+
             }
         );
     }

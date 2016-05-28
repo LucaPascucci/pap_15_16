@@ -3,6 +3,7 @@ package ass07.tasks.controller;
 /**
  * Created by Luca on 28/05/16.
  */
+//Monitor per gestire la selezione del vincitore
 public class WinnerFlag {
 
     private boolean value;

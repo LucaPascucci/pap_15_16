@@ -29,7 +29,5 @@ public class Main {
         Controller controller = new Controller(view,model);
         view.setListener(controller);
         view.setVisible(true);
-
-        //TODO commentare codice
     }
 }

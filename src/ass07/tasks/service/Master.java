@@ -16,14 +16,12 @@ import java.util.concurrent.*;
 public class Master extends Thread{
 
     private static final int CORES = Runtime.getRuntime().availableProcessors() + 1;
-    private static final long SLEEP_TIME = 500;
+    private static final long SLEEP_TIME = 400;
 
     private MainView view;
     private Model model;
     private TurnFlag turnFlag;
     private WinnerFlag winnerFlag;
-    private ExecutorService executor;
-    private List<Future<PlayerData>> futureList;
 
     public Master(Model model, MainView view, TurnFlag flag, WinnerFlag winnerflag){
         this.view = view;
@@ -37,26 +35,32 @@ public class Master extends Thread{
         super.run();
 
         try {
+            //Cicla finchè non viene interrotta l'esecuzione oppure si trovi un vincitore
             while (this.turnFlag.getValue()){
                 this.model.incTurn();
-                this.futureList = new ArrayList<>();
-                this.executor = Executors.newFixedThreadPool(CORES);
+                List<Future<PlayerData>> futureList = new ArrayList<>();
+                ExecutorService executor = Executors.newFixedThreadPool(CORES);
                 long startTime = System.nanoTime();
+
+                //crea tanti task quanti sono i players
                 for (PlayerData playerData: this.model.getPlayers()){
-                    this.futureList.add(this.executor.submit(new PlayerTask(playerData,this.model,this.winnerFlag)));
+                    futureList.add(executor.submit(new PlayerTask(playerData,this.model,this.winnerFlag)));
                 }
 
+                //Prelevo i risultati ottenuti dai vari task
                 List<PlayerData> result = new ArrayList<>();
                 for (Future<PlayerData> future : futureList) {
                     if (future.get() != null)
                         result.add(future.get());
                 }
-                this.executor.shutdown(); //blocca la possibilità di aggiungere nuovi task ed avvia la terminazione del ExecutorService
-                this.executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS); // aspetto che tutti i task siano stati completati
+                executor.shutdown(); //blocca la possibilità di aggiungere nuovi task ed avvia la terminazione del ExecutorService
+                executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS); // aspetto che tutti i task siano stati completati
 
+                //Aggiorno model e view
                 this.view.updateView(result,this.model.getGameTurn(),(System.nanoTime() - startTime)/1000);
                 this.model.updatePlayers(result);
 
+                //Se è stato trovato un vincitore
                 if (this.winnerFlag.getValue()){
                     this.turnFlag.setValue(false);
                     this.view.updateWinner(this.winnerFlag.getWinner(),result.size());

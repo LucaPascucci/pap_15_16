@@ -29,6 +29,14 @@ public class Model {
         return this.playerDataList;
     }
 
+    public int getGameTurn(){
+        return this.gameTurn;
+    }
+
+    public int getMagicNumber(){
+        return this.magicNumber;
+    }
+
     public void prepareGame(){
         this.gameTurn = 0;
         //Genero il numero da indovinare
@@ -40,11 +48,13 @@ public class Model {
         }
     }
 
+    //Aggiorna la lista di giocatori
     public void updatePlayers(List<PlayerData> updateList){
         this.playerDataList = updateList;
     }
 
     /*
+     * Effettua la verifica del tentativo di un player di indovinare il numero
      * -1 numero da indovinare minore
      *  0 stesso numero
      *  1 numero maggiore
@@ -57,11 +67,5 @@ public class Model {
         this.gameTurn++;
     }
 
-    public int getGameTurn(){
-        return this.gameTurn;
-    }
 
-    public int getMagicNumber(){
-        return this.magicNumber;
-    }
 }
