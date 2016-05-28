@@ -6,8 +6,6 @@
 package lab06.executors.fj;
 
 import java.io.*;
-import java.util.*;
-import java.util.concurrent.*;
 
 public class TestWordCounter {    
 

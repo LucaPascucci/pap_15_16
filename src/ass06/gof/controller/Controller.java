@@ -47,7 +47,7 @@ public class Controller implements IController {
             }
             this.view.setAliveSeeds(this.seedsSet.getSeeds().size());
             return true;
-        }else{
+        } else {
             return false;
         }
     }

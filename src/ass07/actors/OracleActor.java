@@ -82,8 +82,10 @@ public class OracleActor extends UntypedActor {
 
             this.turnAttempts++;
             if (!this.winner) {
+                int playerMax = ((AttemptMsg) message).getMax();
+                int playerMin = ((AttemptMsg) message).getMin();
                 int attemptNumber = ((AttemptMsg) message).getNumber();
-                System.out.println(getSender().toString() + " number: " + attemptNumber);
+                System.out.println(getSender().toString() + " number: " + attemptNumber + " -> Range: " + playerMax + " / " + playerMin);
                 int value = Integer.compare(this.magicNumber, attemptNumber);
                 if (value == 0) { //il giocatore ha trovato il numero giusto
                     this.winner = true;

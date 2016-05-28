@@ -11,11 +11,25 @@ public class AttemptMsg {
 
     private int number;
 
-    public AttemptMsg(int value){
+    //Intervallo di generazione di ogni player
+    private int max;
+    private int min;
+
+    public AttemptMsg(int value, int max, int min){
         this.number = value;
+        this.max = max;
+        this.min = min;
     }
 
     public int getNumber(){
         return this.number;
+    }
+
+    public int getMax() {
+        return this.max;
+    }
+
+    public int getMin(){
+        return this.min;
     }
 }

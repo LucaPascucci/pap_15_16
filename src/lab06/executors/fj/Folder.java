@@ -23,8 +23,8 @@ public class Folder {
     }
     
     public static Folder fromDirectory(File dir) throws IOException {
-        List<Document> documents = new LinkedList<Document>();
-        List<Folder> subFolders = new LinkedList<Folder>();
+        List<Document> documents = new LinkedList<>();
+        List<Folder> subFolders = new LinkedList<>();
         for (File entry : dir.listFiles()) {
             if (entry.isDirectory()) {
                 subFolders.add(Folder.fromDirectory(entry));

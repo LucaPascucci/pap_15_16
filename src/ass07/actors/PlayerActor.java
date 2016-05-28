@@ -58,7 +58,7 @@ public class PlayerActor extends UntypedActor{
 
         } else if (message instanceof StartTurnMsg){
             //Invia all'oracolo il tentativo di indovinare il numero
-            this.getSender().tell(new AttemptMsg(this.lastNumber),getSelf());
+            this.getSender().tell(new AttemptMsg(this.lastNumber, this.max, this.min),getSelf());
 
         } else if (message instanceof EndGameMsg){
             //fine del gioco un player ha vinto(true) gli altri hanno perso(false)

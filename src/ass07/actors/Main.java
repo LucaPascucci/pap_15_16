@@ -7,8 +7,8 @@ import akka.actor.ActorSystem;
  */
 public class Main {
 
-    private static final int MAX = 2000;
-    private static final int MIN = -2000;
+    private static final int MAX = 10000000;
+    private static final int MIN = -10000000;
 
     public static void main(String[] args) {
 
@@ -16,7 +16,7 @@ public class Main {
         if (args.length == 1) {
             players = Integer.parseInt(args[0]);
         }else {
-            players = 5;
+            players = 10;
         }
 
         //Creo il sistema(gioco) ed avvio l'oracolo
