@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 /**
  * Created by Luca on 27/05/16.
@@ -16,12 +15,12 @@ public class MainView extends JFrame implements ActionListener{
 
     private final static String NEW_LINE = "\n";
 
+    private int turnAttempt = 0;
     private Controller controller;
     private JButton startBtn = new JButton("Start");
     private JButton stopBtn = new JButton("Stop");
     private JButton resetBtn = new JButton("Reset");
     private JTextField turnTF = new JTextField(4);
-    private JTextField turnTimeTF = new JTextField(6);
     private JTextField magicNumberTF = new JTextField(8);
     private JTextArea textArea = new JTextArea(40,50);
 
@@ -46,7 +45,6 @@ public class MainView extends JFrame implements ActionListener{
         controlPanel.add(this.resetBtn);
 
         this.turnTF.setEditable(false);
-        this.turnTimeTF.setEditable(false);
         this.magicNumberTF.setEditable(false);
 
         JPanel infoPanel = new JPanel();
@@ -54,8 +52,6 @@ public class MainView extends JFrame implements ActionListener{
         infoPanel.add(this.magicNumberTF);
         infoPanel.add(new JLabel("Turn:"));
         infoPanel.add(this.turnTF);
-        infoPanel.add(new JLabel("Computation Turn Time:"));
-        infoPanel.add(this.turnTimeTF);
 
         this.textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(this.textArea);
@@ -88,24 +84,28 @@ public class MainView extends JFrame implements ActionListener{
 
         if (e.getSource().equals(this.resetBtn)){
             this.turnTF.setText("");
-            this.turnTimeTF.setText("");
             this.magicNumberTF.setText("");
             this.textArea.setText("");
             this.startBtn.setEnabled(true);
+            this.turnAttempt = 0;
             this.controller.reset();
 
         }
     }
 
-    public void updateView(List<PlayerData> players, int turn, long time){
+    public void updatePlayerAttempt(PlayerData data, int turn, int playersNumber){
         SwingUtilities.invokeLater(() -> {
-                this.textArea.append("Turn: " + turn + NEW_LINE);
-                players.stream().forEach(p -> textArea.append(p.toString() + NEW_LINE));
-                this.textArea.append(NEW_LINE);
-                this.turnTimeTF.setText("" + time);
+            if (this.turnAttempt == 0){
+                this.textArea.append("Turn: " +  turn + NEW_LINE);
                 this.turnTF.setText("" + turn);
             }
-        );
+            this.textArea.append(data.toString() + NEW_LINE);
+            this.turnAttempt++;
+            if (this.turnAttempt == playersNumber){
+                this.turnAttempt = 0;
+                this.textArea.append(NEW_LINE);
+            }
+        });
     }
 
     public void updateWinner(int winner, int playersNumber){
@@ -121,9 +121,7 @@ public class MainView extends JFrame implements ActionListener{
                 this.stopBtn.setEnabled(false);
                 this.startBtn.setEnabled(false);
                 this.resetBtn.setEnabled(true);
-
-            }
-        );
+        });
     }
 
     public void setMagicNumber(int number){

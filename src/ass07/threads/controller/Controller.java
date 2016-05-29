@@ -1,5 +1,7 @@
 package ass07.threads.controller;
 
+import ass07.threads.monitor.GameMonitor;
+import ass07.threads.service.PlayerWorker;
 import ass07.threads.view.MainView;
 import ass07.threads.model.Model;
 
@@ -10,31 +12,29 @@ public class Controller implements IController{
 
     private MainView view;
     private Model model;
-    private TurnFlag turnFlag;
-    private WinnerFlag winnerFlag;
+    private GameMonitor gameMonitor;
 
     public Controller(MainView view, Model model){
         this.view = view;
         this.model = model;
-        this.turnFlag = new TurnFlag();
-        this.winnerFlag = new WinnerFlag();
+        this.gameMonitor = new GameMonitor(this.model.getPlayersNumber());
     }
 
     @Override
     public void started() {
-        this.turnFlag.setValue(true);
+        this.gameMonitor.setActiveGame(true);
         this.view.setMagicNumber(this.model.getMagicNumber());
-        //new Master(this.model,this.view,this.turnFlag,this.winnerFlag).start();
+        this.model.getPlayerDataMap().forEach((k,v) -> new PlayerWorker(this.gameMonitor,v,this.model,this.view).start());
     }
 
     @Override
     public void stopped() {
-        this.turnFlag.setValue(false);
+        this.gameMonitor.setActiveGame(false);
     }
 
     @Override
     public void reset() {
         this.model.prepareGame();
-        this.winnerFlag = new WinnerFlag();
+        this.gameMonitor = new GameMonitor(this.model.getPlayersNumber());
     }
 }

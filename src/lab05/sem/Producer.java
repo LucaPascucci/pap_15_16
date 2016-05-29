@@ -1,8 +1,5 @@
 package lab05.sem;
 
-import java.util.concurrent.Semaphore;
-
-
 public class Producer extends Thread{
 
 	private static final int ITERATIONS = 10;
@@ -10,8 +7,8 @@ public class Producer extends Thread{
 	private int count;
 	
 	public Producer(BoundedBuffer<Item> b){
-		buffer=b;
-		count = 0;
+		this.buffer = b;
+		this.count = 0;
 	}
 	
 	public void run(){
@@ -19,7 +16,7 @@ public class Producer extends Thread{
 			// for(int i=0; i<ITERATIONS; i++){
 			while (true){
 				Item el = produce();
-				buffer.put(el);
+				this.buffer.put(el);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -27,7 +24,7 @@ public class Producer extends Thread{
 	}
 
 	private Item produce() {
-		return new Item(count++);
+		return new Item(this.count++);
 	}
 	
 }

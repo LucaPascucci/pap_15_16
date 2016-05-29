@@ -99,36 +99,33 @@ public class MainView extends JFrame implements ActionListener{
 
     public void updateView(List<PlayerData> players, int turn, long time){
         SwingUtilities.invokeLater(() -> {
-                this.textArea.append("Turn: " + turn + NEW_LINE);
-                players.stream().forEach(p -> textArea.append(p.toString() + NEW_LINE));
-                this.textArea.append(NEW_LINE);
-                this.turnTimeTF.setText("" + time);
-                this.turnTF.setText("" + turn);
-            }
-        );
+            this.textArea.append("Turn: " + turn + NEW_LINE);
+            players.stream().forEach(p -> textArea.append(p.toString() + NEW_LINE));
+            this.textArea.append(NEW_LINE);
+            this.turnTimeTF.setText("" + time);
+            this.turnTF.setText("" + turn);
+        });
     }
 
     public void updateWinner(int winner, int playersNumber){
         SwingUtilities.invokeLater(() -> {
-                this.textArea.append("There's a winner!"+ NEW_LINE);
-                for (int i = 1; i <= playersNumber; i++){
-                    if (i == winner){
-                        this.textArea.append("Player-"+ winner +": won!" + NEW_LINE);
-                    }else{
-                        this.textArea.append("Player-"+ i +": sob!" + NEW_LINE);
-                    }
+            this.textArea.append("There's a winner!"+ NEW_LINE);
+            for (int i = 1; i <= playersNumber; i++){
+                if (i == winner){
+                    this.textArea.append("Player-"+ winner +": won!" + NEW_LINE);
+                }else{
+                    this.textArea.append("Player-"+ i +": sob!" + NEW_LINE);
                 }
-                this.stopBtn.setEnabled(false);
-                this.startBtn.setEnabled(false);
-                this.resetBtn.setEnabled(true);
-
             }
-        );
+            this.stopBtn.setEnabled(false);
+            this.startBtn.setEnabled(false);
+            this.resetBtn.setEnabled(true);
+        });
     }
 
     public void setMagicNumber(int number){
         SwingUtilities.invokeLater(() ->
-            this.magicNumberTF.setText("" + number)
+                this.magicNumberTF.setText("" + number)
         );
     }
 }
