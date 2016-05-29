@@ -16,8 +16,5 @@ public class Main {
         act.tell(new HelloMsg("World"), ActorRef.noSender()); //manda un messaggio all'attore a cui fa riferimento con messaggio e mittente
 
         //Un attore può essere creato anche da un'altro attore
-
-        //system.stop(act);
-        //System.out.println("Terminato: " + act.isTerminated());
     }
 }

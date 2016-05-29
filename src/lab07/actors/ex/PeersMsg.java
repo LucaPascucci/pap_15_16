@@ -12,6 +12,6 @@ public class PeersMsg {
 	}
 	
 	public List<ActorRef>  getPeers(){
-		return peers;
+		return this.peers;
 	}
 }

@@ -9,7 +9,7 @@ public class ValueMsg {
 	}
 	
 	public int getValue(){
-		return value;
+		return this.value;
 	}
 
 }

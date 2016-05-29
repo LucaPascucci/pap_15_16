@@ -14,40 +14,40 @@ public class PeerActor extends UntypedActor {
 	  private ActorRef bootActor;
 	  
 	  public void preStart() {
-		  nValuesReceived = 0;
+		  this.nValuesReceived = 0;
 		  Random rand = new Random(System.nanoTime());
-		  myValue = Math.abs(rand.nextInt());
-		  max = myValue;
-		  log("booted - value: " + myValue);
+		  this.myValue = Math.abs(rand.nextInt());
+		  this.max = this.myValue;
+		  log("booted - value: " + this.myValue);
 
 	  }
 	
 	  @Override
 	  public void onReceive(Object msg) {
 		  if (msg instanceof PeersMsg){
-			  bootActor = getContext().sender();
+			  this.bootActor = getContext().sender();
 			  log("informed about peers");
 			  List<ActorRef> peers = ((PeersMsg)msg).getPeers();
-			  nPeers = peers.size();
+			  this.nPeers = peers.size();
 			  for (ActorRef peer: peers){
-				  peer.tell(new ValueMsg(myValue), getSelf());
+				  peer.tell(new ValueMsg(this.myValue), getSelf());
 			  }
 			  log("value sent to peers.");
 			  
 		  } else {
 			  ValueMsg vmsg = (ValueMsg) msg;
-			  nValuesReceived++;
+			  this.nValuesReceived++;
 			  
 			  int value = vmsg.getValue();
-			  if (value > max){
-				  max = value;
+			  if (value > this.max){
+				  this.max = value;
 			  }
 			  
-			  if (nValuesReceived == nPeers){
-				  if (max == myValue){
+			  if (this.nValuesReceived == this.nPeers){
+				  if (this.max == this.myValue){
 					System.out.println("Elected ("+this.getSelf()+" - value: " + this.myValue + ")");
-				  } 
-				  bootActor.tell(new DoneMsg(),getSelf());
+				  }
+				  this.bootActor.tell(new DoneMsg(),getSelf());
 				  getContext().stop(getSelf());
 			  }
 		  }

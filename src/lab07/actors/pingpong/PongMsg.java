@@ -9,6 +9,6 @@ public class PongMsg {
 	}
 
 	public long getValue(){
-		return value;
+		return this.value;
 	}
 }

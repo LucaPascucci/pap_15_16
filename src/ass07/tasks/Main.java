@@ -4,7 +4,7 @@ import ass07.tasks.controller.Controller;
 import ass07.tasks.model.Model;
 import ass07.tasks.view.MainView;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * Created by Luca on 27/05/16.

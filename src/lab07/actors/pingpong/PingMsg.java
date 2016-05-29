@@ -9,6 +9,6 @@ public class PingMsg {
 	}
 
 	public long getValue(){
-		return value;
+		return this.value;
 	}
 }

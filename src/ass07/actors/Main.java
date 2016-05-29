@@ -24,6 +24,6 @@ public class Main {
         ActorSystem system = ActorSystem.create("GuessTheNumber");
         system.actorOf(OracleActor.props(players,MAX,MIN), "OracleActor");
 
-        //TODO chiedere dei messaggi finali che si mandano gli stessi actor e non sono stati consegnati
+        //TODO chiedere dei messaggi finali che si mandano gli stessi actor e non risultano consegnati
     }
 }

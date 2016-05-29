@@ -89,7 +89,6 @@ public class MainView extends JFrame implements ActionListener{
             this.startBtn.setEnabled(true);
             this.turnAttempt = 0;
             this.controller.reset();
-
         }
     }
 

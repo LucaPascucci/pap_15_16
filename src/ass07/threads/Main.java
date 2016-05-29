@@ -4,7 +4,7 @@ import ass07.threads.controller.Controller;
 import ass07.threads.model.Model;
 import ass07.threads.view.MainView;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * Created by Luca on 29/05/16.
