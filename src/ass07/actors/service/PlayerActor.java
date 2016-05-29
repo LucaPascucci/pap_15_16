@@ -1,4 +1,4 @@
-package ass07.actors;
+package ass07.actors.service;
 
 import akka.actor.Props;
 import akka.actor.UntypedActor;

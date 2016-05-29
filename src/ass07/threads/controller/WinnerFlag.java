@@ -1,4 +1,4 @@
-package ass07.tasks.controller;
+package ass07.threads.controller;
 
 /**
  * Created by Luca on 28/05/16.

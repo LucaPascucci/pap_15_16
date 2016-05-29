@@ -1,6 +1,6 @@
 package ass07.tasks.service;
 
-import ass07.tasks.controller.WinnerFlag;
+import ass07.tasks.monitor.WinnerFlag;
 import ass07.tasks.model.Model;
 import ass07.tasks.model.PlayerData;
 

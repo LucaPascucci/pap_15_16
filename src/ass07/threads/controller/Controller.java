@@ -1,10 +1,7 @@
-package ass07.tasks.controller;
+package ass07.threads.controller;
 
-import ass07.tasks.monitor.TurnFlag;
-import ass07.tasks.monitor.WinnerFlag;
-import ass07.tasks.view.MainView;
-import ass07.tasks.model.Model;
-import ass07.tasks.service.Master;
+import ass07.threads.view.MainView;
+import ass07.threads.model.Model;
 
 /**
  * Created by Luca on 27/05/16.
@@ -27,7 +24,7 @@ public class Controller implements IController{
     public void started() {
         this.turnFlag.setValue(true);
         this.view.setMagicNumber(this.model.getMagicNumber());
-        new Master(this.model,this.view,this.turnFlag,this.winnerFlag).start();
+        //new Master(this.model,this.view,this.turnFlag,this.winnerFlag).start();
     }
 
     @Override
