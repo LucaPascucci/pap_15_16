@@ -21,6 +21,7 @@ public class MainView extends JFrame implements ActionListener{
     private JButton stopBtn = new JButton("Stop");
     private JButton resetBtn = new JButton("Reset");
     private JTextField turnTF = new JTextField(4);
+    private JTextField turnTimeTF = new JTextField(6);
     private JTextField magicNumberTF = new JTextField(8);
     private JTextArea textArea = new JTextArea(40,50);
 
@@ -52,6 +53,8 @@ public class MainView extends JFrame implements ActionListener{
         infoPanel.add(this.magicNumberTF);
         infoPanel.add(new JLabel("Turn:"));
         infoPanel.add(this.turnTF);
+        infoPanel.add(new JLabel("Computation Turn Time:"));
+        infoPanel.add(this.turnTimeTF);
 
         this.textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(this.textArea);
@@ -84,6 +87,7 @@ public class MainView extends JFrame implements ActionListener{
 
         if (e.getSource().equals(this.resetBtn)){
             this.turnTF.setText("");
+            this.turnTimeTF.setText("");
             this.magicNumberTF.setText("");
             this.textArea.setText("");
             this.startBtn.setEnabled(true);
@@ -92,7 +96,7 @@ public class MainView extends JFrame implements ActionListener{
         }
     }
 
-    public void updatePlayerAttempt(PlayerData data, int turn, int playersNumber){
+    public void updatePlayerAttempt(PlayerData data, int turn, int playersNumber, long timeTurn){
         SwingUtilities.invokeLater(() -> {
             if (this.turnAttempt == 0){
                 this.textArea.append("Turn: " +  turn + NEW_LINE);
@@ -101,6 +105,7 @@ public class MainView extends JFrame implements ActionListener{
             this.textArea.append(data.toString() + NEW_LINE);
             this.turnAttempt++;
             if (this.turnAttempt == playersNumber){
+                this.turnTimeTF.setText("" + timeTurn);
                 this.turnAttempt = 0;
                 this.textArea.append(NEW_LINE);
             }

@@ -35,13 +35,14 @@ public class PlayerWorker extends Thread{
                 Thread.sleep(SLEEP_TIME);
 
                 int turn = this.gameMonitor.getTurn();
+                long timeTurn = this.gameMonitor.getTurnTime();
                 int hint = this.model.attemptNumber(this.playerData.getNextAttempt());
                 boolean winner = this.gameMonitor.isWinner(hint); //chiede al monitor se è il vincitore
                 this.playerData.receiveHint(hint); //modifica i margini in base al suggerimento
 
                 //aggiorno view e model
                 this.model.updatePlayerData(this.playerData.getPlayerNumber(), this.playerData);
-                this.view.updatePlayerAttempt(this.playerData, turn, this.model.getPlayersNumber());
+                this.view.updatePlayerAttempt(this.playerData, turn, this.model.getPlayersNumber(),timeTurn);
 
                 this.gameMonitor.nextTurn(); //aspetta il prossimo turno
 

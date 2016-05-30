@@ -10,6 +10,7 @@ public class GameMonitor {
     private boolean activeGame;
     private boolean winner;
     private int turnAttempts,playersNumber,turn;
+    private long startTimeTurn,timeTurn;
 
     public GameMonitor(int playersNumber){
         this.activeGame = false;
@@ -29,11 +30,12 @@ public class GameMonitor {
 
     //Barriera che sbocca i giocatori quando tutti hanno effettuato il tentativo del turno
     public synchronized void nextTurn(){
+        this.startTimeTurn = System.nanoTime();
         this.turnAttempts++;
         if(this.turnAttempts == this.playersNumber){
+            this.timeTurn = System.nanoTime() - this.startTimeTurn;
             this.turnAttempts = 0;
             this.turn++;
-
             if (this.winner){ //quando è stato decretato il vincitore ferma il gioco alla fine del turno
                 this.activeGame = false;
             }
@@ -50,6 +52,10 @@ public class GameMonitor {
 
     public synchronized int getTurn(){
         return this.turn;
+    }
+
+    public synchronized long getTurnTime(){
+        return this.timeTurn;
     }
 
     //controllo se il thread ha indovinato il numero
