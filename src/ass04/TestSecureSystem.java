@@ -14,7 +14,7 @@ public class TestSecureSystem {
         if (args.length == 1) {
             pass_length = Integer.parseInt(args[0]);
         }else {
-            pass_length = 5;
+            pass_length = 6;
         }
         SecureSystem sys = new SecureSystem(pass_length);
 

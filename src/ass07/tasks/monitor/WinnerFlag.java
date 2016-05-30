@@ -13,16 +13,19 @@ public class WinnerFlag {
         this.value = false;
     }
 
-    public synchronized void setWinner(int value) {
-        this.playerNumber = value;
-        this.value = true;
-    }
-
     public synchronized boolean getValue(){
         return this.value;
     }
 
     public synchronized int getWinner(){
         return this.playerNumber;
+    }
+
+    //Controlla se il player è il vincitore in base al suggerimento
+    public synchronized void isWinner(int hint, int playerNumber){
+        if (!this.value && hint == 0){
+            this.value = true;
+            this.playerNumber = playerNumber;
+        }
     }
 }

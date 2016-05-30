@@ -12,8 +12,8 @@ import java.awt.Dimension;
 public class Main {
 
     private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(650,900);
-    private static final int MAX = 1000000;
-    private static final int MIN = -1000000;
+    private static final int MAX = 5;
+    private static final int MIN = 0;
 
     public static void main(String[] args) {
 

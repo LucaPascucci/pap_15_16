@@ -9,7 +9,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by Luca on 28/05/16.
  */
-//Taks che rappresenta un player
+//Task che rappresenta un player
 public class PlayerTask implements Callable<PlayerData>{
 
     private PlayerData playerData;
@@ -27,16 +27,12 @@ public class PlayerTask implements Callable<PlayerData>{
 
         //Prelevo il nuovo numero random generato dal playet confrontandolo al numero da trovare
         int hint = this.model.attemptNumber(this.playerData.getNextAttempt());
-        /*
-         * se il suggerimento è 0 allora ha trovato il numero esatto
-         * se non è gia stato decretato un vincitore imposto il numero del player corrispondente a questo task
-         */
-        if (hint == 0 && !this.winnerFlag.getValue()) {
-            this.winnerFlag.setWinner(this.playerData.getPlayerNumber());
-        } else {
-            //altrimenti utilizzo il suggerimento per modificare margine superiore o inferiore
-            this.playerData.receiveHint(hint);
-        }
+
+        //invio al monitor il suggerimento per controllare se è il vincitore
+        this.winnerFlag.isWinner(hint,this.playerData.getPlayerNumber());
+        //Aggiorno i limiti del player in base al suggerimento
+        this.playerData.receiveHint(hint);
+
         return this.playerData;
     }
 }

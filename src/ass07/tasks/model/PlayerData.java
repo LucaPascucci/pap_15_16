@@ -34,7 +34,7 @@ public class PlayerData {
     public void receiveHint(int hint){
         if (hint < 0){
             this.max = this.lastNumber;
-        } else {
+        } else if (hint > 0){
             this.min = this.lastNumber;
         }
     }
