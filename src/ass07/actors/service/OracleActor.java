@@ -12,6 +12,7 @@ import ass07.actors.msgs.StartTurnMsg;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 /**
  * Created by Luca on 27/05/16.
@@ -31,11 +32,11 @@ public class OracleActor extends UntypedActor {
         this.players = players;
         this.max = max;
         this.min = min;
-        this.playersList = new ArrayList<>();
+        this.playersList = new ArrayList<>(players);
         this.turnAttempts = 0;
         this.globalTurn = 1;
         this.winner = false;
-        //inizializzo numero da indovinare (estremo superiore escluso)
+        //inizializzo numero da indovinare (+1 perché estremo superiore escluso)
         this.magicNumber = ThreadLocalRandom.current().nextInt(this.min, this.max + 1);
 
     }
@@ -64,15 +65,12 @@ public class OracleActor extends UntypedActor {
         System.out.println("Number: " + this.magicNumber);
         System.out.println("Turn: " + this.globalTurn);
         //Inizializzo i giocatori
-        for (int i = 0; i < this.players; i++){
-            ActorRef player = getContext().actorOf(PlayerActor.props(this.max,this.min),"Player-" + (i+1));
-            this.playersList.add(player);
-        }
 
+        IntStream.range(0,this.players).forEach(i -> this.playersList.add(getContext().actorOf(PlayerActor.props(this.max,this.min),"Player-" + (i+1))));
+
+        //TODO avvio del primo turno in un ciclo è fair?
         //avvio il turno per la ricerca del numero da parte dei giocatori
-        for (ActorRef player : this.playersList){
-            player.tell(new StartTurnMsg(),getSelf());
-        }
+        this.playersList.forEach(p -> p.tell(new StartTurnMsg(),getSelf()));
     }
 
     @Override
@@ -109,9 +107,8 @@ public class OracleActor extends UntypedActor {
                     //Tutti i giocatori hanno provato ad indovinare il numero ma non ci sono riusciti
                     this.turnAttempts = 0;
                     System.out.println("\nTurn: " + ++this.globalTurn);
-                    for (ActorRef player : this.playersList) {
-                        player.tell(new StartTurnMsg(), getSelf());
-                    }
+                    //TODO avvio del turno in un ciclo è fair?
+                    this.playersList.forEach(p -> p.tell(new StartTurnMsg(),getSelf()));
                 }else{
                     //Tutti i messaggi sono stati ricevuti in coda sono stati ricevuti ed avvio la terminazione dell'applicazione
                     this.getContext().stop(getSelf());

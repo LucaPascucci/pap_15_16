@@ -3,6 +3,7 @@ package ass07.tasks.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 /**
  * Created by Luca on 27/05/16.
@@ -43,9 +44,11 @@ public class Model {
         this.magicNumber = ThreadLocalRandom.current().nextInt(this.min, this.max + 1);
         //creo i giocatori
         this.playerDataList = new ArrayList<>();
-        for (int i = 1; i <= this.playersNumber; i++){
+        IntStream.range(0,this.playersNumber).forEach(i -> this.playerDataList.add(new PlayerData(i+1,this.max,this.min)));
+
+        /*for (int i = 1; i <= this.playersNumber; i++){
             this.playerDataList.add(new PlayerData(i,this.max,this.min));
-        }
+        }*/
     }
 
     //Aggiorna la lista di giocatori

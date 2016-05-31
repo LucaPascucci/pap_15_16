@@ -32,16 +32,19 @@ public class GameMonitor {
     public synchronized void nextTurn(){
         this.startTimeTurn = System.nanoTime();
         this.turnAttempts++;
-        if(this.turnAttempts == this.playersNumber){
+
+        if (this.turnAttempts == this.playersNumber){
+
             this.timeTurn = System.nanoTime() - this.startTimeTurn;
             this.turnAttempts = 0;
             this.turn++;
+
             if (this.winner){ //quando è stato decretato il vincitore ferma il gioco alla fine del turno
                 this.activeGame = false;
             }
 
             notifyAll(); //avvia il prossimo turno sbloccando tutti i thread in wait
-        }else{
+        } else {
             try {
                 wait();
             } catch (InterruptedException e) {

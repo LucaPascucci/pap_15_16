@@ -100,7 +100,7 @@ public class MainView extends JFrame implements ActionListener{
     public void updateView(List<PlayerData> players, int turn, long time){
         SwingUtilities.invokeLater(() -> {
             this.textArea.append("Turn: " + turn + NEW_LINE);
-            players.stream().forEach(p -> textArea.append(p.toString() + NEW_LINE));
+            players.stream().forEach(p -> this.textArea.append(p.toString() + NEW_LINE));
             this.textArea.append(NEW_LINE);
             this.turnTimeTF.setText("" + time);
             this.turnTF.setText("" + turn);
