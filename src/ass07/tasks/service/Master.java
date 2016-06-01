@@ -16,7 +16,7 @@ import java.util.concurrent.*;
 public class Master extends Thread{
 
     private static final int CORES = Runtime.getRuntime().availableProcessors() + 1;
-    private static final long SLEEP_TIME = 400;
+    private static final long SLEEP_TIME = 500;
 
     private MainView view;
     private Model model;
@@ -52,7 +52,7 @@ public class Master extends Thread{
                         result.add(future.get());
                 }
                 executor.shutdown(); //blocca la possibilità di aggiungere nuovi task ed avvia la terminazione del ExecutorService
-                executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS); // aspetto che tutti i task siano stati completati
+                executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS); // aspetto che tutti i task siano prima stati completati
 
                 //Aggiorno model e view
                 this.view.updateView(result,this.model.getGameTurn(),(System.nanoTime() - startTime)/1000);
