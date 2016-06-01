@@ -24,7 +24,6 @@ public class Controller implements IController{
     public void started() {
         this.gameMonitor.setActiveGame(true);
         this.view.setMagicNumber(this.model.getMagicNumber());
-        //TODO avvio dei threads/players in un ciclo è fair?
         this.model.getPlayerDataMap().forEach((k,v) -> new PlayerWorker(this.gameMonitor,v,this.model,this.view).start());
     }
 

@@ -42,7 +42,6 @@ public class Master extends Thread{
                 ExecutorService executor = Executors.newFixedThreadPool(CORES);
                 long startTime = System.nanoTime();
 
-                //TODO avvio dei task in un ciclo è fair?
                 //crea tanti task quanti sono i players
                 this.model.getPlayers().stream().forEach(p_d -> futureList.add(executor.submit(new PlayerTask(p_d,this.model,this.winnerFlag))));
 

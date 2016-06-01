@@ -67,7 +67,6 @@ public class PlayerActor extends UntypedActor{
             }else{
                 System.out.println(this.getSelf() + " sob!");
             }
-            this.getContext().stop(getSelf());
         }
     }
 

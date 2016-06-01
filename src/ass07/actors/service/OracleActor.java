@@ -38,7 +38,6 @@ public class OracleActor extends UntypedActor {
         this.winner = false;
         //inizializzo numero da indovinare (+1 perché estremo superiore escluso)
         this.magicNumber = ThreadLocalRandom.current().nextInt(this.min, this.max + 1);
-
     }
 
     /**
@@ -59,7 +58,7 @@ public class OracleActor extends UntypedActor {
         });
     }
 
-
+    @Override
     public void preStart() {
 
         System.out.println("Number: " + this.magicNumber);
@@ -68,7 +67,6 @@ public class OracleActor extends UntypedActor {
 
         IntStream.range(0,this.players).forEach(i -> this.playersList.add(getContext().actorOf(PlayerActor.props(this.max,this.min),"Player-" + (i+1))));
 
-        //TODO avvio del primo turno in un ciclo è fair?
         //avvio il turno per la ricerca del numero da parte dei giocatori
         this.playersList.forEach(p -> p.tell(new StartTurnMsg(),getSelf()));
     }
@@ -107,11 +105,10 @@ public class OracleActor extends UntypedActor {
                     //Tutti i giocatori hanno provato ad indovinare il numero ma non ci sono riusciti
                     this.turnAttempts = 0;
                     System.out.println("\nTurn: " + ++this.globalTurn);
-                    //TODO avvio del turno in un ciclo è fair?
                     this.playersList.forEach(p -> p.tell(new StartTurnMsg(),getSelf()));
                 }else{
-                    //Tutti i messaggi sono stati ricevuti in coda sono stati ricevuti ed avvio la terminazione dell'applicazione
-                    this.getContext().stop(getSelf());
+                    //Tutti i messaggi sono stati ricevuti in coda sono stati ricevuti ed avvio la terminazione di ogni giocatore e del sistema
+                    this.playersList.forEach(p -> this.getContext().stop(p));
                     this.getContext().system().shutdown();
                 }
             }
