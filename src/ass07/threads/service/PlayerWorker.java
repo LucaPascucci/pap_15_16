@@ -34,15 +34,19 @@ public class PlayerWorker extends Thread{
             while (this.gameMonitor.isActiveGame()){
                 Thread.sleep(SLEEP_TIME);
 
+                //this.playerData.clone();
                 int turn = this.gameMonitor.getTurn();
                 long timeTurn = this.gameMonitor.getTurnTime();
                 int hint = this.model.attemptNumber(this.playerData.getNextAttempt());
+                //Invio il tentativo alla view. Creato un nuovo oggetto di tipo PlayerData per fare in modo
+                //di avere i range di inizio turno e non modificati subito dal thread in esecuzione
+                this.view.updatePlayerAttempt(new PlayerData(this.playerData), turn, this.model.getPlayersNumber(),timeTurn);
+
                 boolean winner = this.gameMonitor.isWinner(hint); //chiede al monitor se è il vincitore
                 this.playerData.receiveHint(hint); //modifica i margini in base al suggerimento
 
-                //aggiorno view e model
+                //aggiorno model
                 this.model.updatePlayerData(this.playerData.getPlayerNumber(), this.playerData);
-                this.view.updatePlayerAttempt(this.playerData, turn, this.model.getPlayersNumber(),timeTurn);
 
                 this.gameMonitor.nextTurn(); //aspetta il prossimo turno
 

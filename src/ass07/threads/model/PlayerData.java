@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 
 //Rappresenta un giocatore. Contiene numero giocatore, intervallo e numero generato ogni turno
-public class PlayerData {
+public class PlayerData{
 
     private int playerNumber;
     private int max;
@@ -18,6 +18,13 @@ public class PlayerData {
         this.playerNumber = playerNumber;
         this.max = max;
         this.min = min;
+    }
+
+    public PlayerData(PlayerData playerData){
+        this.lastNumber = playerData.lastNumber;
+        this.max = playerData.max;
+        this.min = playerData.min;
+        this.playerNumber = playerData.playerNumber;
     }
 
     public int getPlayerNumber(){

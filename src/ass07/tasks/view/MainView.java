@@ -97,19 +97,15 @@ public class MainView extends JFrame implements ActionListener{
         }
     }
 
-    public void updateView(List<PlayerData> players, int turn, long time){
-        SwingUtilities.invokeLater(() -> {
-            this.textArea.append("Turn: " + turn + NEW_LINE);
-            players.stream().forEach(p -> this.textArea.append(p.toString() + NEW_LINE));
-            this.textArea.append(NEW_LINE);
-            this.turnTimeTF.setText("" + time);
-            this.turnTF.setText("" + turn);
-        });
+    public void updatePlayerAttempt(PlayerData data){
+        SwingUtilities.invokeLater(() ->
+            this.textArea.append(data.toString() + NEW_LINE)
+        );
     }
 
     public void updateWinner(int winner, int playersNumber){
         SwingUtilities.invokeLater(() -> {
-            this.textArea.append("There's a winner!"+ NEW_LINE);
+            this.textArea.append(NEW_LINE + "There's a winner!"+ NEW_LINE);
             for (int i = 1; i <= playersNumber; i++){
                 if (i == winner){
                     this.textArea.append("Player-"+ winner +": won!" + NEW_LINE);
@@ -126,6 +122,23 @@ public class MainView extends JFrame implements ActionListener{
     public void setMagicNumber(int number){
         SwingUtilities.invokeLater(() ->
                 this.magicNumberTF.setText("" + number)
+        );
+    }
+
+    public void updateTurn(int turn){
+        SwingUtilities.invokeLater(() -> {
+            if (turn == 1) {
+                this.textArea.append("Turn: " + turn + NEW_LINE);
+            } else {
+                this.textArea.append(NEW_LINE + "Turn: " + turn + NEW_LINE);
+            }
+            this.turnTF.setText("" + turn);
+        });
+    }
+
+    public void updateTurnTime(long time){
+        SwingUtilities.invokeLater(() ->
+                this.turnTimeTF.setText("" + time)
         );
     }
 }

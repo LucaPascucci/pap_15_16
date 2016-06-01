@@ -20,6 +20,13 @@ public class PlayerData {
         this.min = min;
     }
 
+    public PlayerData(PlayerData playerData){
+        this.lastNumber = playerData.lastNumber;
+        this.max = playerData.max;
+        this.min = playerData.min;
+        this.playerNumber = playerData.playerNumber;
+    }
+
     public int getPlayerNumber(){
         return this.playerNumber;
     }

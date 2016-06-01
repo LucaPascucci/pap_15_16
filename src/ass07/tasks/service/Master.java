@@ -38,12 +38,15 @@ public class Master extends Thread{
             //Cicla finchè non viene interrotta l'esecuzione oppure si trovi un vincitore
             while (this.turnFlag.getValue()){
                 this.model.incTurn();
+                //Stampa il turno a video
+                this.view.updateTurn(this.model.getGameTurn());
+
                 List<Future<PlayerData>> futureList = new ArrayList<>();
                 ExecutorService executor = Executors.newFixedThreadPool(CORES);
                 long startTime = System.nanoTime();
 
                 //crea tanti task quanti sono i players
-                this.model.getPlayers().stream().forEach(p_d -> futureList.add(executor.submit(new PlayerTask(p_d,this.model,this.winnerFlag))));
+                this.model.getPlayers().stream().forEach(p_d -> futureList.add(executor.submit(new PlayerTask(p_d,this.model,this.winnerFlag,this.view))));
 
                 //Prelevo i risultati ottenuti dai vari task
                 List<PlayerData> result = new ArrayList<>();
@@ -54,8 +57,8 @@ public class Master extends Thread{
                 executor.shutdown(); //blocca la possibilità di aggiungere nuovi task ed avvia la terminazione del ExecutorService
                 executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS); // aspetto che tutti i task siano prima stati completati
 
-                //Aggiorno model e view
-                this.view.updateView(result,this.model.getGameTurn(),(System.nanoTime() - startTime)/1000);
+                //Aggiorno model e tempo impiegato per eseguire il turno
+                this.view.updateTurnTime((System.nanoTime() - startTime)/1000);
                 this.model.updatePlayers(result);
 
                 //Se è stato trovato un vincitore
