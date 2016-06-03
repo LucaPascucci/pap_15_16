@@ -48,11 +48,12 @@ public class Master extends Thread{
                 //crea tanti task quanti sono i players
                 this.model.getPlayers().stream().forEach(p_d -> futureList.add(executor.submit(new PlayerTask(p_d,this.model,this.winnerFlag,this.view))));
 
-                //Prelevo i risultati ottenuti dai vari task
+                //Prelevo i risultati ottenuti dai vari task aspettando se non sono terminati
                 List<PlayerData> result = new ArrayList<>();
                 for (Future<PlayerData> future : futureList) {
-                    if (future.get() != null)
+                    if (future.get() != null) {
                         result.add(future.get());
+                    }
                 }
                 executor.shutdown(); //blocca la possibilità di aggiungere nuovi task ed avvia la terminazione del ExecutorService
                 executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS); // aspetto che tutti i task siano prima stati completati

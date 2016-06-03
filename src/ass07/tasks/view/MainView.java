@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 /**
  * Created by Luca on 27/05/16.
@@ -108,9 +107,9 @@ public class MainView extends JFrame implements ActionListener{
             this.textArea.append(NEW_LINE + "There's a winner!"+ NEW_LINE);
             for (int i = 1; i <= playersNumber; i++){
                 if (i == winner){
-                    this.textArea.append("Player-"+ winner +": won!" + NEW_LINE);
+                    this.textArea.append("Player-" + winner + ": won!" + NEW_LINE);
                 }else{
-                    this.textArea.append("Player-"+ i +": sob!" + NEW_LINE);
+                    this.textArea.append("Player-" + i + ": sob!" + NEW_LINE);
                 }
             }
             this.stopBtn.setEnabled(false);
