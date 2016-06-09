@@ -29,7 +29,7 @@ public class TestPosStream {
 		
 		long t0 = System.currentTimeMillis(); 
 		stream.subscribe((p) -> {
-			System.out.println("> "+p);
+			System.out.println("> " + p);
 			if (System.currentTimeMillis() - t0 > 2000){
 				flag.set();
 			}

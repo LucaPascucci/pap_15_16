@@ -28,21 +28,21 @@ public class HeartbeatSensor {
 	 * 
 	 */
 	public HeartbeatSensor(){
-		gen = new Random(System.nanoTime());
-		targetValues = new HeartbeatSlot[5];
-		targetValues[0] = new HeartbeatSlot(0,3,70,90);
-		targetValues[1] = new HeartbeatSlot(3,5,90,110);
-		targetValues[2] = new HeartbeatSlot(5,8,110,110);
-		targetValues[3] = new HeartbeatSlot(8,10,110,80);
-		targetValues[4] = new HeartbeatSlot(10,12,80,70);
-		period = 12;
-		currentValue = 70;		
+		this.gen = new Random(System.nanoTime());
+		this.targetValues = new HeartbeatSlot[5];
+		this.targetValues[0] = new HeartbeatSlot(0,3,70,90);
+		this.targetValues[1] = new HeartbeatSlot(3,5,90,110);
+		this.targetValues[2] = new HeartbeatSlot(5,8,110,110);
+		this.targetValues[3] = new HeartbeatSlot(8,10,110,80);
+		this.targetValues[4] = new HeartbeatSlot(10,12,80,70);
+		this.period = 12;
+		this.currentValue = 70;
 
-		exec = Executors.newScheduledThreadPool(1);
-		updateTask = new UpdateTask();
+		this.exec = Executors.newScheduledThreadPool(1);
+		this.updateTask = new UpdateTask();
 		
-		startTime = System.currentTimeMillis();
-		exec.scheduleAtFixedRate(updateTask, 0, 100, java.util.concurrent.TimeUnit.MILLISECONDS);
+		this.startTime = System.currentTimeMillis();
+		this.exec.scheduleAtFixedRate(this.updateTask, 0, 100, java.util.concurrent.TimeUnit.MILLISECONDS);
 	}
 
 	
@@ -52,13 +52,13 @@ public class HeartbeatSensor {
 	 * @return sensor value
 	 */
 	public int getCurrentValue() {
-		synchronized (updateTask){
-			return (int) currentValue;
+		synchronized (this.updateTask){
+			return (int) this.currentValue;
 		}
 	}
 
 	private HeartbeatSlot findSlot(double dt){
-		for (HeartbeatSlot s: targetValues){
+		for (HeartbeatSlot s: this.targetValues){
 			if (dt >= s.getFromTime() && dt < s.getToTime()){
 				return s;
 			}
@@ -70,15 +70,15 @@ public class HeartbeatSensor {
 		public void run(){
 			
 			/* dt, in seconds */
-			double currentTime = 0.001*(System.currentTimeMillis()-startTime);
+			double currentTime = 0.001*(System.currentTimeMillis() - startTime);
 
 			/* normalized */
-			double t = currentTime - Math.floor(currentTime/period)*period;
+			double t = currentTime - Math.floor(currentTime / period) * period;
 					
 			HeartbeatSlot slot = findSlot(t);			
 			double alfa = (t - slot.getFromTime()) / (slot.getToTime() - slot.getFromTime());
 			double variab = -1 + gen.nextInt(2);
-			double newValue = slot.getFromValue()+(slot.getToValue() - currentValue)*alfa  + variab;
+			double newValue = slot.getFromValue()+(slot.getToValue() - currentValue) * alfa  + variab;
 			
 			synchronized (this){
 				currentValue = newValue;

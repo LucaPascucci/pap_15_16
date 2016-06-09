@@ -13,7 +13,7 @@ public class TestHeartbeatSensor {
 		HeartbeatSensor sensor = new HeartbeatSensor();
 		
 		/*
-		 * Reading the sensor every 100 ms for 5 seconds
+		 * Reading the sensor every 100 ms for 15 seconds
 		 */
 		long t0 = System.currentTimeMillis();
 		long dt = 0;

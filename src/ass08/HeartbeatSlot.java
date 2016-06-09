@@ -14,19 +14,19 @@ class HeartbeatSlot {
 	}
 
 	public double getFromTime() {
-		return t0;
+		return this.t0;
 	}
 
 	public double getToTime() {
-		return t1;
+		return this.t1;
 	}
 
 	public double getFromValue() {
-		return v0;
+		return this.v0;
 	}
 
 	public double getToValue() {
-		return v1;
+		return this.v1;
 	}
 	
 	

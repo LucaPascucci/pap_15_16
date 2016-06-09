@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/rxjava-computation-expressions-0.21.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/akka-actor_2.11-2.3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rxjava-joins-0.22.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rxjava-file-utils-0.1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rxjava-async-util-0.21.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/scala-library-2.11.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rxjava-math-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rxjava-reactive-streams-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rxjava-guava-1.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/config-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/akka-kernel_2.11-2.3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rxjava-1.1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rxjava-debug-1.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rxjava-string-1.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
