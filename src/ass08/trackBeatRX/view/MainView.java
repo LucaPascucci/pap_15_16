@@ -1,6 +1,7 @@
 package ass08.trackBeatRX.view;
 
 import ass08.trackBeatRX.controller.Controller;
+import ass08.trackBeatRX.model.TrackBeatData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,14 +21,15 @@ public class MainView extends JFrame implements ActionListener{
     private JTextField speedTF = new JTextField(4);
     private JTextField heartBeatTHTF = new JTextField(4);
     private JTextField secTHTF = new JTextField(4);
-    private MapView mapView = new MapView();
     private JLabel alarmLBL = new JLabel("Alarm!");
+    private MapPanel mapPanel;
 
-    public MainView (Dimension windowSize){
-        this.setSize(windowSize.width,windowSize.height);
-        this.setTitle("Track Beat");
+    public MainView (Dimension windowSize, Dimension mapSize){
+        this.setSize(windowSize);
+        this.setTitle("TrackBeat simulator");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
 
         this.startBtn.addActionListener(this);
         this.stopBtn.addActionListener(this);
@@ -43,10 +45,14 @@ public class MainView extends JFrame implements ActionListener{
         JPanel controlPanel = new JPanel();
         controlPanel.add(new JLabel("Heart Beat TH"));
         controlPanel.add(this.heartBeatTHTF);
-        controlPanel.add(new JLabel("Sec"));
+        controlPanel.add(new JLabel("TH Seconds"));
         controlPanel.add(this.secTHTF);
         controlPanel.add(this.startBtn);
         controlPanel.add(this.stopBtn);
+
+        this.heartBeatAVGTF.setEditable(false);
+        this.heartBeatTF.setEditable(false);
+        this.speedTF.setEditable(false);
 
         JPanel infoPanel = new JPanel();
         infoPanel.add(this.alarmLBL);
@@ -56,9 +62,13 @@ public class MainView extends JFrame implements ActionListener{
         infoPanel.add(this.heartBeatAVGTF);
         infoPanel.add(new JLabel("Speed:"));
         infoPanel.add(this.speedTF);
+        infoPanel.add(new JLabel("Max HB Pos:"));
+        infoPanel.add(this.speedTF);
+
+        this.mapPanel = new MapPanel(mapSize);
 
         this.add(controlPanel,BorderLayout.NORTH);
-        this.add(this.mapView,BorderLayout.CENTER);
+        this.add(this.mapPanel,BorderLayout.CENTER);
         this.add(infoPanel,BorderLayout.SOUTH);
     }
 
@@ -79,5 +89,18 @@ public class MainView extends JFrame implements ActionListener{
 
     public void setListener(Controller controller){
         this.controller = controller;
+        this.mapPanel.setListener(controller);
     }
+
+    public void updateInfo(TrackBeatData data){
+        SwingUtilities.invokeLater(() -> {
+
+            //TODO aggiornamento grafico
+        });
+    }
+
+    public void activeAlarm(boolean value){
+        SwingUtilities.invokeLater(() -> this.alarmLBL.setVisible(value));
+    }
+
 }

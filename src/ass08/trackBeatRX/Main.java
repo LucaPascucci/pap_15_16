@@ -1,5 +1,6 @@
 package ass08.trackBeatRX;
 
+import ass08.trackBeatRX.model.Model;
 import ass08.trackBeatRX.view.MainView;
 import ass08.trackBeatRX.controller.Controller;
 
@@ -11,11 +12,13 @@ import java.awt.Dimension;
 public class Main {
 
     private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(750,800);
+    private static final Dimension DEFAULT_MAP_SIZE = new Dimension(90,85);
 
     public static void main(String[] args) {
 
-        MainView view = new MainView(DEFAULT_WINDOW_SIZE);
-        Controller controller = new Controller(view);
+        MainView view = new MainView(DEFAULT_WINDOW_SIZE,DEFAULT_MAP_SIZE);
+        Model model = new Model(170,5);
+        Controller controller = new Controller(view,model);
         view.setListener(controller);
         view.setVisible(true);
 

@@ -7,25 +7,25 @@ import java.util.concurrent.ScheduledExecutorService;
 /**
  * Class implementing a simulated heart beat sensor
  * (Assignment #08)
- * 
+ *
  * @author aricci
  *
  */
-public class HeartbeatSensor {	
+public class HeartbeatSensor {
 	private Random gen;
 	private UpdateTask updateTask;
 	private ScheduledExecutorService exec;
-	
+
 	/* simulated target values */
 	private HeartbeatSlot targetValues[];
-	
+
 	private double currentValue;
 	private double startTime;
 	private double period;
-	
+
 	/**
 	 * Creates a simulated heartbeat sensor 
-	 * 
+	 *
 	 */
 	public HeartbeatSensor(){
 		this.gen = new Random(System.nanoTime());
@@ -40,15 +40,14 @@ public class HeartbeatSensor {
 
 		this.exec = Executors.newScheduledThreadPool(1);
 		this.updateTask = new UpdateTask();
-		
+
 		this.startTime = System.currentTimeMillis();
 		this.exec.scheduleAtFixedRate(this.updateTask, 0, 100, java.util.concurrent.TimeUnit.MILLISECONDS);
 	}
 
-	
 	/**
 	 * Reading the current sensor value 
-	 * 
+	 *
 	 * @return sensor value
 	 */
 	public int getCurrentValue() {
@@ -65,27 +64,27 @@ public class HeartbeatSensor {
 		}
 		return null;
 	}
-	
+
 	class UpdateTask implements Runnable {
 		public void run(){
 			
 			/* dt, in seconds */
-			double currentTime = 0.001*(System.currentTimeMillis() - startTime);
+			double currentTime = 0.001 * (System.currentTimeMillis() - startTime);
 
 			/* normalized */
 			double t = currentTime - Math.floor(currentTime / period) * period;
-					
-			HeartbeatSlot slot = findSlot(t);			
+
+			HeartbeatSlot slot = findSlot(t);
 			double alfa = (t - slot.getFromTime()) / (slot.getToTime() - slot.getFromTime());
 			double variab = -1 + gen.nextInt(2);
 			double newValue = slot.getFromValue()+(slot.getToValue() - currentValue) * alfa  + variab;
-			
+
 			synchronized (this){
 				currentValue = newValue;
 			}
 		}
 	}
-		
+
 }
 
 

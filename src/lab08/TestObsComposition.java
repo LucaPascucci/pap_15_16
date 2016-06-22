@@ -41,6 +41,7 @@ public class TestObsComposition {
 		});
 
 
+		System.out.println("Subscribing");
 	}
 
 }

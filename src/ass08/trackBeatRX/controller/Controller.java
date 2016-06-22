@@ -1,24 +1,39 @@
 package ass08.trackBeatRX.controller;
 
+import ass08.trackBeatRX.model.Model;
+import ass08.trackBeatRX.model.TrackBeatData;
 import ass08.trackBeatRX.view.MainView;
 import pap.ass08.pos.Flag;
+import rx.Observable;
 
 /**
  * Created by Luca on 09/06/16.
  */
 public class Controller implements IController{
 
+    private final static int WAIT_TIME = 500;
+
     private MainView view;
+    private Model model;
     private Flag flag;
 
-    public Controller (MainView view){
+    public Controller (MainView view, Model model){
         this.view = view;
-        this.flag = new Flag(); //valore false
+        this.model = model;
     }
 
     @Override
     public void started() {
-        //TODO Avviare sensore battito cardiaco e posizione
+        this.flag = new Flag();
+        Observable<TrackBeatData> stream = this.model.makeObservable(WAIT_TIME,this.flag);
+        stream.subscribe((trackBeatData) -> {
+
+            //TODO aggiornare view con il dato corrente trackBeatData
+
+            //TODO get sui dati del model
+
+            System.out.println(trackBeatData.toString());
+        });
     }
 
     @Override
