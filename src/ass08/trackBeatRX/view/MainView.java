@@ -39,7 +39,7 @@ public class MainView extends JFrame implements ActionListener{
 
     public MainView (Dimension windowSize, int heart_beat_th, int sec_th){
         this.setSize(windowSize);
-        this.setTitle("TrackBeat simulator");
+        this.setTitle("TrackBeat Simulator");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
