@@ -12,8 +12,8 @@ import java.awt.Dimension;
 public class Main {
 
     private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(850,750);
-    private static final int HB_TH = 100;
-    private static final int SEC_TH = 5;
+    private static final int HB_TH = 85;
+    private static final int SEC_TH = 3;
 
     public static void main(String[] args) {
 

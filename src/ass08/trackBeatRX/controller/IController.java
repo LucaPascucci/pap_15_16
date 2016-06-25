@@ -10,4 +10,13 @@ public interface IController {
 
     //Ferma il monitoraggio
     void stopped();
+
+    //Ripristina tutti i dati
+    void reset();
+
+    //modifica o ripristina heartbeat TH
+    void modifyHBTH(boolean action, int value);
+
+    //modifica o ripristina sec TH
+    void modifySecTH(boolean action, int value);
 }

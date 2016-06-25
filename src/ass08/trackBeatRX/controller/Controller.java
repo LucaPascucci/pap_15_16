@@ -26,16 +26,35 @@ public class Controller implements IController{
     public void started() {
         this.flag = new Flag();
         Observable<TrackBeatData> stream = this.model.makeObservable(WAIT_TIME,this.flag);
-        stream.subscribe((trackBeatData) -> {
-
-            this.view.updateView(trackBeatData,this.model.getAVG_HB(),this.model.getMaxHeartBeatData(),this.model.getSpeed(),this.model.getActiveAlarm());
-
-            System.out.println(trackBeatData.toString());
-        });
+        stream.subscribe((trackBeatData) ->
+                this.view.updateView(trackBeatData,this.model.getAVG_HB(),this.model.getMaxHeartBeatData(),this.model.getSpeed(),this.model.getActiveAlarm()));
     }
 
     @Override
     public void stopped() {
-        this.flag.set(); // valore true
+        this.flag.set();
+    }
+
+    @Override
+    public void reset() {
+        this.model.setup();
+    }
+
+    @Override
+    public void modifyHBTH(boolean action, int value) {
+        if (action){
+            this.model.setHeartBeatTH(value);
+        } else {
+            this.view.restoreHBTH(this.model.getHeartBeatTH());
+        }
+    }
+
+    @Override
+    public void modifySecTH(boolean action, int value) {
+        if (action){
+            this.model.setSecondsTH(value);
+        } else {
+            this.view.restoreSecTH(this.model.getSecondsTH());
+        }
     }
 }

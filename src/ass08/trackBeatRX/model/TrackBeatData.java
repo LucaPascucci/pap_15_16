@@ -4,6 +4,8 @@ package ass08.trackBeatRX.model;
 import pap.ass08.pos.P2d;
 
 /**
+ * Rappresenta i dati congiunti del sensore di battito cardiaco e della posizione
+ *
  * Created by Luca on 10/06/16.
  */
 public class TrackBeatData{
