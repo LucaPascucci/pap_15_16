@@ -49,6 +49,14 @@ public class Model {
         return this.activeAlarm;
     }
 
+    public int getHeartBeatTH() {
+        return this.heartBeatTH;
+    }
+
+    public int getSecondsTH() {
+        return this.secondsTH;
+    }
+
     public Observable<TrackBeatData> makeObservable(int period, Flag flag){
 
         PosSensor posSensor = new PosSensor();
@@ -70,7 +78,7 @@ public class Model {
 
         this.AVG_HB += data.getHeartbeat();
 
-        if (this.maxHeartBeatData.getHeartbeat() < data.getHeartbeat()){
+        if (this.maxHeartBeatData.getHeartbeat() <= data.getHeartbeat()){
             this.maxHeartBeatData = data;
         }
 
@@ -83,8 +91,6 @@ public class Model {
         this.lastUpdate = currTime;
 
         //TODO controllo per allarme
-
-        System.out.println(this.countData);
 
     }
 }

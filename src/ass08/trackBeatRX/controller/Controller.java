@@ -28,9 +28,7 @@ public class Controller implements IController{
         Observable<TrackBeatData> stream = this.model.makeObservable(WAIT_TIME,this.flag);
         stream.subscribe((trackBeatData) -> {
 
-            //TODO aggiornare view con il dato corrente trackBeatData
-
-            //TODO get sui dati del model
+            this.view.updateView(trackBeatData,this.model.getAVG_HB(),this.model.getMaxHeartBeatData(),this.model.getSpeed(),this.model.getActiveAlarm());
 
             System.out.println(trackBeatData.toString());
         });

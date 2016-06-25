@@ -29,7 +29,6 @@ public class TrackBeatData{
         return this.pos;
     }
 
-
     public void sum(TrackBeatData data){
         this.heartbeat += data.heartbeat;
         this.pos = new P2d(this.pos.getX() + data.pos.getX(), this.pos.getY() + data.pos.getY());

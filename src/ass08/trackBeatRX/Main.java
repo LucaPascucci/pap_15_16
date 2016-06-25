@@ -11,13 +11,14 @@ import java.awt.Dimension;
  */
 public class Main {
 
-    private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(750,800);
-    private static final Dimension DEFAULT_MAP_SIZE = new Dimension(90,85);
+    private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(850,750);
+    private static final int HB_TH = 100;
+    private static final int SEC_TH = 5;
 
     public static void main(String[] args) {
 
-        MainView view = new MainView(DEFAULT_WINDOW_SIZE,DEFAULT_MAP_SIZE);
-        Model model = new Model(170,5);
+        MainView view = new MainView(DEFAULT_WINDOW_SIZE,HB_TH,SEC_TH);
+        Model model = new Model(HB_TH,SEC_TH);
         Controller controller = new Controller(view,model);
         view.setListener(controller);
         view.setVisible(true);
