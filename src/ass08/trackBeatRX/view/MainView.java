@@ -230,10 +230,12 @@ public class MainView extends JFrame implements ActionListener{
         });
     }
 
+    //ripristino della JTextField collegata all'heartbeat TH
     public void restoreHBTH(int value){
         SwingUtilities.invokeLater(() -> this.heartBeatTHTF.setText("" + value));
     }
 
+    //ripristino della JTextField collegata ai sec TH
     public void restoreSecTH(int value){
         SwingUtilities.invokeLater(() -> this.secTHTF.setText("" + value));
     }

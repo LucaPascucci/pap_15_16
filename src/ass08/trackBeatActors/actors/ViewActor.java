@@ -5,7 +5,7 @@ import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.japi.Creator;
 import ass08.trackBeatActors.model.ComplexData;
-import ass08.trackBeatActors.model.EnumAction;
+import ass08.trackBeatActors.model.EAction;
 import ass08.trackBeatActors.model.TrackBeatData;
 import ass08.trackBeatActors.msgs.ActionMsg;
 import ass08.trackBeatActors.msgs.AttachMsg;
@@ -20,6 +20,8 @@ import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
 
 /**
+ * Attore che rappresenta la View
+ *
  * Created by Luca on 25/06/16.
  */
 public class ViewActor extends UntypedActor implements ActionListener{
@@ -50,14 +52,17 @@ public class ViewActor extends UntypedActor implements ActionListener{
     @Override
     public void onReceive(Object message) throws Exception {
 
+        //Collegamento tra view e controller
         if (message instanceof AttachMsg){
             this.controller = getSender();
         }
 
+        //Ricezione di nuovi dati per aggiornare la view
         if (message instanceof NewDataMsg){
             this.view.updateView(((NewDataMsg) message).getComplexData());
         }
 
+        //Ripristino dei TH quando l'utente inserisce valori errati nelle JTextField
         if (message instanceof ActionMsg){
             switch (((ActionMsg) message).getAction()){
                 case UPDATE_BHTH:
@@ -70,34 +75,35 @@ public class ViewActor extends UntypedActor implements ActionListener{
         }
     }
 
+    //L'attore implementa actionListener per ricevere gli eventi collegati ai bottoni ed alle JTextField modificabili
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.view.startBtn)){
-            this.view.updateByAction(EnumAction.START);
-            this.controller.tell(new ActionMsg(EnumAction.START),getSelf());
+            this.view.updateByAction(EAction.START);
+            this.controller.tell(new ActionMsg(EAction.START),getSelf());
         }
 
         if (e.getSource().equals(this.view.stopBtn)){
-            this.view.updateByAction(EnumAction.STOP);
-            this.controller.tell(new ActionMsg(EnumAction.STOP),getSelf());
+            this.view.updateByAction(EAction.STOP);
+            this.controller.tell(new ActionMsg(EAction.STOP),getSelf());
         }
 
         if (e.getSource().equals(this.view.resetBtn)){
-            this.view.updateByAction(EnumAction.RESET);
+            this.view.updateByAction(EAction.RESET);
             this.view.resetView();
-            this.controller.tell(new ActionMsg(EnumAction.RESET),getSelf());
+            this.controller.tell(new ActionMsg(EAction.RESET),getSelf());
         }
 
         if (e.getSource().equals(this.view.heartBeatTHTF)){
             try {
                 int value = Integer.parseInt(this.view.heartBeatTHTF.getText());
                 if (value >= 0){
-                    this.controller.tell(new ActionMsg(EnumAction.UPDATE_BHTH,value,true),getSelf());
+                    this.controller.tell(new ActionMsg(EAction.UPDATE_BHTH,value,true),getSelf());
                 } else {
-                    this.controller.tell(new ActionMsg(EnumAction.UPDATE_BHTH,-1,false),getSelf());
+                    this.controller.tell(new ActionMsg(EAction.UPDATE_BHTH,-1,false),getSelf());
                 }
             } catch (NumberFormatException ex){
-                this.controller.tell(new ActionMsg(EnumAction.UPDATE_BHTH,-1,false),getSelf());
+                this.controller.tell(new ActionMsg(EAction.UPDATE_BHTH,-1,false),getSelf());
             }
         }
 
@@ -105,16 +111,17 @@ public class ViewActor extends UntypedActor implements ActionListener{
             try {
                 int value = Integer.parseInt(this.view.secTHTF.getText());
                 if (value > 0){
-                    this.controller.tell(new ActionMsg(EnumAction.UPDATE_SECTH,value,true),getSelf());
+                    this.controller.tell(new ActionMsg(EAction.UPDATE_SECTH,value,true),getSelf());
                 } else {
-                    this.controller.tell(new ActionMsg(EnumAction.UPDATE_SECTH,-1,false),getSelf());
+                    this.controller.tell(new ActionMsg(EAction.UPDATE_SECTH,-1,false),getSelf());
                 }
             } catch (NumberFormatException ex){
-                this.controller.tell(new ActionMsg(EnumAction.UPDATE_SECTH,-1,false),getSelf());
+                this.controller.tell(new ActionMsg(EAction.UPDATE_SECTH,-1,false),getSelf());
             }
         }
     }
 
+    //GUI del programma
     private class MainView extends JFrame {
 
         private static final int STEP_RANGE_X = 400;
@@ -269,7 +276,8 @@ public class ViewActor extends UntypedActor implements ActionListener{
             });
         }
 
-        void updateByAction(EnumAction action){
+        //Aggiornamento dei JButton start,stop e reset
+        void updateByAction(EAction action){
             SwingUtilities.invokeLater(() -> {
                 switch (action){
                     case START:
@@ -291,6 +299,7 @@ public class ViewActor extends UntypedActor implements ActionListener{
             });
         }
 
+        //Ripristino delle componenti grafiche
         void resetView(){
             SwingUtilities.invokeLater(() -> {
                 this.heartBeatTF.setText("");
@@ -305,10 +314,12 @@ public class ViewActor extends UntypedActor implements ActionListener{
             });
         }
 
+        //ripristino della JTextField collegata all'heartbeat TH
         void restoreHBTH(int value){
             SwingUtilities.invokeLater(() -> this.heartBeatTHTF.setText("" + value));
         }
 
+        //ripristino della JTextField collegata ai sec TH
         void restoreSecTH(int value){
             SwingUtilities.invokeLater(() -> this.secTHTF.setText("" + value));
         }

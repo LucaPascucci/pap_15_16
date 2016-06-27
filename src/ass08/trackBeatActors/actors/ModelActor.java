@@ -6,6 +6,7 @@ import akka.actor.UntypedActor;
 import akka.japi.Creator;
 import ass08.HeartbeatSensor;
 import ass08.trackBeatActors.model.ComplexData;
+import ass08.trackBeatActors.model.EAction;
 import ass08.trackBeatActors.model.TrackBeatData;
 import ass08.trackBeatActors.msgs.ActionMsg;
 import ass08.trackBeatActors.msgs.AttachMsg;
@@ -35,7 +36,7 @@ public class ModelActor extends UntypedActor {
     private boolean activeAlarm;
     private long lastUpdate;
     private long startAlartTime = 0;
-    private boolean flag;
+    private boolean startFlag;
 
     private ModelActor (int hb_th, int sec_th){
         this.hb_TH = hb_th;
@@ -61,23 +62,34 @@ public class ModelActor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
+
+        //Collegamento tra model e controller
         if (message instanceof AttachMsg){
             this.controller = getSender();
         }
 
+        //Messaggi contenenti azioni
         if (message instanceof ActionMsg){
             switch (((ActionMsg) message).getAction()){
+                //generazione/acquisizione di nuovi dati
+                case NEW_DATA:
+                    this.getNextData();
+                    break;
+                //avvio dei sensori e delle generazione/acquisizione di nuovi dati
                 case START:
                     this.heartbeatSensor = new HeartbeatSensor();
                     this.posSensor = new PosSensor();
                     this.getNextData();
                     break;
+                //Ferma il ciclo di generazione/acquisizione di dati
                 case STOP:
-                    this.flag = false;
+                    this.startFlag = false;
                     break;
+                //Ripristina il contenuto del Model
                 case RESET:
                     this.setup();
                     break;
+                //Aggiornamento dei TH
                 case UPDATE_BHTH:
                     this.updateHB_HT(((ActionMsg) message).getValue());
                     break;
@@ -85,10 +97,6 @@ public class ModelActor extends UntypedActor {
                     this.updateSEC_HT(((ActionMsg) message).getValue());
                     break;
             }
-        }
-
-        if (message instanceof NewDataMsg){
-            this.getNextData();
         }
     }
 
@@ -114,9 +122,10 @@ public class ModelActor extends UntypedActor {
         this.speed = 0.0;
         this.activeAlarm = false;
         this.startAlartTime = 0;
-        this.flag = true;
+        this.startFlag = true;
     }
 
+    //Aquisisce nuovi dati dai sensori
     private void getNextData(){
         TrackBeatData currData = new TrackBeatData(this.heartbeatSensor.getCurrentValue(),this.posSensor.getCurrentValue());
         long currTime = System.currentTimeMillis();
@@ -154,9 +163,13 @@ public class ModelActor extends UntypedActor {
             this.activeAlarm = false;
         }
 
-        if (this.flag){
+        //quando verrà premuto il bottone STOP allora il ciclo di generazione di dati terminerà e non verranno inviati altri dati al controller
+        if (this.startFlag){
+            //Invia i dati da visualizzare nella view al controller
             this.controller.tell(new NewDataMsg(new ComplexData(currData,this.maxHeartBeatData,this.speed,this.AVG_HB/this.countData,this.activeAlarm)),getSelf());
-            this.getContext().system().scheduler().scheduleOnce(Duration.create(500, TimeUnit.MILLISECONDS), getSelf(), new NewDataMsg(),this.getContext().system().dispatcher(), this.getSelf());
+
+            //Inserisce un messaggio nello scheduler che verrà inviato con 500 mills di ritardo, in pratica crea un ciclo di generazione dei dati
+            this.getContext().system().scheduler().scheduleOnce(Duration.create(500, TimeUnit.MILLISECONDS), getSelf(), new ActionMsg(EAction.NEW_DATA),this.getContext().system().dispatcher(), this.getSelf());
         }
     }
 }

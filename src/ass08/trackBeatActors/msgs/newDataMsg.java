@@ -7,14 +7,11 @@ import ass08.trackBeatActors.model.ComplexData;
  * Created by Luca on 27/06/16.
  */
 
+//Contiene i dati utilizzati per l'update della View
 public class NewDataMsg {
 
     private ComplexData complexData;
 
-    //Utilizzato dal modello per continuare la creazione di dati
-    public NewDataMsg(){}
-
-    //Utilizzato per il passaggio dei dati nel MVC
     public NewDataMsg(ComplexData data){
         this.complexData = data;
     }
