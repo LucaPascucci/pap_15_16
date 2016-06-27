@@ -16,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //Creo il sistema(gioco) ed avvio l'oracolo
+        //Creo il sistema(simulatore) ed avvio il controller
         ActorSystem system = ActorSystem.create("TrackBeat-Simulator");
         system.actorOf(ControllerActor.props(DEFAULT_WINDOW_SIZE,HB_TH,SEC_TH), "ControllerActor");
     }

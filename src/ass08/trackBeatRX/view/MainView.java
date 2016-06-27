@@ -31,7 +31,7 @@ public class MainView extends JFrame implements ActionListener{
     private JTextField heartBeatMAXPosTF = new JTextField();
     private JTextField heartBeatTHTF = new JTextField(4);
     private JTextField secTHTF = new JTextField(4);
-    private JLabel alarmLBL = new JLabel("Alarm!");
+    private JLabel alarmLBL = new JLabel("HB Alarm!");
     private DecimalFormat df = new DecimalFormat("#.##");
     private JPanel mapPanel;
     private TrackBeatData currData;
@@ -51,6 +51,7 @@ public class MainView extends JFrame implements ActionListener{
         this.resetBtn.setEnabled(false);
 
         this.alarmLBL.setForeground(Color.RED);
+        this.alarmLBL.setFont(this.alarmLBL.getFont().deriveFont(20.0f));
         Font font = this.alarmLBL.getFont();
         this.alarmLBL.setFont(font.deriveFont(font.getStyle() | Font.BOLD));
         this.alarmLBL.setVisible(false);
@@ -65,9 +66,9 @@ public class MainView extends JFrame implements ActionListener{
 
         JPanel controlPanel = new JPanel();
         controlPanel.add(this.alarmLBL);
-        controlPanel.add(new JLabel("Heart Beat TH"));
+        controlPanel.add(new JLabel("HeartBeat TH"));
         controlPanel.add(this.heartBeatTHTF);
-        controlPanel.add(new JLabel("TH Seconds"));
+        controlPanel.add(new JLabel("Seconds TH"));
         controlPanel.add(this.secTHTF);
         controlPanel.add(this.startBtn);
         controlPanel.add(this.stopBtn);
@@ -86,15 +87,15 @@ public class MainView extends JFrame implements ActionListener{
         this.speedTF.setEditable(false);
         this.speedTF.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JLabel hrLBL = new JLabel("Heart Rate");
+        JLabel hrLBL = new JLabel("HeartBeat");
         hrLBL.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel hrAVGLBL = new JLabel("AVG Heart Rate");
+        JLabel hrAVGLBL = new JLabel("AVG HeartBeat");
         hrAVGLBL.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel hrMAXLBL = new JLabel("MAX Heart Rate");
+        JLabel hrMAXLBL = new JLabel("MAX HeartBeat");
         hrMAXLBL.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel currPosLBL = new JLabel("Curr Pos");
         currPosLBL.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel hrMAXPosLBL = new JLabel("MAX HR Pos");
+        JLabel hrMAXPosLBL = new JLabel("MAX HB Pos");
         hrMAXPosLBL.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel speedLBL = new JLabel("Speed");
         speedLBL.setHorizontalAlignment(SwingConstants.CENTER);
@@ -170,6 +171,7 @@ public class MainView extends JFrame implements ActionListener{
             this.speedTF.setText("");
             this.alarmLBL.setVisible(false);
             this.startBtn.setEnabled(true);
+            this.resetBtn.setEnabled(false);
             this.currData = null;
             this.MaxHBData = null;
             this.mapPanel.repaint();
@@ -179,7 +181,11 @@ public class MainView extends JFrame implements ActionListener{
         if (e.getSource().equals(this.heartBeatTHTF)){
             try {
                 int value = Integer.parseInt(this.heartBeatTHTF.getText());
-                this.controller.modifyHBTH(true,value);
+                if (value >= 0){
+                    this.controller.modifyHBTH(true,value);
+                } else {
+                    this.controller.modifyHBTH(false,-1);
+                }
             } catch (NumberFormatException ex){
                 this.controller.modifyHBTH(false,-1);
             }
@@ -187,7 +193,11 @@ public class MainView extends JFrame implements ActionListener{
         if (e.getSource().equals(this.secTHTF)){
             try {
                 int value = Integer.parseInt(this.secTHTF.getText());
-                this.controller.modifySecTH(true,value);
+                if (value > 0) {
+                    this.controller.modifySecTH(true, value);
+                } else {
+                    this.controller.modifySecTH(false,-1);
+                }
             } catch (NumberFormatException ex){
                 this.controller.modifySecTH(false,-1);
             }
@@ -204,11 +214,11 @@ public class MainView extends JFrame implements ActionListener{
 
             //aggiornamento di valori testuali esplicativi
             this.heartBeatTF.setText("" + currData.getHeartbeat());
-            this.currPosTF.setText("X: " + df.format(currData.getPos().getX()) + " Y: " + df.format(currData.getPos().getY()));
+            this.currPosTF.setText("X: " + this.df.format(currData.getPos().getX()) + " Y: " + this.df.format(currData.getPos().getY()));
             this.heartBeatMAXTF.setText("" + maxHeartBeatData.getHeartbeat());
-            this.heartBeatMAXPosTF.setText("X: " + df.format(maxHeartBeatData.getPos().getX()) + " Y: " + df.format(maxHeartBeatData.getPos().getY()));
-            this.heartBeatAVGTF.setText(df.format(avg_hb));
-            this.speedTF.setText(df.format(speed));
+            this.heartBeatMAXPosTF.setText("X: " + this.df.format(maxHeartBeatData.getPos().getX()) + " Y: " + this.df.format(maxHeartBeatData.getPos().getY()));
+            this.heartBeatAVGTF.setText(this.df.format(avg_hb));
+            this.speedTF.setText(this.df.format(speed));
             this.alarmLBL.setVisible(activeAlarm);
 
             //aggiorno i punti da disegnare sulla mappa

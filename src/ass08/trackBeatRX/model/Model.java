@@ -36,6 +36,7 @@ public class Model {
         this.AVG_HB = 0;
         this.speed = 0.0;
         this.activeAlarm = false;
+        this.startAlartTime = 0;
     }
 
     public void setHeartBeatTH(int value){
@@ -74,14 +75,20 @@ public class Model {
         return this.secondsTH;
     }
 
+
     public Observable<TrackBeatData> makeObservable(int period, Flag flag){
 
+        //Creo i sensori
         PosSensor posSensor = new PosSensor();
         HeartbeatStream heartbeatStream = new HeartbeatStream(period,flag);
 
+        //creo gli observable dei due sensori
         Observable<P2d> posObs = posSensor.makeObservable(period,flag);
         Observable<Integer> heartbeatObs = heartbeatStream.makeObservable();
 
+        /*  Returns an Observable that emits the results of a specified combiner function applied to combinations of
+            two items emitted, in sequence, by two other Observables.
+        */
         return Observable.zip(heartbeatObs,posObs,(HBData,PosData) -> {
             TrackBeatData data = new TrackBeatData(HBData,PosData);
             this.addTrackBeatData(data);
