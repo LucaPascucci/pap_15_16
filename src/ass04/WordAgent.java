@@ -55,8 +55,17 @@ public class WordAgent extends Thread {
         }
     }
 
+    /**
+     * Non andava utilizzato il synchronized perchè ogni parola contiene la propria posizione e non c'è condivisione
+     */
+    /*private synchronized void updatePos(){
+        this.pos_X += this.step_X;
+        this.pos_Y += this.step_Y;
+        this.applyConstraints();
+    }*/
+
     //aggiorna la posizione aumentadola dello step
-    private synchronized void updatePos(){
+    private void updatePos(){
         this.pos_X += this.step_X;
         this.pos_Y += this.step_Y;
         this.applyConstraints();

@@ -117,6 +117,13 @@ public class MultiThread {
         System.out.println("\nExecution time: " + (System.currentTimeMillis() - startTotalTime) + " millis");
     }
 
+    private synchronized static void syncMin(double curr_distance, P2d curr_point) {
+        if (MIN_DISTANCE > curr_distance) {
+            CLOSER_POINT = curr_point;
+            MIN_DISTANCE = curr_distance;
+        }
+    }
+
     private static class Researcher extends Thread {
 
         private int id;
@@ -147,14 +154,18 @@ public class MultiThread {
                     local_closer_point = curr_point;
                 }
             }
-            this.syncMin(local_min_distance,local_closer_point);
+            syncMin(local_min_distance,local_closer_point);
         }
 
-        private synchronized void syncMin(double curr_distance, P2d curr_point){
+        /**
+         * Sbagliato perchè cosi facendo quando crei n thread
+         * vengono istanziati n metodi uguali invece di averne un solo metodo condiviso per tutti
+         */
+        /*private synchronized void syncMin(double curr_distance, P2d curr_point){
             if (MIN_DISTANCE > curr_distance){
                 CLOSER_POINT = curr_point;
                 MIN_DISTANCE = curr_distance;
             }
-        }
+        }*/
     }
 }
