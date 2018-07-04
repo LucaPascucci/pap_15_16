@@ -3,15 +3,24 @@
 countElems :: [Int] -> Int -> Int
 countElems [] _ = 0
 countElems (x:xs) v
-  | x == v = 1 + (countElems xs v)
+  | x == v = 1 + (countElems xs v) -- Si potrebbero togliere le parentesi tra countElems e la fine
   | otherwise = countElems xs v
+
+-- countElems alternativo
+countElems :: [Int] -> Int -> Int
+countElems [] _ = 0
+countElems (x:xs) v
+    | x == v = 1 + rest
+    | otherwise = rest
+	where
+		rest = (countElems xs v)
 
 --2) Implementare la funzione countElems che data una lista di interi e un predicato p, restituisce il numero elemento della lista che soddisfano il predicato p.
 --countElemsWithPred
 countElemsWithPred :: [Int] -> (Int -> Bool) -> Int
 countElemsWithPred [] _ = 0
 countElemsWithPred (x:xs) p
-  | p x = 1 + (countElemsWithPred xs p)
+  | p x = 1 + (countElemsWithPred xs p) -- "p x" è come scrivere (p x)==True
   | otherwise = countElemsWithPred xs p
 
 --countElemsWithWhere
@@ -32,13 +41,13 @@ data Elem = Dot | Star
 countDots :: [Elem] -> Int
 countDots [] = 0
 countDots (Dot:xs) = 1 + countDots xs
-countDots (_:xs) = countDots xs
+countDots (_:xs) = countDots xs -- Non specifichiamo il primo tipo, anche se in questo caso, se non è Dot è Star
 
 --4) Implementare la funzione rev che data una lista di elementi generica, restituisce la lista con gli elementi in ordine inverso
 --rev
 rev :: [a] -> [a]
 rev [] = []
-rev (x:xs) = (rev xs) ++ [x]
+rev (x:xs) = (rev xs) ++ [x] -- Non è possibile scrivere ""rev (x:xs) = xs:x"", perché è sbagliato il tipo: l'operatore ":" si aspetta un elemento e una lista.
 
 --5) Implementare la funzione removeAll che data una lista di elementi generica e un elemento, restituisca una lista pari a quella passata senza tutti gli elementi pari all’elemento passato
 --removeAll
