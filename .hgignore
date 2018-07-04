@@ -1,0 +1,6 @@
+# use glob syntax.
+syntax: glob
+
+# IntelliJ .idea/ *.iml *.iws classes/ META-INF/
+
+# Mac .DS_Store
