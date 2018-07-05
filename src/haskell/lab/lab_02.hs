@@ -11,6 +11,7 @@ mapLen l = map (\w -> (w, len w)) l
 mapLen' :: [String] -> [(String,Int)]
 mapLen' l = [ (w, length w) | w <- l ]
 
+
 -- 2) Implementare la funzione selectedLen che data una lista di parole e un intero w, computi la lista di (p,l) delle parole la cui lunghezza l sia > di w, usando la funzione map e filter.
 
 selectedLen :: [String] -> Int -> [(String,Int)]
@@ -25,10 +26,12 @@ selectedLen' l v = [ (w, length w) | w <- l, length w > v]
 selectedLen'' :: Int -> [String] -> [(String,Int)]
 selectedLen'' v = (filter (\(_, l) -> l > v) . mapLen)
 
+
 --3) Implementare una funzione wordOcc che data una lista di parole e una parola, restituisce il numero di occorrenze della parola nella lista, usando una funzione di folding
 wordOcc :: [String] -> String -> Int
 wordOcc l v = foldr (\w c -> if (w == v) then c + 1 else c) 0 l
 --foldr parte da destra e scorre la lista ed attraverso l'if effettua il check
+
 
 --4) Implementare una funzione wordsOcc che data una lista di parole, determini la lista delle occorrenze (occ,ws) - dove occ è il numero di occorrenze e ws è la lista delle parole di quella occorrenza, ordinate in modo crescente secondo le occorrenze
 
@@ -54,6 +57,7 @@ wordsOcc l = (sortByOcc . myfold . getOccs) l
       where
         le = [ (o',l') | (o',l') <- xs, o' < o]
         ri = [ (o'',l'') | (o'',l'') <- xs, o'' >= o]
+
 
 --Esercizi su IO
 --1) Implementare una funzione che data una lista di elementi, restituisce un’azione il cui effetto è di stampare in uscita tutti gli elementi, uno per linea,  indentati di 4 posizioni.
