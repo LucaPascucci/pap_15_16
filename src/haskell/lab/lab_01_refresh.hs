@@ -70,6 +70,18 @@ isPresentInBST v (Node n l r)
   | otherwise = isPresentInBST v l
 
 
+-- 8) Implementare la funzione buildBST che, data la una lista di stringhe, costruisce l’albero binario ordinato
+-- che contiene le stringhe e la loro posizione all’interno della lista.
+
+insertIntoBST :: (Ord a) => a -> BSTree a -> BSTree a
+insertIntoBST s Nil = Node s Nil Nil
+insertIntoBST s (Node v l r)
+  | s <= v = Node v (insertIntoBST s l) r
+  | otherwise = Node v l (insertIntoBST s r)
+
+buildBST :: (Ord a) => [a] -> BSTree a
+buildBST [] = Nil
+buildBST (x:xs) = insertIntoBST x (buildBST xs)
 
 
 -- PRODUCT TYPES
@@ -98,4 +110,10 @@ testTree = (Node 10 (Node 5 (Node 4 (Node 3 Nil Nil) Nil) (Node 7 (Node 6 Nil Ni
 testStringTree :: BSTree String
 testStringTree = (Node "faro" (Node "caco" (Node "albero" Nil Nil) (Node "dado" Nil  Nil)) (Node "luce" (Node "iodio" Nil Nil) Nil ))
 
---builtTree = buildBST ["Luca","Andrea","Luciana","Leonardo","Lucky","Alessio","Vittoria","Lorenzo","Paola","Ilario"]
+builtTree = buildBST ["Luca","Andrea","Luciana","Leonardo","Lucky","Alessio","Vittoria","Lorenzo","Paola","Ilario"]
+
+array3 :: [String]
+array3 = ["Luca","Andrea","Luciana","Leonardo","Lucky","Alessio","Vittoria","Lorenzo","Paola","Ilario"]
+
+array4 :: [Int]
+array4 = [10,10,5,4,3,6,7,13,14,11]

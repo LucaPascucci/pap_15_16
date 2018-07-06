@@ -42,8 +42,6 @@ countElemsWithWhere (x:xs) v
 
 --3) Implementare la funzione countDots che data una lista di Elem restituisce il numero di elemento Dot presenti nella lista.
 
-data Elem = Dot | Star
-
 --countDots (utilizza il pattern matching)
 countDots :: [Elem] -> Int
 countDots [] = 0
@@ -83,31 +81,51 @@ merge (x:xs) (y:ys)
   | otherwise = [x,y] ++ merge xs ys
 
 
---7) Data la struttura dati che rappresenta un albero binario di ricerca (BST = Binary Search Tree), implementare la funzione isPresentInBST generica che dato un valore e un BSTree restituisce vero o falso a seconda che il valore sia o meno presente
+--7) Implementare la funzione isPresentInBST generica che dato un valore e un BSTree restituisce vero o falso a seconda che il valore sia o meno presente
 
-data BSTree a = Nil | Node a (BSTree a) (BSTree a) deriving (Show)
-
-isPresentInBST :: (Eq a, Ord a) => a -> BSTree a -> Bool
+isPresentInBST :: String -> BSTree String -> Bool
 isPresentInBST _ Nil = False
 isPresentInBST v (Node x l r) -- Valore del nodo (x), sottoalbero sinistro (l) e destro (r)
   | x == v = True
   | x < v = isPresentInBST v r -- Ricerca nel sottoalbero destro (sappiamo che i valori minori sono a sinistra e quelli maggiori a destra, per definizione di BST)
   | otherwise = isPresentInBST v l --- Ricerca nel sottoalbero sinistro
 
+--versione polimorfica
+isPresentInBSTPoly :: (Eq a, Ord a) => a -> BSTree a -> Bool
+isPresentInBSTPoly _ Nil = False
+isPresentInBSTPoly v (Node x l r)
+  | x == v = True
+  | x < v = isPresentInBSTPoly v r
+  | otherwise = isPresentInBSTPoly v l
+
 
 --8) Implementare la funzione buildBST che, data la una lista di stringhe, costruisce l’albero binario ordinato che contiene le stringhe e la loro posizione all’interno della lista.
 
 insertInBST :: String -> BSTree String -> BSTree String
-insertInBST s Nil = (Node s Nil Nil)
-insertInBST s (Node v l r)
-  | s <= v = (Node v (insertInBST s l) r)
-  | otherwise = (Node v l (insertInBST s r))
+insertInBST s Nil = (Node s Nil Nil)  -- caso base per radice e foglia dell'albero
+insertInBST s (Node n l r)
+  | s <= n = (Node n (insertInBST s l) r) -- se la stringa da inserire è maggiore o uguale del nodo, la aggiunge al sottoalbero di sinistra
+  | otherwise = (Node n l (insertInBST s r)) -- in caso contrario la aggiunge al sottoalbero di destra
 
---buildBST
 buildBST :: [String] -> BSTree String
 buildBST [] = Nil
-buildBST (x:xs) = insertInBST x (buildBST xs)
+buildBST (x:xs) = insertInBST x (buildBST xs) -- inserisce una per volta la stringa nell'albero (NB. la radice sarà sempre l'ultima stringa dell'array!!)
 
+-- Versione polimorfica
+insertIntoBSTPoly :: (Ord a) => a -> BSTree a -> BSTree a
+insertIntoBSTPoly v Nil = Node v Nil Nil
+insertIntoBSTPoly v (Node n l r)
+  | v <= n = Node n (insertIntoBSTPoly v l) r
+  | otherwise = Node n l (insertIntoBSTPoly v r)
+
+buildBSTPoly :: (Ord a) => [a] -> BSTree a
+buildBSTPoly [] = Nil
+buildBSTPoly (x:xs) = insertIntoBSTPoly x (buildBSTPoly xs)
+
+
+-- PRODUCT TYPES
+data Elem = Dot | Star
+data BSTree a = Nil | Node a (BSTree a) (BSTree a) deriving (Show)
 
 -- Dati per le esercitazioni
 
@@ -133,3 +151,8 @@ testStringTree = (Node "faro" (Node "caco" (Node "albero" Nil Nil) (Node "dado" 
 
 builtTree = buildBST ["Luca","Andrea","Luciana","Leonardo","Lucky","Alessio","Vittoria","Lorenzo","Paola","Ilario"]
 
+array3 :: [String]
+array3 = ["Luca","Andrea","Luciana","Leonardo","Lucky","Alessio","Vittoria","Lorenzo","Paola","Ilario"]
+
+array4 :: [Int]
+array4 = [10,10,5,4,3,6,7,13,14,11]
