@@ -2,6 +2,7 @@ package lab03;
 
 import java.util.function.Function;
 
+
 interface T {
 	String m(String s);
 }

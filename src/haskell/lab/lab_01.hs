@@ -30,14 +30,14 @@ countElemsWithPred (x:xs) p
   | p x = 1 + (countElemsWithPred xs p) -- "p x" è come scrivere (p x)==True
   | otherwise = countElemsWithPred xs p
 
---countElemsWithWhere alternativo
-countElemsWithWhere :: [Int] -> Int -> Int
-countElemsWithWhere [] _ = 0
-countElemsWithWhere (x:xs) v
-  | x == v = 1 + rest
+--countElemsWithPred alternativo
+countElemsWithPredAndWhere :: [Int] -> (Int -> Bool) -> Int
+countElemsWithPredAndWhere [] _ = 0
+countElemsWithPredAndWhere (x:xs) p
+  | p x = 1 + rest
   | otherwise = rest
   where
-    rest = countElemsWithWhere xs v
+    rest = (countElemsWithPredAndWhere xs p)
 
 
 --3) Implementare la funzione countDots che data una lista di Elem restituisce il numero di elemento Dot presenti nella lista.
