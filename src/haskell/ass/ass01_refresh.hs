@@ -92,13 +92,14 @@ test13 = showCode (Comp Dash (Single Dash)) -- “--”
 
 
 -- 6) Siano dati  i tipi:
-data Digit = Zero | One
+data Digit = Zero | One deriving (Show)
 type BNum = [Digit]
 -- dove BNum rappresenta un numero binario ad N cifre (interpretando l’elemento Zero come il valore 0 e l’elemento One come il valore 1), dove la prima posizione nella lista rappresenta la cifra più significativa (non necessariamente zero).
 -- Implementare la funzione
 -- equalsBNum :: BNum -> BNum -> Bool
 -- che dati due BNum determina se rappresentano lo stesso numero binario.
 
+-- rimuove i primi zeri (valori inutili) del numero binario
 removeFirstZeros :: BNum -> BNum
 removeFirstZeros [] = []
 removeFirstZeros (Zero:xs) = removeFirstZeros xs
@@ -108,12 +109,12 @@ equalsBNum :: BNum -> BNum -> Bool
 equalsBNum num1 num2 = func (removeFirstZeros num1) (removeFirstZeros num2)
     where
         func [] [] = True
-        func num1 num2
+        func num1 num2 -- se hanno lunghezza diversa allora sono sicuramente due numeri diversi
            | length num1 /= length num2 = False
-        func (Zero:xs) (Zero:ys) = func xs ys
-        func (One:xs) (One:ys) = func xs ys
-        func (Zero:xs) (One:ys) = False
-        func (One:xs) (Zero:ys) = False
+        func (Zero:xs) (Zero:ys) = func xs ys -- stessi valori
+        func (One:xs) (One:ys) = func xs ys -- stessi valori
+        func (Zero:xs) (One:ys) = False -- valori diversi
+        func (One:xs) (Zero:ys) = False -- valori diversi
 
 test14 = equalsBNum [] [One,Zero] -- False
 test15 = equalsBNum [One, Zero] [One,Zero] -- True
@@ -128,8 +129,65 @@ test17 = equalsBNum [One, One, Zero] [One,One,Zero,Zero] -- False
 convBNum :: BNum -> Int
 convBNum [] = 0
 convBNum (Zero:xs) = convBNum xs
-convBNum (One:xs) = 2^(length xs) + convBNum xs
+convBNum (One:xs) = 2^(length xs) + convBNum xs -- 2^ elevato alla lunghezza della coda (così da avere già la posizione corretta) aggiungo al resto dell'array
 
-test18 = convBNum [One,Zero] -- 2
-test19 = convBNum [One, Zero, One] -- 5
-test20 = convBNum [Zero, One, One, One, One] -- 15
+test18 = convBNum [One,Zero] -- 0*2^0 + 1*2^1 = 2
+test19 = convBNum [One, Zero, One] -- 1*2^0 + 0*2^1 + 1*2^2 = 5
+test20 = convBNum [Zero, One, One, One, One] -- 1*2^0 + 1*2^1 + 1*2^2 + 1*2^3 + 0*2^4 = 15
+
+-- 8) Dato il tipo BNum definito in precedenza, implementare la funzione
+-- sumBNum :: BNum -> BNum -> BNum
+-- che dati due numeri binari determina il numero binario che rappresenta la somma.
+
+sumBNum :: BNum -> BNum -> BNum
+-- rimuovo gli zero inutili tramite 'removeFirstZeros' poi inverto i numeri tramite 'reverse' e inverto il risultato perchè nella funzione sumBNum' costruisco la somma al contrario
+sumBNum num1 num2 = reverse (sumBNum' (reverse (removeFirstZeros num1)) (reverse (removeFirstZeros num2)) 0)
+    where
+        sumBNum' [] b 0 = b
+        sumBNum' [] [] 1 = [One]
+        sumBNum' [] (Zero:ys) 1 = One : ys
+        sumBNum' [] (One:ys) 1 = Zero : sumBNum' [] ys 1
+        sumBNum' a [] 0 = a
+        sumBNum' (Zero:xs) [] 1 = One : xs
+        sumBNum' (One:xs) [] 1 = Zero : sumBNum' xs [] 1
+        sumBNum' (Zero:xs) (Zero:ys) 0 = Zero : sumBNum' xs ys 0
+        sumBNum' (Zero:xs) (Zero:ys) 1 = One : sumBNum' xs ys 0
+        sumBNum' (One:xs) (Zero:ys) 0 = One : sumBNum' xs ys 0
+        sumBNum' (One:xs) (Zero:ys) 1 = Zero : sumBNum' xs ys 1
+        sumBNum' (Zero:xs) (One:ys) 0 = One : sumBNum' xs ys 0
+        sumBNum' (Zero:xs) (One:ys) 1 = Zero : sumBNum' xs ys 1
+        sumBNum' (One:xs) (One:ys) 0 = Zero : sumBNum' xs ys 1
+        sumBNum' (One:xs) (One:ys) 1 = One : sumBNum' xs ys 1
+
+test21 = sumBNum [One] [One,Zero] -- [One,One]
+test22 = sumBNum [Zero,One,One] [Zero,Zero] -- [One,One]
+test23 = sumBNum [Zero,One,One] [One,Zero] -- [One,Zero,One]
+
+-- 9) Dato il tipo Digit definito in precedenza e il tipo
+data BTree a = Nil | Node a (BTree a) (BTree a)
+-- che rappresenta un albero binario implementare la funzione:
+-- countZeroInTree :: BTree Digit -> Int
+-- che conta il numero di elementi Zero presenti nell’albero passato come parametro.
+
+countZeroInTree :: BTree Digit -> Int
+countZeroInTree Nil = 0
+countZeroInTree (Node Zero l r) = 1 + countZeroInTree l + countZeroInTree r -- riceca ricorsiva in entrambi i sottoalberi
+countZeroInTree (Node One l r) = countZeroInTree l + countZeroInTree r -- riceca ricorsiva in entrambi i sottoalberi
+
+test24 = countZeroInTree Nil -- 0
+test25 = countZeroInTree (Node One Nil Nil ) -- 0
+test26 = countZeroInTree (Node Zero (Node One Nil Nil) (Node Zero Nil Nil)) -- 2
+
+-- 10) Dato il tipo BTree definito in precedenza, supponendo che rappresenti un albero binario di ricerca, implementare la funzione
+-- getValuesLessThan :: BTree Int -> Int -> [Int]
+-- che, dato un albero t e un valore v, determina la lista degli elementi presenti in t che hanno un valore inferiore a v.
+getValuesLessThan :: BTree Int -> Int -> [Int]
+getValuesLessThan Nil _ = []
+getValuesLessThan (Node n l r) v
+    | n < v = getValuesLessThan l v ++ [n] ++ getValuesLessThan r v -- riceca ricorsiva in entrambi i sottoalberi
+    | otherwise = getValuesLessThan l v -- n è maggiore di v quindi ricerco solo nel sottoalbero di sinistra che contiene sempre valori minori di n
+
+
+test27 = getValuesLessThan Nil 5 -- []
+test28 = getValuesLessThan (Node 5 (Node 3 Nil Nil) (Node 8 Nil Nil)) 5 -- [3]
+test29 = getValuesLessThan (Node 5 (Node 3 Nil (Node 4 Nil Nil)) (Node 8 Nil Nil)) 8 -- [3,4,5]
