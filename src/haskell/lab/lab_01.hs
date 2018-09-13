@@ -66,7 +66,7 @@ removeAll :: (Eq a) => [a] -> a -> [a]
 removeAll [] _ = []
 removeAll (x:xs) v
   | x == v = removeAll xs v
-  | otherwise = x : removeAll xs v -- "[x] ++ removeAll xs v" funzione ugualmente
+  | otherwise = x : removeAll xs v -- "[x] ++ removeAll xs v" funziona ugualmente
 
 
 --6) Implementare la funzione merge che date due liste ordinate di elementi interi, computa una sola lista ordinata

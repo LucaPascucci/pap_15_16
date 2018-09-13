@@ -6,6 +6,11 @@ data Color = BLACK | RED | GREEN | YELLOW | BLUE | MAGENTA | CYAN | WHITE derivi
 
 data Viewport = Viewport Pos Int Int
 
+-- rappresentano una posizione (x,y) di una viewport a caratteri (es: terminale),
+-- un colore e una viewport stessa di cui si specifica il vertice in alto a sinistra,
+-- larghezza w e altezza h.
+
+
 -- clear the text screen
 cls :: IO()
 cls = putStr "\ESC[2J"
@@ -16,8 +21,7 @@ beep = putStr "\BEL"
 
 -- move the cursor at the new pos (x,y)
 goto :: Pos -> IO ()
-goto (x,y) =
-	putStr("\ESC["++show y++";"++show x++"H")
+goto (x,y) = putStr("\ESC["++show y++";"++show x++"H")
 
 -- write at the cursor
 writeAt :: Pos -> String -> IO()
@@ -26,25 +30,25 @@ writeAt p s = goto p >> putStr s
 --set foreground color
 setFColor :: Color -> IO()
 setFColor c = putStr ("\ESC["++showFColor c++"m")
-	where
-		showFColor BLACK = "30"
-		showFColor RED = "31"
-		showFColor GREEN = "32"
-		showFColor YELLOW = "33"
-		showFColor BLUE = "34"
-		showFColor MAGENTA = "35"
-		showFColor CYAN = "36"
-		showFColor WHITE = "37"
+    where
+        showFColor BLACK = "30"
+        showFColor RED = "31"
+        showFColor GREEN = "32"
+        showFColor YELLOW = "33"
+        showFColor BLUE = "34"
+        showFColor MAGENTA = "35"
+        showFColor CYAN = "36"
+        showFColor WHITE = "37"
 
 --set background color
 setBColor :: Color -> IO()
 setBColor c = putStr ("\ESC["++showBColor c++"m")
-	where
-		showBColor BLACK = "40"
-		showBColor RED = "41"
-		showBColor GREEN = "42"
-		showBColor YELLOW = "43"
-		showBColor BLUE = "44"
-		showBColor MAGENTA = "45"
-		showBColor CYAN = "46"
-		showBColor WHITE = "47"
+    where
+        showBColor BLACK = "40"
+        showBColor RED = "41"
+        showBColor GREEN = "42"
+        showBColor YELLOW = "43"
+        showBColor BLUE = "44"
+        showBColor MAGENTA = "45"
+        showBColor CYAN = "46"
+        showBColor WHITE = "47"

@@ -181,6 +181,7 @@ test26 = countZeroInTree (Node Zero (Node One Nil Nil) (Node Zero Nil Nil)) -- 2
 -- 10) Dato il tipo BTree definito in precedenza, supponendo che rappresenti un albero binario di ricerca, implementare la funzione
 -- getValuesLessThan :: BTree Int -> Int -> [Int]
 -- che, dato un albero t e un valore v, determina la lista degli elementi presenti in t che hanno un valore inferiore a v.
+
 getValuesLessThan :: BTree Int -> Int -> [Int]
 getValuesLessThan Nil _ = []
 getValuesLessThan (Node n l r) v
