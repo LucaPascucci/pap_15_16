@@ -26,7 +26,7 @@ public class QuadratureService extends Thread{
         this.flag = flag;
     }
 
-    //Avvia il Master ed aggiorna model e view una volta ottenuto la nuova era
+    //Avvia il Master che a sua volta crea dei sotto task ed aggiorna model e view una volta ottenuto la nuova era
     @Override
     public void run() {
         super.run();
@@ -38,6 +38,7 @@ public class QuadratureService extends Thread{
                 this.view.emptyWorldMessage();
             }
 
+            //ciclo per il calcolo della nuova (attivo finchè non viene premuto il tasto stop)
             while (this.flag.getValue()){
                 this.seeds.incEra();
                 long startTime = System.nanoTime();

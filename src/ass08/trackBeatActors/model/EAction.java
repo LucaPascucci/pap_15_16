@@ -1,7 +1,7 @@
 package ass08.trackBeatActors.model;
 
 /**
- * Rappresenta tutte le possibili azioni
+ * Rappresenta tutte le possibili azioni utilizzate in ActionMsg
  *
  * Created by Luca on 25/06/16.
  */

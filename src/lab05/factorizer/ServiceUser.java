@@ -21,7 +21,7 @@ public class ServiceUser extends Thread {
 	}
 	
 	public void run(){
-		log("started.");
+		log("start.");
 		java.util.Random rand = new java.util.Random(System.currentTimeMillis());
 		int i = 0;
 		int nErrors = 0;

@@ -6,25 +6,25 @@ package ass07.tasks.monitor;
 //Monitor per gestire la selezione del vincitore
 public class WinnerFlag {
 
-    private boolean value;
+    private boolean winner;
     private int playerNumber;
 
     public WinnerFlag(){
-        this.value = false;
+        this.winner = false;
     }
 
-    public synchronized boolean getValue(){
-        return this.value;
+    public synchronized boolean isWinnerAvailable(){
+        return this.winner;
     }
 
-    public synchronized int getWinner(){
+    public synchronized int getWinnerNumber(){
         return this.playerNumber;
     }
 
     //Controlla se il player è il vincitore in base al suggerimento
-    public synchronized void isWinner(int hint, int playerNumber){
-        if (!this.value && hint == 0){
-            this.value = true;
+    public synchronized void checkWinner(int hint, int playerNumber){
+        if (!this.winner && hint == 0){
+            this.winner = true;
             this.playerNumber = playerNumber;
         }
     }

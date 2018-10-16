@@ -32,14 +32,7 @@ public class PlayerActor extends UntypedActor{
      * @return Props per la crezione di questo attore
      */
     public static Props props(final int max, final int min) {
-        return Props.create(new Creator<PlayerActor>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public PlayerActor create() throws Exception {
-                return new PlayerActor(max, min);
-            }
-        });
+        return Props.create(PlayerActor.class, () -> new PlayerActor(max, min));
     }
 
     @Override
@@ -57,20 +50,24 @@ public class PlayerActor extends UntypedActor{
             this.lastNumber = this.nextNumber();
 
         } else if (message instanceof StartTurnMsg){
-            //Invia all'oracolo il tentativo di indovinare il numero
+            //Invia all'oracolo il messaggio contente il tentativo per indovinare il numero
             this.getSender().tell(new AttemptMsg(this.lastNumber, this.max, this.min),getSelf());
 
         } else if (message instanceof EndGameMsg){
-            //fine del gioco un player ha vinto(true) gli altri hanno perso(false)
+            //messaggio di fine del gioco un player ha vinto(true) gli altri hanno perso(false)
             if (((EndGameMsg) message).getResult()){
-                System.out.println(this.getSelf() + " won!");
+                this.log("WON!!!");
             }else{
-                System.out.println(this.getSelf() + " sob!");
+                this.log("SOB");
             }
         }
     }
 
     private int nextNumber(){
         return ThreadLocalRandom.current().nextInt(this.min, this.max + 1);
+    }
+
+    private void log(String msg){
+        System.out.println("[PLAYER-" + getSelf() + "] - " + msg);
     }
 }

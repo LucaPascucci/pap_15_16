@@ -13,7 +13,7 @@ public class WordAgent extends Thread {
     private final String word;
     private final TextLib world;
     private final Color color;
-    private final String cleaner;
+    private final String cleaner; //stringa vuota utilizzata per pulire la console ed evitare effetto scia
     private final long wait_sleep; //tempo in millisec di attesa del thread
     private final int max_X;
     private final int max_Y;

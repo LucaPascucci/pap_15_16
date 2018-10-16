@@ -5,7 +5,7 @@ package ass07.actors.msgs;
  */
 
 /**
- * rappresenta il messaggio inviato dall'oracolo per decretare il vincitore
+ * rappresenta il messaggio inviato dall'oracolo per decretare il vincitore e concludere il gioco
  */
 public class EndGameMsg {
 

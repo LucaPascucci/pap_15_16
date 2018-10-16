@@ -6,14 +6,14 @@ import ass08.trackBeatActors.model.EAction;
  * Created by Luca on 25/06/16.
  */
 
-//Messagi di avvio,stop,reset,aggionramenti TH,richiesta nuovi dati
+//Messagi di avvio,stop,reset,aggiornamenti TH,richiesta nuovi dati
 public class ActionMsg {
 
     private EAction action;
 
     //Utilizzati per gestire la modifica runtime dei TH
     private int value;
-    private boolean restore_update; //true = aggiornare - false = ripristinare
+    private boolean restore_update; //true = aggiornare / false = ripristinare
 
     public ActionMsg (EAction action){
         this.action = action;

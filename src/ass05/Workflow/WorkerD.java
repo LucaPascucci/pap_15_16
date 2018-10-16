@@ -24,11 +24,11 @@ public class WorkerD extends Worker {
         System.out.println("Avviato worker: " + this.id);
         try {
             while (true){
-                this.wasteTime(3000);
+                this.wasteTime();
 
-                this.ev_4_5.acquire(2);
+                this.ev_4_5.acquire(2); //aspetta che worker-4 e worker-5 abbiano entrambi incrementato c4
                 this.println("Worker " + this.id + " -> Counter " + this.counter.getId() + " Value = " + this.counter.getValue() + '\n');
-                this.ev_1.release();
+                this.ev_1.release();    //avvisa worker-1 di aver stampato c4
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -39,12 +39,8 @@ public class HelloRx {
                         //vuoto
                     }
 				},
-	            (Throwable t) -> {
-	                System.out.println("error  " + t);
-	            },
-	            () -> {
-	                System.out.println("completed");
-	            }
+	            (Throwable t) -> System.out.println("error  " + t),
+	            () -> System.out.println("completed")
 	        );
 
         System.out.println("here.");

@@ -66,7 +66,7 @@ class MyThread1 extends Thread {
 	}
 	
 	public void run(){
-		log("First thread started.");
+		log("First thread start.");
 		mon.m1();
 	}
 
@@ -85,7 +85,7 @@ class MyThread2 extends Thread {
 	}
 	
 	public void run(){
-		log("Second thread started.");
+		log("Second thread start.");
 		mon.m2();
 	}
 
@@ -104,7 +104,7 @@ class MyThread3 extends Thread {
 	}
 	
 	public void run(){
-		log("Third thread started.");
+		log("Third thread start.");
 		mon.m3();
 	}
 

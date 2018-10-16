@@ -20,10 +20,10 @@ public class HeartbeatStream {
     public Observable<Integer> makeObservable() {
 
         HeartbeatSensor heartbeatSensor = new HeartbeatSensor();
-        return Observable.create((s) -> {
+        return Observable.create((observable) -> {
             (new Thread(() -> {
                 while(!this.flag.isSet()) {
-                    s.onNext(heartbeatSensor.getCurrentValue());
+                    observable.onNext(heartbeatSensor.getCurrentValue());
                     try {
                         Thread.sleep((long)this.period);
                     } catch (Exception ex) {
@@ -31,7 +31,7 @@ public class HeartbeatStream {
                     }
                 }
 
-                s.onCompleted();
+                observable.onCompleted();
             })).start();
         });
     }

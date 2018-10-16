@@ -46,7 +46,7 @@ public class Master extends Thread{
                 long startTime = System.nanoTime();
 
                 //crea tanti task quanti sono i players
-                this.model.getPlayers().stream().forEach(p_d -> futureList.add(executor.submit(new PlayerTask(p_d,this.model,this.winnerFlag,this.view))));
+                this.model.getPlayers().forEach(p_d -> futureList.add(executor.submit(new PlayerTask(p_d,this.model,this.winnerFlag,this.view))));
 
                 //Prelevo i risultati ottenuti dai vari task aspettando se non sono terminati
                 List<PlayerData> result = new ArrayList<>();
@@ -58,14 +58,14 @@ public class Master extends Thread{
                 executor.shutdown(); //blocca la possibilità di aggiungere nuovi task ed avvia la terminazione del ExecutorService
                 executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS); // aspetto che tutti i task siano prima stati completati
 
-                //Aggiorno model e tempo impiegato per eseguire il turno
+                //Aggiorno tempo impiegato per eseguire il turno e i valori dei tentativi dei giocatori
                 this.view.updateTurnTime((System.nanoTime() - startTime)/1000);
                 this.model.updatePlayers(result);
 
                 //Se è stato trovato un vincitore
-                if (this.winnerFlag.getValue()){
+                if (this.winnerFlag.isWinnerAvailable()){
                     this.turnFlag.setValue(false);
-                    this.view.updateWinner(this.winnerFlag.getWinner(),result.size());
+                    this.view.updateWinner(this.winnerFlag.getWinnerNumber(),result.size());
                 }
 
                 Thread.sleep(SLEEP_TIME);

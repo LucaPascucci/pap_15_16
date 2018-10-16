@@ -16,7 +16,7 @@ public class Model {
     private int magicNumber;
     private int max;
     private int min;
-    private List<PlayerData> playerDataList;
+    private List<PlayerData> playerDataList; //Lista tentativi (di un solo turno) dei giocatori. Li devo memorizzare per dare consistenza in caso di start e stop del gioco
 
     public Model (int nPlayers, int max, int min){
 
@@ -40,15 +40,11 @@ public class Model {
 
     public void prepareGame(){
         this.gameTurn = 0;
-        //Genero il numero da indovinare
-        this.magicNumber = ThreadLocalRandom.current().nextInt(this.min, this.max + 1);
-        //creo i giocatori
+        this.magicNumber = ThreadLocalRandom.current().nextInt(this.min, this.max + 1); //Genero il numero da indovinare
+
+        //Creazione dei giocatori
         this.playerDataList = new ArrayList<>();
         IntStream.range(0,this.playersNumber).forEach(i -> this.playerDataList.add(new PlayerData(i+1,this.max,this.min)));
-
-        /*for (int i = 1; i <= this.playersNumber; i++){
-            this.playerDataList.add(new PlayerData(i,this.max,this.min));
-        }*/
     }
 
     //Aggiorna la lista di giocatori
@@ -62,7 +58,7 @@ public class Model {
      *  0 stesso numero
      *  1 numero maggiore
      */
-    public int attemptNumber(int number){
+    public int guessNumber(int number){
         return Integer.compare(this.magicNumber,number);
     }
 

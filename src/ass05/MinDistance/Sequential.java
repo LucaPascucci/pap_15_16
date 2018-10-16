@@ -54,10 +54,10 @@ public class Sequential {
         System.out.println("Found closer Point (for): " + CLOSER_POINT.toString() + " in " + (System.currentTimeMillis() - startTime) + " Millis");
         System.out.println("Distance from centroid = " + MIN_DISTANCE);
 
-        //Ricerca Stream ForEach
+        //Ricerca ForEach
         MIN_DISTANCE = Double.MAX_VALUE;
         startTime = System.currentTimeMillis();
-        points.stream().forEach(p -> {
+        points.forEach(p -> {
             double currDistance = P2d.distance(centroid, p);
             if (currDistance < MIN_DISTANCE) {
                 CLOSER_POINT = p;

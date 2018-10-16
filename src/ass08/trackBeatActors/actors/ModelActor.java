@@ -50,11 +50,11 @@ public class ModelActor extends UntypedActor {
      * @return Props per la creazione di questo attore
      */
     public static Props props(final int heartbeat_th, final int sec_th) {
-        return Props.create(new Creator<ModelActor>() {
+        return Props.create(ModelActor.class,new Creator<>() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public ModelActor create() throws Exception {
+            public ModelActor create() {
                 return new ModelActor(heartbeat_th, sec_th);
             }
         });
@@ -71,7 +71,7 @@ public class ModelActor extends UntypedActor {
         //Messaggi contenenti azioni
         if (message instanceof ActionMsg){
             switch (((ActionMsg) message).getAction()){
-                //generazione/acquisizione di nuovi dati
+                //generazione/acquisizione di nuovi dati (viene creato una richiesta ciclica attraverso il metodo getNextData che inserisce nello scheduler un nuovo messaggio "NEW_DATA" da inviare ogni mezzo secondo
                 case NEW_DATA:
                     this.getNextData();
                     break;
@@ -79,7 +79,7 @@ public class ModelActor extends UntypedActor {
                 case START:
                     this.heartbeatSensor = new HeartbeatSensor();
                     this.posSensor = new PosSensor();
-                    this.getNextData();
+                    this.getNextData(); //avvia l'acquisizione dei dati e crea un autociclo di richiesta dei nuovi dati ogni mezzo secondo)
                     break;
                 //Ferma il ciclo di generazione/acquisizione di dati
                 case STOP:
@@ -165,11 +165,11 @@ public class ModelActor extends UntypedActor {
 
         //quando verrà premuto il bottone STOP allora il ciclo di generazione di dati terminerà e non verranno inviati altri dati al controller
         if (this.startFlag){
-            //Invia i dati da visualizzare nella view al controller
+            //Invia i dati da visualizzare nella view al controller che a sua volta inoltrerà alla ViewActor
             this.controller.tell(new NewDataMsg(new ComplexData(currData,this.maxHeartBeatData,this.speed,this.AVG_HB/this.countData,this.activeAlarm)),getSelf());
 
             //Inserisce un messaggio nello scheduler che verrà inviato con 500 mills di ritardo, in pratica crea un ciclo di generazione dei dati
-            this.getContext().system().scheduler().scheduleOnce(Duration.create(500, TimeUnit.MILLISECONDS), getSelf(), new ActionMsg(EAction.NEW_DATA),this.getContext().system().dispatcher(), this.getSelf());
+            this.getContext().system().scheduler().scheduleOnce(Duration.create(100, TimeUnit.MILLISECONDS), getSelf(), new ActionMsg(EAction.NEW_DATA),this.getContext().system().dispatcher(), this.getSelf());
         }
     }
 }

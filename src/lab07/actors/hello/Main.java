@@ -13,7 +13,7 @@ public class Main {
         ActorRef act = system.actorOf(Props.create(HappyActor.class)); //rappresenta il riferimento ad un solo attore
         //Props serve per configurare il sistema
 
-        act.tell(new HelloMsg("World"), ActorRef.noSender()); //manda un messaggio all'attore a cui fa riferimento con messaggio e mittente
+        act.tell(new HelloMsg("World"), ActorRef.noSender()); //manda un messaggio all'attore a cui fa riferimento con messaggio e mittente (che in questo caso non viene specificato)
 
         //Un attore può essere creato anche da un'altro attore
     }

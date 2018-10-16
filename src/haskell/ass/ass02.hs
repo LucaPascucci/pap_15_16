@@ -82,7 +82,7 @@ queryExistBuyerFrom (DBase buyers _ ) v = check(filter(\(Buyer _ c) -> c == v) b
       | null l = False --Lista vuota
       | otherwise = True --Lista con almeno un elemento
 
---Determina la somma delle transazioni eseguite da buyer di una certa città
+--Determina la somma delle transazioni eseguite da buyers di una certa città
 --filtro i compratori in base alla città ed il risultato viene dato a join
 queryAmountsFromCity :: DBase -> City -> Amount
 queryAmountsFromCity (DBase buyers trans) v = (join trans . filter(\(Buyer _ c) -> c == v)) buyers
@@ -122,7 +122,7 @@ class Viewable o where
    su terminale, considerando  come viewport quella specificata (per cui le posizioni degli
    elementi sono da considerare relativi alla viewport) -}
   render :: Viewport -> o ->  IO ()
-  --come render, ma con clipping
+  -- come render, ma con clipping
   renderWithClipping :: Viewport -> o ->  IO ()
   {- dato una Viewport e una lista di Viewable determina l’azione che esegue il rendering
   di tutte gli elementi sulla view port -}

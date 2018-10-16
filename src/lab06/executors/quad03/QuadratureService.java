@@ -11,19 +11,19 @@ public class QuadratureService extends Thread {
 	
 	public QuadratureService (int numTasks, int poolSize){		
 		this.numTasks = numTasks;
-		executor = Executors.newFixedThreadPool(poolSize);
+		this.executor = Executors.newFixedThreadPool(poolSize);
 	}
 	
 	public double compute(IFunction mf, double a, double b) throws InterruptedException { 
-
+		long startTime = System.currentTimeMillis();
 		double x0 = a;
-		double step = (b-a)/numTasks;		
+		double step = (b-a)/ this.numTasks;
 	    Set<Future<Double>> resultSet = new HashSet<>();
-		for (int i = 0; i < numTasks; i++) {
+		for (int i = 0; i < this.numTasks; i++) {
 			try {
-				Future<Double> res = executor.submit(new ComputeAreaTask(x0, x0 + step, mf));
+				Future<Double> res = this.executor.submit(new ComputeAreaTask(i,x0, x0 + step, mf));
 				resultSet.add(res);
-				log("submitted task " + x0 + " " + (x0 + step));
+				log("submitted task-" + i + " : " + x0 + " " + (x0 + step));
 				x0 += step;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -38,8 +38,8 @@ public class QuadratureService extends Thread {
 	    		ex.printStackTrace();
 	    	}
 	    }
-	    System.out.printf("The result is %s\n", sum);
-	    executor.shutdown();
+		this.log("Execution Time: " + (System.currentTimeMillis() - startTime));
+	    this.executor.shutdown();
 		return sum;
 	}
 	

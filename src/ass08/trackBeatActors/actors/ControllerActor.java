@@ -38,19 +38,11 @@ public class ControllerActor extends UntypedActor{
      * @return Props per la creazione di questo attore
      */
     public static Props props(final Dimension dim, final int heartbeat_th, final int sec_th) {
-        return Props.create(new Creator<ControllerActor>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public ControllerActor create() throws Exception {
-                return new ControllerActor(dim, heartbeat_th, sec_th);
-            }
-        });
+        return Props.create(ControllerActor.class, () -> new ControllerActor(dim, heartbeat_th, sec_th));
     }
 
     @Override
-    public void preStart() throws Exception {
-
+    public void preStart() {
         //Invia i messaggi per completare il collegamento tra View e Controller ed Model e Controller
         this.view.tell(new AttachMsg(),getSelf());
         this.model.tell(new AttachMsg(),getSelf());
@@ -79,7 +71,7 @@ public class ControllerActor extends UntypedActor{
                         getSender().tell(new ActionMsg(EAction.UPDATE_SECTH,this.sec_th),getSelf());
                     }
                     break;
-                //Passo al modello le azioni
+                //Passo al modello le azioni (caso di Start,Stop,Reset)
                 default:
                     this.model.tell(message,getSelf());
                     break;

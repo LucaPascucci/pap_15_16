@@ -75,55 +75,56 @@ public class Model {
         return this.secondsTH;
     }
 
-
+    //generazione di un unico oggetto Observable che unisce i valori di posizione e battito cardiaco
     public Observable<TrackBeatData> makeObservable(int period, Flag flag){
 
         //Creo i sensori
         PosSensor posSensor = new PosSensor();
         HeartbeatStream heartbeatStream = new HeartbeatStream(period,flag);
 
-        //creo gli observable dei due sensori
+        //Creo gli observable dei due sensori
         Observable<P2d> posObs = posSensor.makeObservable(period,flag);
         Observable<Integer> heartbeatObs = heartbeatStream.makeObservable();
 
-        /*  Returns an Observable that emits the results of a specified combiner function applied to combinations of
-            two items emitted, in sequence, by two other Observables.
+        /*  Returns an Observable that emits the results of a specified
+            combiner function applied to combinations of two items emitted,
+            in sequence, by two other Observables.
         */
         return Observable.zip(heartbeatObs,posObs,(HBData,PosData) -> {
             TrackBeatData data = new TrackBeatData(HBData,PosData);
-            this.addTrackBeatData(data);
+            this.addTrackBeatData(data); //ad ogni TrackBeatData generato esegue l'aggiornamento del modello
             return data;
         });
     }
 
-    //Riceve il dato generato modificando il model
-    private void addTrackBeatData(TrackBeatData data){
+    //Riceve il dato generato durante il subscribe al Observable e aggiorna il model
+    private void addTrackBeatData(TrackBeatData currData){
         long currTime = System.currentTimeMillis();
         this.countData++;
 
-        this.AVG_HB += data.getHeartbeat();
+        this.AVG_HB += currData.getHeartbeat();
 
-        //aggiorna il valore massimo
-        if (this.maxHeartBeatData.getHeartbeat() <= data.getHeartbeat()){
-            this.maxHeartBeatData = data;
+        //aggiorna il valore massimo memorizzato
+        if (this.maxHeartBeatData.getHeartbeat() <= currData.getHeartbeat()){
+            this.maxHeartBeatData = currData;
         }
 
         //calcola la velocità
         if (this.countData > 1){
             long time = System.currentTimeMillis() - this.lastUpdate;
-            double distance = P2d.distance(this.previousData.getPos(),data.getPos());
+            double distance = P2d.distance(this.previousData.getPos(),currData.getPos());
             this.speed = distance / time;
         }
-        this.previousData = data;
+        this.previousData = currData;
         this.lastUpdate = currTime;
 
-        //allarme battito cardiaco elevato prolungato
-        if (this.heartBeatTH <= data.getHeartbeat()){
+        //controllo per allarme battito cardiaco elevato prolungato
+        if (this.heartBeatTH <= currData.getHeartbeat()){
             if (this.startAlartTime == 0){
-                //memorizzo il tempo del primo battito cardiaco elevato
+                //memorizzo il tempo del primo battito cardiaco elevato rilevato
                 this.startAlartTime = currTime;
             }
-            //Controllo temporale
+            //Controllo temporale del battito cardiaco elevato
             if (System.currentTimeMillis() - this.startAlartTime >= this.secondsTH * 1000){
                 this.activeAlarm = true;
             }

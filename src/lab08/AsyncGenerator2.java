@@ -18,7 +18,7 @@ public class AsyncGenerator2 extends Thread {
 	public void run() {
 		int currentValue = start;
 		for (int i = 0; i < 3; i++){
-			System.out.println("GEN "+currentValue);
+			System.out.println("GEN " + currentValue);
 			subscriber.onNext(currentValue);
 			currentValue++;
 			try {

@@ -3,7 +3,7 @@
 isSorted :: [Int] -> Bool
 isSorted [] = True
 isSorted (x:xs)
-  | null xs = True --Coda vuota quindi è rimasto un solo elemento
+  | null xs = True -- Coda vuota quindi è rimasto un solo elemento
   | x <= head xs = (isSorted xs)
   | otherwise = False
 
@@ -13,7 +13,7 @@ test2 = isSorted [1,3,5,2] --False
 --2) Implementare la funzione che data una lista di stringhe l e una stringa s, determina tutte le posizioni (occorrenze) in cui s compare in l. La prima posizione ha indice zero.
 --occSimple
 occSimple :: [String] -> String -> [Int]
-occSimple (xs) v = func (reverse xs) v --faccio reverse della lista cosi da poter utilizzare la lunghezza della coda come indice
+occSimple (xs) v = func (reverse xs) v -- faccio reverse della lista cosi da poter utilizzare la lunghezza della coda come indice
   where
     func [] _ = []
     func [_] [] = [] --errore!!!
@@ -82,7 +82,7 @@ test11 = showCode (Single Dot) -- "."
 test12 = showCode (Single Dash) -- "-"
 test13 = showCode (Comp Dash (Single Dash)) -- "--"
 
---6) Siano dati  i tipi voe BNum rappresenta un numero binario ad N cifre (interpretando l’elemento Zero come il valore 0 e l’elemento One come il valore 1), dove la prima posizione nella lista rappresenta la cifra più significativa (non necessariamente zero).
+--6) Siano dati i tipi Digit e BNum rappresenta un numero binario ad N cifre (interpretando l’elemento Zero come il valore 0 e l’elemento One come il valore 1), dove la prima posizione nella lista rappresenta la cifra più significativa (non necessariamente zero).
 
 data Digit = Zero | One deriving (Show)
 type BNum = [Digit]
@@ -118,7 +118,7 @@ test17 = equalsBNum [One, One, Zero] [One,One,Zero,Zero] -- False
 convBNum :: BNum -> Int
 convBNum [] = 0
 convBNum (Zero:xs) = convBNum xs
-convBNum (One:xs) = 2^(length xs) + convBNum xs
+convBNum (One:xs) = 2^(length xs) + convBNum xs -- utilizzo la lunghezza della coda per l'elevamento a potenza
 
 test18 = convBNum [One,Zero] --2
 test19 = convBNum [One, Zero, One] --5
@@ -129,7 +129,7 @@ test20 = convBNum [Zero, One, One, One, One] --15
 --sumBNum
 sumBNum :: BNum -> BNum -> BNum
 sumBNum [] [] = [Zero]
-sumBNum xs ys = func (reverse (removeFirstZero xs)) (reverse (removeFirstZero ys)) Zero
+sumBNum xs ys = func (reverse (removeFirstZero xs)) (reverse (removeFirstZero ys)) Zero -- ultimo elemento passato è il resto
   where
     func [] [] Zero = []
     func [] [] One = [One]
@@ -147,7 +147,7 @@ sumBNum xs ys = func (reverse (removeFirstZero xs)) (reverse (removeFirstZero ys
 test21 = sumBNum [One] [One,Zero] -- [One,One]
 test22 = sumBNum [Zero,One,One] [Zero,Zero] -- [One,One]
 
---9) Dato il tipo Digit definito in precedenza e il tipo he rappresenta un albero binario
+--9) Dato il tipo Digit definito in precedenza e il tipo che rappresenta un albero binario
 
 data BTree a = Nil | Node a (BTree a) (BTree a)
 

@@ -59,7 +59,7 @@ public class MultiThread {
         });
 
         //Join sulla creazione Multi-Thread
-        creators.stream().forEach(w -> {
+        creators.forEach(w -> {
             try {
                 w.join();
             } catch (InterruptedException e) {
@@ -77,7 +77,7 @@ public class MultiThread {
         //Ricerca sequenziale
         MIN_DISTANCE = Double.MAX_VALUE;
         startTime = System.currentTimeMillis();
-        points.stream().forEach(p -> {
+        points.forEach(p -> {
             double currDistance = P2d.distance(centroid, p);
             if (currDistance < MIN_DISTANCE) {
                 CLOSER_POINT = p;
@@ -103,7 +103,7 @@ public class MultiThread {
         });
 
         //Join sulla ricerca multi-thread
-        researchers.stream().forEach(r -> {
+        researchers.forEach(r -> {
             try {
                 r.join();
             } catch (InterruptedException e) {
@@ -117,6 +117,7 @@ public class MultiThread {
         System.out.println("\nExecution time: " + (System.currentTimeMillis() - startTotalTime) + " millis");
     }
 
+    //unico metodo synchronized (così da evitare corse critiche) per la memorizzazione del punto minimo
     private synchronized static void syncMin(double curr_distance, P2d curr_point) {
         if (MIN_DISTANCE > curr_distance) {
             CLOSER_POINT = curr_point;

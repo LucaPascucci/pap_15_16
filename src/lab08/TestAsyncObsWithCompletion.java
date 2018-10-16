@@ -38,7 +38,7 @@ public class TestAsyncObsWithCompletion {
 
 		stream.subscribe(
 			(Integer v) -> {
-				System.out.println("value: "+v);
+				System.out.println("value: " + v);
 			},
 			(Throwable t) -> {},
 			() -> {

@@ -28,17 +28,17 @@ public class WorkerC extends Worker {
         System.out.println("Avviato worker: " + this.id);
         try {
             while (true){
-                this.wasteTime(3000);
+                this.wasteTime();
 
-                this.ev_2_3.acquire();
+                this.ev_2_3.acquire();  //aspettano che worker-2 e worker-3 abbiano rispettivamente incrementato i rispettivi contatori
                 this.println("Worker " + this.id + " -> Counter " + this.counter.getId() + " Value = " + this.counter.getValue());
 
-                //Mutua esclusione
+                //Mutua esclusione per incrementare il contatore-4 che worker-4 e worker-5 hanno in condivisa
                 this.mutex.acquire();
                 this.shared_counter.inc();
                 this.mutex.release();
 
-                this.ev_6.release();
+                this.ev_6.release(); //avvisano worker-6 di aver incrementato il contatore-4 (condiviso)
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

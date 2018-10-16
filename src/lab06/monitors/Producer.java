@@ -16,6 +16,7 @@ class Producer extends Thread {
 		while (true){
 			Integer item = produce();
 			try {
+				sleep(3000);
 				buffer.put(item);
 				log("produced "+item);
 			} catch(InterruptedException ex){

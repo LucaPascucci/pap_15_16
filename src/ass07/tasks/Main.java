@@ -21,7 +21,7 @@ public class Main {
         if (args.length == 1) {
             players = Integer.parseInt(args[0]);
         }else {
-            players = 10;
+            players = 5;
         }
 
         Model model = new Model(players,MAX,MIN);

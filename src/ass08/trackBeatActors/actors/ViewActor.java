@@ -39,11 +39,11 @@ public class ViewActor extends UntypedActor implements ActionListener{
      * @return Props per la creazione di questo attore
      */
     public static Props props(final Dimension dim, final int heartbeat_th, final int sec_th) {
-        return Props.create(new Creator<ViewActor>() {
+        return Props.create(ViewActor.class, new Creator<>() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public ViewActor create() throws Exception {
+            public ViewActor create() {
                 return new ViewActor(dim, heartbeat_th, sec_th);
             }
         });
@@ -325,8 +325,7 @@ public class ViewActor extends UntypedActor implements ActionListener{
         }
 
         //Genera il colore della posizione corrente in base al battito cardiaco
-        Color getCurrPosColor()
-        {
+        Color getCurrPosColor() {
             //il massimo è dinamico dato che va in base al valore massimo generato runtime
             int percent = (int)(((this.currData.getHeartbeat() - 60.0) / (this.MaxHBData.getHeartbeat() - 60.0)) * 100.0);
 
@@ -339,13 +338,11 @@ public class ViewActor extends UntypedActor implements ActionListener{
                 // da green a yellow
                 r = (int)(255 * (percent / 50.0));
                 g = 255;
-
             } else {
                 // da yellow a red
                 r = 255;
                 g = (int)(255 * ((50.0 - percent % 50.0) / 50.0));
             }
-
             return new Color(r,g,b);
         }
 

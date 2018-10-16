@@ -7,8 +7,10 @@ public class ComputeAreaTask implements Runnable {
 	private QuadratureResult result;
 	private IFunction mf;
 	private double a, b;
+	private int id;
 	
-	public ComputeAreaTask(double a, double b, IFunction mf, QuadratureResult result) {
+	public ComputeAreaTask(int id,double a, double b, IFunction mf, QuadratureResult result) {
+		this.id = id;
 		this.mf = mf;
 		this.a = a;
 		this.b = b;
@@ -16,7 +18,7 @@ public class ComputeAreaTask implements Runnable {
 	}
 
 	public void run() {
-				log("executing task " + a + " " + b);
+				log("Executing from " + a + " to " + b);
 				double sum = 0;
 				double step = (b - a) / 1000;
 				double x = a;
@@ -25,10 +27,10 @@ public class ComputeAreaTask implements Runnable {
 					x += step;
 				}
 				result.add(sum); //ogni task l'add sul monitor
-				log("Added result " + a + " " + b + " " + sum);
+				log("Added result: " + sum);
 	}
 
 	private void log(String msg) {
-		System.out.println(msg);
+		System.out.println("[TASK-"+ this.id + "] " + msg);
 	}
 }

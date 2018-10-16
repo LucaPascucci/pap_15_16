@@ -82,6 +82,9 @@ public class BlackboardImpl implements Blackboard{
         }
     }
 
+    /**
+     * Non è necessario utilizzare synchronized dato che viene richiamato in un metodo a sua volta synchronized
+     */
     //Rimuove il tag se la lista dei messaggi è vuota
     private synchronized void cleanContent(String tag){
         if (this.blackboardContent.get(tag).isEmpty()){

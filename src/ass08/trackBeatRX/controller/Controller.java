@@ -11,7 +11,7 @@ import rx.Observable;
  */
 public class Controller implements IController{
 
-    private final static int WAIT_TIME = 500;
+    private final static int WAIT_TIME = 100;
 
     private MainView view;
     private Model model;
@@ -23,7 +23,7 @@ public class Controller implements IController{
     }
 
     @Override
-    public void started() {
+    public void start() {
         this.flag = new Flag();
         Observable<TrackBeatData> stream = this.model.makeObservable(WAIT_TIME,this.flag);
         stream.subscribe((trackBeatData) ->
@@ -31,7 +31,7 @@ public class Controller implements IController{
     }
 
     @Override
-    public void stopped() {
+    public void stop() {
         this.flag.set();
     }
 

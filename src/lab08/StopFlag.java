@@ -1,5 +1,6 @@
 package lab08;
 
+//Monitor
 public class StopFlag {
 
 	private boolean done = false;

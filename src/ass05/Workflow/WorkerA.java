@@ -26,12 +26,12 @@ public class WorkerA extends Worker {
         System.out.println("Avviato worker: " + this.id);
         try {
             while (true){
-                this.wasteTime(3000);
+                this.wasteTime();
 
                 this.counter.inc();
-                this.ev_2.release();
-                this.ev_3.release();
-                this.ev_6.acquire();
+                this.ev_2.release();    // comunica a worker-2 che ha incrementato il contatore c1
+                this.ev_3.release();    // comunica a worker-3 che ha incrementato il contatore c1
+                this.ev_6.acquire();    // attende che worker-6 abbia stampato il contatore c4
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

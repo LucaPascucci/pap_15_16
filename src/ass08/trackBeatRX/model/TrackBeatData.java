@@ -31,7 +31,7 @@ public class TrackBeatData{
         return this.pos;
     }
 
-    public void sum(TrackBeatData data){
+    /*public void sum(TrackBeatData data){
         this.heartbeat += data.heartbeat;
         this.pos = new P2d(this.pos.getX() + data.pos.getX(), this.pos.getY() + data.pos.getY());
     }
@@ -39,5 +39,5 @@ public class TrackBeatData{
     @Override
     public String toString() {
         return "HB: " + this.heartbeat + " Pos: " + this.pos.getX() + " : " + this.pos.getY();
-    }
+    }*/
 }

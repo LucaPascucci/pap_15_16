@@ -9,18 +9,18 @@ public class QuadratureService extends Thread {
 	
 	public QuadratureService (int numTasks, int poolSize){		
 		this.numTasks = numTasks;
-		executor = Executors.newFixedThreadPool(poolSize);
+		this.executor = Executors.newFixedThreadPool(poolSize);
 	}
 	
-	public double compute(IFunction mf, double a, double b) throws InterruptedException { 
-
+	public double compute(IFunction mf, double a, double b) throws InterruptedException {
+        long startTime = System.currentTimeMillis();
 		QuadratureResult result = new QuadratureResult();		
 		double x0 = a;
-		double step = (b-a)/numTasks;		
-		for (int i=0; i<numTasks; i++) {
+		double step = (b-a) / this.numTasks;
+		for (int i = 0; i < this.numTasks; i++) {
 			try {
-				executor.execute(new ComputeAreaTask(x0, x0 + step, mf, result));
-				log("submitted task "+x0+" "+(x0+step));
+				this.executor.execute(new ComputeAreaTask(i,x0, x0 + step, mf, result));
+                log("submitted task-" + i + " : " + x0 + " " + (x0 + step));
 				x0 += step;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -28,9 +28,10 @@ public class QuadratureService extends Thread {
 		}				
 
 		//utilizzo i metodi dell'executor per aspettare i task
-		executor.shutdown();
-		executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);		
-		double res = result.getResult();
+		this.executor.shutdown();
+		this.executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
+        double res = result.getResult();
+        this.log("Execution Time: " + (System.currentTimeMillis() - startTime));
 		return res;
 	}
 	

@@ -10,8 +10,8 @@ public class Main {
 		int poolSize = Runtime.getRuntime().availableProcessors() + 1; //per saturare tutte le cpu disponibili
 		
 		QuadratureService service = new QuadratureService(nTasks, poolSize);
-		double result = service.compute((double x) -> { return Math.sin(x); }, a, b);
-		System.out.println("Result: "+result);
+		double result = service.compute((double x) -> Math.sin(x), a, b);
+		System.out.println("Result: " + result);
 		
 		System.exit(0);
 	}

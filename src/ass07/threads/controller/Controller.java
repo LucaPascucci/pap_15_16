@@ -21,14 +21,14 @@ public class Controller implements IController{
     }
 
     @Override
-    public void started() {
+    public void start() {
         this.gameMonitor.setActiveGame(true);
         this.view.setMagicNumber(this.model.getMagicNumber());
         this.model.getPlayerDataMap().forEach((k,v) -> new PlayerWorker(this.gameMonitor,v,this.model,this.view).start());
     }
 
     @Override
-    public void stopped() {
+    public void stop() {
         this.gameMonitor.setActiveGame(false);
     }
 

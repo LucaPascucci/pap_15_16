@@ -27,26 +27,28 @@ public class Master extends Thread {
         this.rules = rules;
     }
 
-    //suddivido il mondo per righe, assegnato ad ogni task che ritornerà una lista parziale di punti
+    //suddivido il mondo per righe, e assegno il lavoro ad ogni task che ritornerà una lista parziale di punti
     public List<Point> computeEra() throws ExecutionException, InterruptedException {
 
+        //Future = rappresenta il risultato di una computazione asincrona
         List<Future<List<Point>>> futureResults = new ArrayList<>();
 
-        this.seeds.stream().forEach(s -> this.worldSituation[(int)s.getY()][(int)s.getX()] = true);
+        this.seeds.forEach(s -> this.worldSituation[(int)s.getY()][(int)s.getX()] = true); //converte il mondo da una lista di punti ad una matrice
 
         int start = 0;
         int step = this.worldSize.height / TASKS;
 
+        //creo i task
         for (int i = 0; i < TASKS -1; i++){
             futureResults.add(this.executor.submit(new ComputeTask(this.worldSituation,start,start + step, this.worldSize,this.rules)));
             start += step;
         }
-        futureResults.add(this.executor.submit(new ComputeTask(this.worldSituation,start,this.worldSize.height, this.worldSize,this.rules)));
+        futureResults.add(this.executor.submit(new ComputeTask(this.worldSituation,start,this.worldSize.height, this.worldSize,this.rules))); //task finale che prende le righe finali della matrice mondo
 
-        ArrayList<Point> result = new ArrayList<>();
+        ArrayList<Point> result = new ArrayList<>(); //lista di punti della nuova era
         for (Future<List<Point>> future : futureResults) {
             if (future.get() != null)
-                result.addAll(future.get());
+                result.addAll(future.get()); //prelevo il risultato della future (quando verrà completato) e faccio merge ad una lista di punti
         }
 
         this.executor.shutdown(); //blocca la possibilità di aggiungere nuovi task ed avvia la terminazione del ExecutorService

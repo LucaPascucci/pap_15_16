@@ -7,15 +7,17 @@ public class ComputeAreaTask implements Callable<Double>  {
 
 	private IFunction mf;
 	private double a, b;
+	private int id;
 
-	public ComputeAreaTask(double a, double b, IFunction mf) {
+	public ComputeAreaTask(int id, double a, double b, IFunction mf) {
+		this.id = id;
 		this.mf = mf;
 		this.a = a;
 		this.b = b;
 	}
 
 	public Double call() {
-		log("executing task " + a + " " + b);
+		log("Executing from " + a + " to" + b);
 		double sum = 0;
 		double step = (b - a) / 1000;
 		double x = a;
@@ -23,11 +25,11 @@ public class ComputeAreaTask implements Callable<Double>  {
 			sum += step * mf.eval(x);
 			x += step;
 		}
-		log("Computed result " + a + " " + b + " " + sum);
+		log("Computed result: " + sum);
 		return sum;
 	}
 
 	private void log(String msg) {
-		System.out.println(msg);
+		System.out.println("[TASK-"+ this.id + "] " + msg);
 	}
 }

@@ -4,13 +4,13 @@ package ass07.threads.monitor;
  * Created by Luca on 29/05/16.
  */
 
-//monitor che gestisce avvio e stop del gioco + vincitore + barriera per gestire i turni
+//monitor che gestisce avvio e stop del gioco, vincitore, barriera per gestire i turni
 public class GameMonitor {
 
     private boolean activeGame;
     private boolean winner;
     private int turnAttempts,playersNumber,turn;
-    private long startTimeTurn,timeTurn;
+    private long timeTurn;
 
     public GameMonitor(int playersNumber){
         this.activeGame = false;
@@ -28,14 +28,14 @@ public class GameMonitor {
         return this.activeGame;
     }
 
-    //Barriera che sbocca i giocatori quando tutti hanno effettuato il tentativo del turno
+    //Barriera che blocca i giocatori quando tutti hanno effettuato il tentativo del turno
     public synchronized void nextTurn(){
-        this.startTimeTurn = System.nanoTime();
+        long startTimeTurn = System.nanoTime();
         this.turnAttempts++;
 
         if (this.turnAttempts == this.playersNumber){
 
-            this.timeTurn = System.nanoTime() - this.startTimeTurn;
+            this.timeTurn = System.nanoTime() - startTimeTurn;
             this.turnAttempts = 0;
             this.turn++;
 
@@ -46,6 +46,7 @@ public class GameMonitor {
             notifyAll(); //avvia il prossimo turno sbloccando tutti i thread in wait
         } else {
             try {
+                //non sono stati ricevuti tutti i tentativi del turno, quindi mette in attesa il thread(player) che ha richiesto di inziare nel prossimo turno)
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -65,7 +66,7 @@ public class GameMonitor {
     public synchronized boolean isWinner(int hint){
         if (hint == 0 && !this.winner){ //controllo che non sia gia stato assegnato già un vincitore
             this.winner = true;
-            return true;
+            return this.winner;
         }
         return false;
     }

@@ -8,7 +8,7 @@ public class PingActor extends UntypedActor {
 	
 	  public void preStart() {
 		  this.count = 0;
-		  final ActorRef ponger = getContext().actorOf(Props.create(PongActor.class), "ponger");
+		  final ActorRef ponger = getContext().actorOf(Props.create(PongActor.class), "ponger");  //Un attore può essere creato anche da un'altro attore
 		  ponger.tell(new PingMsg(this.count), getSelf());
 	  }
 	

@@ -9,8 +9,8 @@ isSorted (x:y:xs) -- Array con minimo due elementi "x" e "y" ed una coda "xs" ch
   | x <= y = isSorted (y:xs)
   | otherwise = False
 
-test1 = isSorted [1,2,4,5] --True
-test2 = isSorted [1,3,5,2] --False
+test1 = isSorted [1,2,4,5] -- True
+test2 = isSorted [1,3,5,2] -- False
 
 
 -- 2) Implementare la  funzione
@@ -129,7 +129,7 @@ test17 = equalsBNum [One, One, Zero] [One,One,Zero,Zero] -- False
 convBNum :: BNum -> Int
 convBNum [] = 0
 convBNum (Zero:xs) = convBNum xs
-convBNum (One:xs) = 2^(length xs) + convBNum xs -- 2^ elevato alla lunghezza della coda (così da avere già la posizione corretta) aggiungo al resto dell'array
+convBNum (One:xs) = 2^(length xs) + convBNum xs -- 2^ elevato alla lunghezza della coda (così da avere già la posizione corretta) + aggiungo al resto dell'array
 
 test18 = convBNum [One,Zero] -- 0*2^0 + 1*2^1 = 2
 test19 = convBNum [One, Zero, One] -- 1*2^0 + 0*2^1 + 1*2^2 = 5

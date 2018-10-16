@@ -18,7 +18,7 @@ public class BootActor extends UntypedActor {
 			peers.add(peer);
 		}
 		log("peers created.");
-		for (ActorRef peer: peers){
+		for (ActorRef peer: peers) {
 			peer.tell(new PeersMsg(peers), getSelf());
 		}
 		log("peers informed.");

@@ -13,6 +13,7 @@ class Consumer extends Thread {
 	public void run(){
 		while (true){
 			try {
+				sleep(3000);
 				Integer item = buffer.get();
 				consume(item);
 			} catch (InterruptedException ex){

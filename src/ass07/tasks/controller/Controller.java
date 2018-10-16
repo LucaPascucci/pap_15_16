@@ -24,14 +24,14 @@ public class Controller implements IController{
     }
 
     @Override
-    public void started() {
+    public void start() {
         this.turnFlag.setValue(true);
         this.view.setMagicNumber(this.model.getMagicNumber());
         new Master(this.model,this.view,this.turnFlag,this.winnerFlag).start();
     }
 
     @Override
-    public void stopped() {
+    public void stop() {
         this.turnFlag.setValue(false);
     }
 

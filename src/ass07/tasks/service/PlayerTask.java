@@ -26,17 +26,16 @@ public class PlayerTask implements Callable<PlayerData>{
     }
 
     @Override
-    public PlayerData call() throws Exception {
+    public PlayerData call(){
 
-        //Prelevo il nuovo numero random generato dal playet confrontandolo al numero da trovare
-        int hint = this.model.attemptNumber(this.playerData.getNextAttempt());
+        //Ottengo il nuovo numero random generato da PlayerData confrontandolo al numero da trovare
+        int hint = this.model.guessNumber(this.playerData.getNextAttempt());
 
-        //Stampo a video il tentativo (creo un nuovo oggetto PlayerData per fare in modo di avere i margini di inzio turno
-        //che altrimenti verrebbero subito modificati dal tasks corrente
+        //Stampo a video il tentativo (creo un nuovo oggetto PlayerData per fare in modo di avere i margini di inzio turno che altrimenti verrebbero subito modificati dal tasks corrente)
         this.view.updatePlayerAttempt(new PlayerData(this.playerData));
 
         //invio al monitor il suggerimento per controllare se è il vincitore
-        this.winnerFlag.isWinner(hint,this.playerData.getPlayerNumber());
+        this.winnerFlag.checkWinner(hint,this.playerData.getPlayerNumber());
         //Aggiorno i limiti del player in base al suggerimento
         this.playerData.receiveHint(hint);
 

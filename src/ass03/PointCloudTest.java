@@ -1,5 +1,6 @@
 package ass03;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +26,11 @@ public class PointCloudTest {
         System.out.println("Points: " + pointCloud.toString());
 
         pointCloud.move(vector);
-        System.out.println("Points after move: " + pointCloud.toString());
+        System.out.println("\nPoints after move: " + pointCloud.toString());
 
         System.out.println("\nPoints in region: ");
         List<P2d> pointInRegion = pointCloud.getPointsInRegion(region);
-        pointInRegion.stream().forEach(p -> System.out.println(p.toString()));
+        pointInRegion.forEach(p -> System.out.println(p.toString()));
 
         Optional<P2d> nearest_point = pointCloud.nearestPoint(point_2);
         System.out.println("\nNearest Point: " + (nearest_point.isPresent()? nearest_point.get().toString() : "Nothing"));

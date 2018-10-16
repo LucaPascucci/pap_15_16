@@ -18,8 +18,9 @@ public class TestAsyncObsWithUnsub {
 				Random gen = new Random(System.currentTimeMillis());
 				while (true) {
 					try {
-						subscriber.onNext(gen.nextInt());
-						System.out.println("GEN");
+						int n = gen.nextInt();
+						subscriber.onNext(n);
+						System.out.println("[GEN-1]: " + n);
 						Thread.sleep(1000 + gen.nextInt() % 1000);
 					} catch (Exception ex){}
 				}
@@ -28,8 +29,10 @@ public class TestAsyncObsWithUnsub {
 			Random gen = new Random(System.currentTimeMillis());
 			while (true) {
 				try {
-					subscriber.onNext(gen.nextInt());
-					System.out.println("GEN");
+					gen.nextInt();
+					int n = gen.nextInt();
+					subscriber.onNext(n);
+					System.out.println("[GEN-2]: " + n);
 					Thread.sleep(1000 + gen.nextInt() % 1000);
 				} catch (Exception ex){}
 			}
@@ -38,7 +41,7 @@ public class TestAsyncObsWithUnsub {
 		
 		
 		Subscription sub = stream.subscribe((Integer v) -> {
-			System.out.println("value: "+v);
+			System.out.println("value: " + v);
 		});
 		
 		// doing some job 

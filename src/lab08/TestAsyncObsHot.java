@@ -41,8 +41,7 @@ public class TestAsyncObsHot {
 			System.out.println("[SUB] value observed: " + v);
 		});
 		
-		// doing some job 
-		
+		// doing some job
 		while (true) {
 			System.out.print(".");
 			try {

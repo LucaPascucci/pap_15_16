@@ -23,6 +23,7 @@ public abstract class Worker extends Thread {
 		try {
 			double value = rand.nextDouble();
 			double delay = min + value*(max-min);
+			log("Waste Time: " + delay);
 			sleep((int)delay);
 		} catch (InterruptedException ex){
 			ex.printStackTrace();

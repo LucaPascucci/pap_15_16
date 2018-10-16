@@ -18,7 +18,7 @@ public class TextUtils {
 
 		List<WordLen> wordLenList = new ArrayList<>();
 		List<String> words = Arrays.asList(text.split(REGEX));
-		words.stream().forEach(w -> wordLenList.add(new WordLen(w,w.length())));
+		words.forEach(w -> wordLenList.add(new WordLen(w,w.length())));
 		return wordLenList;
 	}
 
@@ -26,6 +26,7 @@ public class TextUtils {
 	static Optional<String> getWordWithMaxLen(String text){
 
         List<String> words = Arrays.asList(text.split(REGEX));
+        //risolto con stream e la funzione "max" abbinata ad un "comparator" sulla lunghezza delle stringhe
         return words.stream().max(comparing(String::length));
 	}
 
@@ -35,6 +36,7 @@ public class TextUtils {
 	static int getWordFreq(String text, String word){
 
         List<String> words = Arrays.asList(text.split(REGEX));
+        //risolto con filtro + lambda per identificare le parole uguali e tramite count trovo la frequenza
 		return (int) words.stream().filter(w -> w.equals(word)).count();
 	}
 
@@ -48,6 +50,7 @@ public class TextUtils {
         List<WordPos> wordPosList = new ArrayList<>();
         List<String> words = Arrays.asList(text.split(REGEX));
 
+        //utilizzo distinct per eliminare i duplicati nel testo e ciclare
         words.stream().distinct().forEach(w -> wordPosList.add(new WordPos() {
             //implemento l'interfaccia WordPos
             @Override
@@ -58,7 +61,7 @@ public class TextUtils {
 
             @Override
             public List<Integer> getPos() {
-                //Creo uno stream che itera tutte le parole e memorizza tutte le posizioni dove è presente una parola uguale a w
+                //Creo uno IntStream che itera TUTTE le parole nel testo e memorizza tutte le posizioni dove è presente una parola uguale a 'w'
                 return IntStream.range(0, words.size()).filter(i -> words.get(i).equals(w)).map(i -> i + 1).boxed().collect(toList());
             }
         }));

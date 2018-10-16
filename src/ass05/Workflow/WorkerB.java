@@ -24,11 +24,11 @@ public class WorkerB extends Worker {
         System.out.println("Avviato worker: " + this.id );
         try {
             while (true){
-                this.wasteTime(3000);
+                this.wasteTime();
 
-                this.ev_1.acquire();
+                this.ev_1.acquire(); //aspettano che il worker-1 abbia incrementato c1 e lanciato signal sul semaforo
                 this.counter.inc();
-                this.ev_4_5.release();
+                this.ev_4_5.release(); //avvisano rispettivamente worker-4 e worker-5 di aver incrementato il contatore
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

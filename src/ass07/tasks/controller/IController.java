@@ -7,10 +7,10 @@ package ass07.tasks.controller;
 public interface IController {
 
     //Avvia il gioco
-    void started();
+    void start();
 
     //Ferma il gioco
-    void stopped();
+    void stop();
 
     //Resetta tutti i valori del gioco
     void reset();

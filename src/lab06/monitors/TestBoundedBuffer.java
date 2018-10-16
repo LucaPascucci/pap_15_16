@@ -6,7 +6,7 @@ public class TestBoundedBuffer {
 		//IBoundedBuffer<Integer> buffer = new BoundedBuffer1<Integer>(4);
 		IBoundedBuffer<Integer> buffer = new BoundedBuffer2<Integer>(4);
 
-		int nProducers = 1;
+		int nProducers = 2;
 		int nConsumers = 1;
 
 		for (int i = 0; i < nProducers; i++){

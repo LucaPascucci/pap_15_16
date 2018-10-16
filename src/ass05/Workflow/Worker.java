@@ -14,9 +14,9 @@ public abstract class Worker extends Thread{
         this.counter = counter;
     }
 
-    protected void wasteTime(long ms){
+    protected void wasteTime(){
         try {
-            sleep(ms);
+            sleep(2000);
         } catch (InterruptedException ex){
             ex.printStackTrace();
         }

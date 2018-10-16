@@ -15,7 +15,7 @@ public class Model {
     private int magicNumber;
     private int max;
     private int min;
-    private Map<Integer, PlayerData> playerDataMap;
+    private Map<Integer, PlayerData> playerDataMap; //<NumeroGiocatore,DatiGiocatore> mappa che memorizza per ogni giocatore il tentativo del turno corrente
 
     public Model (int nPlayers, int max, int min){
         this.playersNumber = nPlayers;
@@ -52,20 +52,18 @@ public class Model {
      * Effettua la verifica del tentativo di un player di indovinare il numero
      * -1 numero da indovinare minore
      *  0 stesso numero
-     *  1 numero maggiore
+     *  1 numero da indovinare maggiore
      */
-    public int attemptNumber(int number){
+    public int guessNumber(int number){
         return Integer.compare(this.magicNumber,number);
     }
 
-    //aggiorna i dati di un giocatore
-    public void updatePlayerData(int playerNumber, PlayerData playerData){
-        this.playerDataMap.put(playerNumber,playerData);
+    //Aggiorna i dati (tentativo del turno) di un giocatore
+    public void updatePlayerData(PlayerData playerData){
+        this.playerDataMap.put(playerData.getPlayerNumber(),playerData);
     }
 
 }
-
-
 
 /**
  * ConcurrentHashMap

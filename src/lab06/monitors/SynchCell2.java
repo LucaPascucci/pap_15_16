@@ -2,7 +2,7 @@ package lab06.monitors;
 
 import java.util.concurrent.locks.*;
 
-public class SynchCell2 {
+public class SynchCell2 implements ISynchCell{
 
 	private int value;
 	private boolean available;
@@ -15,6 +15,7 @@ public class SynchCell2 {
 		isAvail = mutex.newCondition();
 	}
 
+	@Override
 	public void set(int v){
 		try {
 			mutex.lock();
@@ -25,7 +26,8 @@ public class SynchCell2 {
 			mutex.unlock();
 		}
 	}
-	
+
+	@Override
 	public int get() {
 		try {
 			mutex.lock();

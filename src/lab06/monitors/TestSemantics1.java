@@ -43,7 +43,7 @@ public class TestSemantics1 {
 		}
 
 		public void run(){
-			log("First thread started.");
+			log("First thread start.");
 			mon.m1();
 		}
 
@@ -62,7 +62,7 @@ public class TestSemantics1 {
 		}
 
 		public void run(){
-			log("Second thread started.");
+			log("Second thread start.");
 			mon.m2();
 		}
 
@@ -81,7 +81,7 @@ public class TestSemantics1 {
 		}
 
 		public void run(){
-			log("Third thread started.");
+			log("Third thread start.");
 			mon.m3();
 		}
 

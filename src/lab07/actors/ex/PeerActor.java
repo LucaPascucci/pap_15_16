@@ -32,7 +32,7 @@ public class PeerActor extends UntypedActor {
 			  for (ActorRef peer: peers){
 				  peer.tell(new ValueMsg(this.myValue), getSelf());
 			  }
-			  log("value sent to peers.");
+			  log("value sent to all peers.");
 			  
 		  } else {
 			  ValueMsg vmsg = (ValueMsg) msg;
@@ -45,7 +45,7 @@ public class PeerActor extends UntypedActor {
 			  
 			  if (this.nValuesReceived == this.nPeers){
 				  if (this.max == this.myValue){
-					System.out.println("Elected ("+this.getSelf()+" - value: " + this.myValue + ")");
+					System.out.println("Elected ( " + this.getSelf() + " - value: " + this.myValue + " )");
 				  }
 				  this.bootActor.tell(new DoneMsg(),getSelf());
 				  getContext().stop(getSelf());

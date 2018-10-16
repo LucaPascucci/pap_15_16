@@ -27,13 +27,14 @@ public class OracleActor extends UntypedActor {
     private int turnAttempts;
     private int globalTurn;
     private boolean winner;
+    private long turnTime;
 
     private OracleActor(int players, int max, int min){
         this.players = players;
         this.max = max;
         this.min = min;
         this.playersList = new ArrayList<>(players);
-        this.turnAttempts = 0;
+        this.turnAttempts = 0; //numero di tentativi ricevuti per turno (Al massimo saranno uguali al numero dei giocatori)
         this.globalTurn = 1;
         this.winner = false;
         //inizializzo numero da indovinare (+1 perché estremo superiore escluso)
@@ -48,44 +49,43 @@ public class OracleActor extends UntypedActor {
      * @return Props per la crezione di questo attore
      */
     public static Props props(final int players, final int max, final int min) {
-        return Props.create(new Creator<OracleActor>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public OracleActor create() throws Exception {
-                return new OracleActor(players, max, min);
-            }
-        });
+        return Props.create(OracleActor.class, () -> new OracleActor(players, max, min));
     }
 
     @Override
     public void preStart() {
 
-        System.out.println("Number: " + this.magicNumber);
-        System.out.println("Turn: " + this.globalTurn);
-        //Inizializzo i giocatori
+        this.log("Number: " + this.magicNumber);
+        this.logln("Turn: " + this.globalTurn);
 
+        //Creazione dei giocatori (PlayerActor)
         IntStream.range(0,this.players).forEach(i -> this.playersList.add(getContext().actorOf(PlayerActor.props(this.max,this.min),"Player-" + (i+1))));
 
-        //avvio il turno per la ricerca del numero da parte dei giocatori
+        //Avvio del gioco
         this.playersList.forEach(p -> p.tell(new StartTurnMsg(),getSelf()));
     }
 
     @Override
     public void onReceive(Object message) throws Exception {
 
-        if (message instanceof AttemptMsg) {
+        /*
+           Con questa configurazione, anche se nello stesso turno due player indovinano il numero, solo il primo attore che lo sottopone vincerà il gioco
+         */
+        if (message instanceof AttemptMsg) {    //Ricezione del tentativo da parte di un player
 
+            if (this.turnAttempts == 0){
+                this.turnTime = System.nanoTime();
+            }
             this.turnAttempts++;
             if (!this.winner) {
                 int playerMax = ((AttemptMsg) message).getMax();
                 int playerMin = ((AttemptMsg) message).getMin();
                 int attemptNumber = ((AttemptMsg) message).getNumber();
-                System.out.println(getSender().toString() + " number: " + attemptNumber + " -> Range: " + playerMax + " / " + playerMin);
-                int value = Integer.compare(this.magicNumber, attemptNumber);
+                this.log(getSender().toString() + " number: " + attemptNumber + " -> Range: " + playerMax + " / " + playerMin);
+                int value = Integer.compare(this.magicNumber, attemptNumber); //comparo il numero da indovinare con il risultato
                 if (value == 0) { //il giocatore ha trovato il numero giusto
                     this.winner = true;
-                    System.out.println("\nThere's a winner!!!");
+                    this.logln("There's a winner!!!");
                     //Notifico a tutti i giocatori che il gioco è concluso
                     for (ActorRef player : this.playersList) {
                         if (player.equals(getSender())) {
@@ -102,17 +102,25 @@ public class OracleActor extends UntypedActor {
 
             if (this.turnAttempts == this.players){
                 if (!this.winner) {
-                    //Tutti i giocatori hanno provato ad indovinare il numero ma non ci sono riusciti
+                    //Tutti i giocatori hanno effettuato il tentativo in questo turno ma nessuno ha indovinato il numero
                     this.turnAttempts = 0;
-                    System.out.println("\nTurn: " + ++this.globalTurn);
-                    this.playersList.forEach(p -> p.tell(new StartTurnMsg(),getSelf()));
-                }else{
+                    this.log("Computation turn time (nano seconds): " + (System.nanoTime() - this.turnTime)); //calcolato dal primo all'ultimo tentativo arrivato
+                    this.logln("Turn: " + ++this.globalTurn);
+                    this.playersList.forEach(p -> p.tell(new StartTurnMsg(),getSelf())); //Avvio del nuovo turno
+                } else {
                     //Tutti i messaggi sono stati ricevuti in coda sono stati ricevuti ed avvio la terminazione di ogni giocatore e del sistema
                     this.playersList.forEach(p -> this.getContext().stop(p));
                     this.getContext().system().shutdown();
                 }
             }
         }
+    }
 
+    private void log(String msg){
+        System.out.println("[ORACLE] - " + msg);
+    }
+
+    private void logln(String msg){
+        System.out.println("\n[ORACLE] - " + msg);
     }
 }

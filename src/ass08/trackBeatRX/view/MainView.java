@@ -152,14 +152,14 @@ public class MainView extends JFrame implements ActionListener{
             this.stopBtn.setEnabled(true);
             this.resetBtn.setEnabled(false);
             this.startBtn.setEnabled(false);
-            this.controller.started();
+            this.controller.start();
         }
 
         if (e.getSource().equals(this.stopBtn)){
             this.stopBtn.setEnabled(false);
             this.resetBtn.setEnabled(true);
             this.startBtn.setEnabled(false);
-            this.controller.stopped();
+            this.controller.stop();
         }
 
         if (e.getSource().equals(this.resetBtn)){
@@ -209,7 +209,7 @@ public class MainView extends JFrame implements ActionListener{
     }
 
     //aggiornamento grafico della GUI
-    public void updateView(TrackBeatData currData,double avg_hb, TrackBeatData maxHeartBeatData, double speed, boolean activeAlarm) {
+    public void updateView(TrackBeatData currData, double avg_hb, TrackBeatData maxHeartBeatData, double speed, boolean activeAlarm) {
         SwingUtilities.invokeLater(() -> {
 
             //aggiornamento di valori testuali esplicativi
@@ -250,7 +250,7 @@ public class MainView extends JFrame implements ActionListener{
             percent = 99;
         }
         int r,g,b = 0;
-        //regolazione del di red e green in base alla percentuale del valore corrente sul range dinamico
+        //regolazione di red e green in base alla percentuale del valore corrente sul range dinamico
         if (percent < 50) {
             // da green a yellow
             r = (int)(255 * (percent / 50.0));

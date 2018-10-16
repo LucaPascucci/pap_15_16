@@ -75,14 +75,14 @@ public class MainView extends JFrame implements ActionListener{
             this.stopBtn.setEnabled(true);
             this.resetBtn.setEnabled(false);
             this.startBtn.setEnabled(false);
-            this.controller.started();
+            this.controller.start();
         }
 
         if (e.getSource().equals(this.stopBtn)){
             this.stopBtn.setEnabled(false);
             this.resetBtn.setEnabled(true);
             this.startBtn.setEnabled(true);
-            this.controller.stopped();
+            this.controller.stop();
         }
 
         if (e.getSource().equals(this.resetBtn)){
@@ -97,15 +97,19 @@ public class MainView extends JFrame implements ActionListener{
     }
 
     public void updatePlayerAttempt(PlayerData data){
+        /* Causes doRun.run() to be executed asynchronously on the
+         * AWT event dispatching thread.  This will happen after all
+         * pending AWT events have been processed.  This method should
+         * be used when an application thread needs to update the GUI.*/
         SwingUtilities.invokeLater(() ->
             this.textArea.append(data.toString() + NEW_LINE)
         );
     }
 
-    public void updateWinner(int winner, int playersNumber){
+    public void updateWinner(int winner, int playerNumber){
         SwingUtilities.invokeLater(() -> {
             this.textArea.append(NEW_LINE + "There's a winner!"+ NEW_LINE);
-            for (int i = 1; i <= playersNumber; i++){
+            for (int i = 1; i <= playerNumber; i++){
                 if (i == winner){
                     this.textArea.append("Player-" + winner + ": won!" + NEW_LINE);
                 }else{

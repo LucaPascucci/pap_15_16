@@ -45,13 +45,12 @@ public class BruteForceWorker extends Thread {
 
         System.out.println("Started worker: " + this.id + " Start: " + begin + " end " + (end - 1));
 
-        //avvio uno stream dalla partenza alla fine - 1 dato che l'indice iniziale del thread seguente sarà
-        IntStream.range(begin,end)
-                .forEach(i -> {
-                    //inserisco nella prima posizione il carattere di partenza
-                    this.sb.setCharAt(0, (char) (i + FIRST_CHAR)); //aggiungo 32 per ricavare il codice ascii corrispondente
-                    this.checkStrnGen(1); //avvio la creazione del resto della stringa (dalla posizione 1 a length) e la verifica se la password corrisponde
-                });
+        //avvio uno stream dalla partenza alla fine - 1 per non fare intersecare gli step di lavoro dei worker
+        IntStream.range(begin,end).forEach(i -> {
+            //inserisco nella prima posizione il carattere di partenza
+            this.sb.setCharAt(0, (char) (i + FIRST_CHAR)); //aggiungo 32 per ricavare il codice ascii corrispondente
+            this.checkStrnGen(1); //avvio la creazione del resto della stringa (dalla posizione 1 a length) e la verifica se la password corrisponde
+        });
 
     }
 

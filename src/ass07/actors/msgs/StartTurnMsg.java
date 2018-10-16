@@ -5,6 +5,6 @@ package ass07.actors.msgs;
  */
 
 /**
- * messaggio di avvio del turno
+ * messaggio di inizio del turno
  */
 public class StartTurnMsg { }

@@ -6,17 +6,17 @@ package ass08.trackBeatRX.controller;
 public interface IController {
 
     //Avvia il monitoraggio
-    void started();
+    void start();
 
     //Ferma il monitoraggio
-    void stopped();
+    void stop();
 
     //Ripristina tutti i dati
     void reset();
 
-    //modifica o ripristina heartbeat TH
+    //modifica o ripristina heartbeat TH solo se action == true
     void modifyHBTH(boolean action, int value);
 
-    //modifica o ripristina sec TH
+    //modifica o ripristina sec TH solo se action == true
     void modifySecTH(boolean action, int value);
 }
